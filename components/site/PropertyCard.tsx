@@ -19,14 +19,12 @@ export default function PropertyCard({ p }: { p: Property }) {
   );
 
   return (
-    <div className="card overflow-hidden">
+    <div className="card overflow-hidden border-slate-200">
       <div className="relative h-52 w-full">
         <Image src={p.image} alt={p.title} fill className="object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
-        <div className="absolute bottom-4 left-4 right-4">
-          <div className="inline-flex rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-slate-900">
-            {p.priceFrom}
-          </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/65 via-black/10 to-transparent" />
+        <div className="absolute top-4 left-4 inline-flex rounded-full border border-brand-gold/30 bg-white/90 px-3 py-1 text-xs font-semibold text-slate-900">
+          {p.priceFrom}
         </div>
       </div>
 
@@ -36,7 +34,10 @@ export default function PropertyCard({ p }: { p: Property }) {
 
         <div className="mt-4 flex flex-wrap gap-2">
           {p.tags.map((t) => (
-            <span key={t} className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-700">
+            <span
+              key={t}
+              className="rounded-full border border-slate-200 bg-brand-ice px-3 py-1 text-xs font-medium text-slate-700"
+            >
               {t}
             </span>
           ))}

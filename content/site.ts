@@ -2,13 +2,16 @@ export const site = {
   brand: "Enis Caicedo",
   tagline: "Soluciones Legales e Inmobiliarias en Panamá",
   locationLine: "Avenida Balboa, edificio BOC, Balboa Office Center, piso 34, oficina 3422",
-  paletteNote: "Aqua, dorado y blanco",
+
   // IMPORTANTE: reemplaza con el número real en formato E.164: +5076XXXXXXX
   whatsapp: "+50760000000",
+
   // IMPORTANTE: reemplaza con email real
   email: "contacto@tudominio.com",
+
   // IMPORTANTE: reemplaza con teléfono real
   phone: "+50760000000",
+
   socials: {
     instagram: "https://www.instagram.com/eniscaicedorealestate/",
     youtube: "https://www.youtube.com/@abogadaeniscaicedo190",
@@ -18,16 +21,24 @@ export const site = {
 
 export const copy = {
   hero: {
-    h1: "Seguridad y confianza para proteger su patrimonio y decidir con estrategia.",
+    // NUEVO: lo que el cliente pidió arriba
+    name: "Enis Caicedo",
+    role: "Abogada y corredora de bienes raíces",
+
+    // Mensaje corporativo debajo del nombre
+    headline: "Seguridad y confianza para proteger su patrimonio y decidir con estrategia.",
     sub: "Asesoría legal y acompañamiento inmobiliario para clientes e inversionistas que buscan claridad, respaldo y ejecución paso a paso.",
+
     bullets: [
       "Asesoría legal con enfoque estratégico",
       "Acompañamiento en inversiones y compras con estrategia",
       "Asistencia internacional y representación confiable"
     ],
+
     primaryCta: "Escribir por WhatsApp",
     secondaryCta: "Ver servicios"
   },
+
   trust: {
     headline: "Respaldo profesional",
     items: [
@@ -42,6 +53,7 @@ export const copy = {
       "Gerente Internacional de ECREISAS (Enis Caicedo Real Estate International)"
     ]
   },
+
   howItWorks: {
     kicker: "Cómo funciona",
     steps: [
@@ -50,6 +62,7 @@ export const copy = {
       { title: "Agenda y plan de acción", desc: "Le contactaremos para coordinar una cita; el costo depende de la rama." }
     ]
   },
+
   legal: {
     headline: "Servicios legales",
     lead: "Asesoría y representación legal con comunicación clara y estrategia paso a paso.",
@@ -65,6 +78,7 @@ export const copy = {
     ],
     note: "No se atienden delitos de violación ni homicidios dolosos."
   },
+
   realestate: {
     headline: "Bienes raíces e inversiones",
     lead: "Acompañamiento en compra, venta e inversión inmobiliaria para reducir riesgos, anticipar objeciones y cerrar con criterio.",
@@ -74,6 +88,7 @@ export const copy = {
       "Negociación y acompañamiento en el proceso"
     ]
   },
+
   properties: {
     headline: "Propiedades",
     lead: "Listado de ejemplo. Sustituye imágenes, precios y detalles por las propiedades reales.",
@@ -105,12 +120,14 @@ export const copy = {
       }
     ]
   },
+
   contact: {
     headline: "Contacto",
     lead: "Gracias por su interés. Será atendido lo más pronto posible.",
     consent: "Al enviar, acepta ser contactado para coordinar su asesoría. No compartimos su información.",
     submit: "Enviar a WhatsApp"
   },
+
   footer: {
     close: "Gracias por preferirnos. Sus derechos y su patrimonio estarán protegidos."
   }

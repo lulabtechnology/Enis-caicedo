@@ -72,11 +72,13 @@ a {
 
 /* Chips */
 .badge {
-  @apply inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/85 px-3 py-1 text-xs font-medium text-slate-700 backdrop-blur;
+  /* CAMBIO: bg-white/90 (85 no existe) */
+  @apply inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/90 px-3 py-1 text-xs font-medium text-slate-700 backdrop-blur;
 }
 
 .badge-dark {
-  @apply inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/8 px-3 py-1 text-xs font-medium text-white/85 backdrop-blur;
+  /* CAMBIO: border-white/10 (12 no existe), bg-white/10 (8 no existe), text-white/90 (85 no existe) */
+  @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-medium text-white/90 backdrop-blur;
 }
 
 /* Brand line */

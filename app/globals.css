@@ -11,25 +11,49 @@ html, body {
 }
 
 body {
-  @apply bg-white text-slate-900 antialiased;
+  @apply antialiased text-slate-900;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(18,182,182,0.12), transparent 60%),
+    radial-gradient(circle at 78% 30%, rgba(214,177,94,0.10), transparent 55%),
+    linear-gradient(180deg, rgba(232,250,250,0.55), rgba(255,255,255,1));
 }
 
 ::selection {
-  background: rgba(19, 184, 184, 0.22);
+  background: rgba(18, 182, 182, 0.22);
 }
 
 a {
   @apply underline-offset-4;
 }
 
+/* Layout helpers */
 .container-pad {
   @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
 }
 
+/* Core UI surfaces */
 .card {
   @apply rounded-[var(--radius)] border border-slate-200 bg-white shadow-soft;
 }
 
+/* Teal “signature” surfaces (WOW) */
+.surface-tint {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(18,182,182,0.14), transparent 60%),
+    radial-gradient(circle at 80% 30%, rgba(214,177,94,0.10), transparent 55%),
+    linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.98));
+  @apply border border-slate-200 shadow-soft rounded-[var(--radius)];
+}
+
+.surface-deep {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(18,182,182,0.22), transparent 60%),
+    radial-gradient(circle at 80% 35%, rgba(214,177,94,0.18), transparent 60%),
+    linear-gradient(180deg, rgba(6,55,59,0.92), rgba(7,22,28,0.92));
+  @apply border border-white/10 shadow-glow rounded-[var(--radius)];
+}
+
+/* Headings */
 .kicker {
   @apply text-xs font-semibold tracking-[0.22em] text-slate-500;
 }
@@ -46,10 +70,31 @@ a {
   @apply text-base leading-7 text-slate-600;
 }
 
+/* Chips */
 .badge {
-  @apply inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-1 text-xs font-medium text-slate-700 backdrop-blur;
+  @apply inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/85 px-3 py-1 text-xs font-medium text-slate-700 backdrop-blur;
 }
 
+.badge-dark {
+  @apply inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/8 px-3 py-1 text-xs font-medium text-white/85 backdrop-blur;
+}
+
+/* Brand line */
 .gradient-line {
-  background: linear-gradient(90deg, transparent, rgba(19,184,184,0.55), rgba(214,177,94,0.55), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(18,182,182,0.60),
+    rgba(214,177,94,0.55),
+    rgba(18,182,182,0.60),
+    transparent
+  );
+}
+
+/* Brand text gradient */
+.text-brand-gradient {
+  background: linear-gradient(90deg, #12B6B6, #0E8F93, #D6B15E);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }

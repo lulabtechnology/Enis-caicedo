@@ -3,14 +3,14 @@ export const site = {
   tagline: "Soluciones Legales e Inmobiliarias en Panamá",
   locationLine: "Avenida Balboa, edificio BOC, Balboa Office Center, piso 34, oficina 3422",
 
-  // IMPORTANTE: reemplaza con el número real en formato E.164: +5076XXXXXXX
-  whatsapp: "+50760000000",
+  // WhatsApp oficial (E.164)
+  whatsapp: "+50763782755",
 
-  // IMPORTANTE: reemplaza con email real
+  // Reemplaza con email real si aplica
   email: "contacto@tudominio.com",
 
-  // IMPORTANTE: reemplaza con teléfono real
-  phone: "+50760000000",
+  // Teléfono visible (puede ser el mismo)
+  phone: "+507 6378-2755",
 
   socials: {
     instagram: "https://www.instagram.com/eniscaicedorealestate/",
@@ -21,11 +21,9 @@ export const site = {
 
 export const copy = {
   hero: {
-    // NUEVO: lo que el cliente pidió arriba
     name: "Enis Caicedo",
     role: "Abogada y corredora de bienes raíces",
 
-    // Mensaje corporativo debajo del nombre
     headline: "Seguridad y confianza para proteger su patrimonio y decidir con estrategia.",
     sub: "Asesoría legal y acompañamiento inmobiliario para clientes e inversionistas que buscan claridad, respaldo y ejecución paso a paso.",
 

@@ -6,16 +6,19 @@ export default {
     extend: {
       colors: {
         brand: {
-          // Teal (alineado a la paleta que enviaste: gama azul/teal)
-          aqua: "#12B6B6", // teal principal
-          teal: "#0E8F93", // teal medio
-          deep: "#06373B", // teal profundo (overlay)
-          ink: "#07161C",  // casi negro con tinte teal (tipografía/CTA)
-          gold: "#D6B15E"  // dorado elegante (accent)
+          // Teal/azul (inspirado en la paleta tipo Pantone que enviaste)
+          ice: "#E8FAFA",   // fondo muy claro teal
+          mist: "#BFEDEE",  // teal claro
+          aqua: "#12B6B6",  // principal
+          teal: "#0E8F93",  // medio
+          deep: "#06373B",  // profundo
+          ink: "#07161C",   // texto/cta dark-teal
+          gold: "#D6B15E"   // acento premium
         }
       },
       boxShadow: {
-        soft: "0 18px 50px rgba(7, 22, 28, 0.14)"
+        soft: "0 18px 50px rgba(7, 22, 28, 0.14)",
+        glow: "0 18px 70px rgba(18, 182, 182, 0.18)"
       }
     }
   },

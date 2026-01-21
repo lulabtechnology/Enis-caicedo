@@ -116,10 +116,7 @@ export default function Hero() {
                   </div>
                 </div>
 
-                <p className="mt-3 text-xs text-white/65">
-                  Foto: <span className="font-semibold text-white/80">/public/images/enis-profile.jpg</span> y{" "}
-                  <span className="font-semibold text-white/80">/public/images/enis-profile-mobile.jpg</span>
-                </p>
+                
               </div>
             </div>
           </div>

@@ -1,64 +1,41 @@
-import Image from "next/image";
+import PageHero from "@/components/site/PageHero";
 import Container from "@/components/ui/Container";
-import Section from "@/components/site/Section";
 import ContactForm from "@/components/site/ContactForm";
 import { copy } from "@/content/site";
 
 export default function LegalPage() {
   return (
     <>
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0">
-          <Image src="/images/legal-banner.jpg" alt="Servicios legales" fill className="object-cover" priority />
-        </div>
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(11,18,32,0.85),rgba(11,18,32,0.55),rgba(11,18,32,0.20))]" />
+      <PageHero
+        kicker="Servicios"
+        title={copy.legal.headline}
+        subtitle={copy.legal.lead}
+        image="/images/legal-banner.jpg"
+      />
+
+      <section className="py-14 sm:py-16">
         <Container>
-          <div className="relative py-16 sm:py-20">
-            <p className="kicker text-white/70">Servicios</p>
-            <h1 className="mt-3 text-4xl font-semibold tracking-tight text-white sm:text-5xl">
-              {copy.legal.headline}
-            </h1>
-            <p className="mt-5 max-w-2xl text-base leading-7 text-white/80">
-              {copy.legal.lead}
-            </p>
+          <div className="surface-tint p-8 sm:p-10">
+            <h2 className="h2">Áreas de práctica</h2>
+            <p className="p mt-3">Seleccione su necesidad y escríbanos para coordinar la asesoría.</p>
+
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              {copy.legal.areas.map((a) => (
+                <div key={a} className="card p-6">
+                  <div className="text-base font-semibold text-slate-900">{a}</div>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">
+                    Representación legal y asesoría con enfoque estratégico.
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-8 rounded-[var(--radius)] border border-brand-gold/30 bg-[linear-gradient(135deg,rgba(214,177,94,0.10),rgba(18,182,182,0.10))] p-5 text-sm text-slate-800">
+              <span className="font-semibold">Nota:</span> {copy.legal.note}
+            </div>
           </div>
         </Container>
-      </div>
-
-      <Section title="Áreas de práctica" desc="Seleccione su necesidad y escríbanos para coordinar la asesoría.">
-        <div className="grid gap-4 sm:grid-cols-2">
-          {copy.legal.areas.map((a) => (
-            <div key={a} className="card p-6">
-              <div className="text-base font-semibold text-slate-900">{a}</div>
-              <p className="mt-2 text-sm leading-6 text-slate-600">
-                Representación legal y asesoría con enfoque estratégico.
-              </p>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-6 rounded-[var(--radius)] border border-amber-200 bg-amber-50 p-5 text-sm text-amber-900">
-          <span className="font-semibold">Nota:</span> {copy.legal.note}
-        </div>
-      </Section>
-
-      <Section
-        kicker={copy.howItWorks.kicker}
-        title="Cómo trabajamos"
-        desc="Proceso claro, comunicación directa y estrategia paso a paso."
-      >
-        <div className="grid gap-4 sm:grid-cols-3">
-          {copy.howItWorks.steps.map((s, idx) => (
-            <div key={s.title} className="card p-6">
-              <div className="text-xs font-semibold tracking-widest text-slate-500">
-                PASO {idx + 1}
-              </div>
-              <div className="mt-2 text-base font-semibold text-slate-900">{s.title}</div>
-              <p className="mt-3 text-sm leading-6 text-slate-600">{s.desc}</p>
-            </div>
-          ))}
-        </div>
-      </Section>
+      </section>
 
       <section className="py-14 sm:py-16">
         <Container>

@@ -1,9 +1,16 @@
 import PageHero from "@/components/site/PageHero";
 import Container from "@/components/ui/Container";
-import ContactForm from "@/components/site/ContactForm";
 import { copy } from "@/content/site";
+import { Button } from "@/components/ui/Button";
+import { site } from "@/content/site";
+import { waLink } from "@/lib/links";
 
-export default function RealEstatePage() {
+export default function BienesRaicesPage() {
+  const waHref = waLink(
+    site.whatsapp,
+    "Hola Enis, me interesa una asesoría de bienes raíces. ¿Podemos coordinar una llamada o cita?"
+  );
+
   return (
     <>
       <PageHero
@@ -16,35 +23,31 @@ export default function RealEstatePage() {
       <section className="py-14 sm:py-16">
         <Container>
           <div className="surface-tint p-8 sm:p-10">
-            <h2 className="h2">Lo que obtiene</h2>
-            <p className="p mt-3">Acompañamiento para invertir y cerrar con claridad.</p>
+            <p className="kicker">Servicios inmobiliarios</p>
+            <h2 className="h2 mt-3">Acompañamiento claro, de principio a fin</h2>
+            <p className="p mt-4 max-w-3xl">
+              Selección de propiedad, validación de documentos, negociación y cierre con enfoque
+              legal y estratégico.
+            </p>
 
-            <div className="mt-8 grid gap-4 sm:grid-cols-3">
-              {copy.realestate.bullets.map((b) => (
-                <div key={b} className="card p-6">
-                  <div className="text-base font-semibold text-slate-900">{b}</div>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {copy.realestate.bullets.map((t) => (
+                <div key={t} className="card p-6">
+                  <p className="font-display text-lg font-semibold text-brand-teal">{t}</p>
                   <p className="mt-2 text-sm leading-6 text-slate-600">
-                    Enfoque práctico para reducir riesgos y proteger su patrimonio.
+                    Texto placeholder breve. Tú lo cambias luego con el detalle real del servicio.
                   </p>
                 </div>
               ))}
             </div>
-          </div>
-        </Container>
-      </section>
 
-      <section className="py-14 sm:py-16">
-        <Container>
-          <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
-            <div className="lg:col-span-5">
-              <p className="kicker">Contacto</p>
-              <h2 className="h2 mt-3">Solicite asesoría</h2>
-              <p className="p mt-4">
-                Si está evaluando una compra o inversión, le ayudamos a minimizar riesgos desde el inicio.
-              </p>
-            </div>
-            <div className="lg:col-span-7">
-              <ContactForm subject="Bienes raíces e inversiones" />
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button href={waHref} variant="primary">
+                Solicitar por WhatsApp
+              </Button>
+              <Button href="/propiedades" variant="secondary">
+                Ver propiedades
+              </Button>
             </div>
           </div>
         </Container>

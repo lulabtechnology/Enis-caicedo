@@ -35,10 +35,7 @@ a { @apply underline-offset-4; }
   @apply border border-white/10 shadow-glow rounded-[var(--radius)];
 }
 
-/* Tipografías */
-.font-display { @apply font-display; }
-.font-body { @apply font-sans; }
-
+/* Text styles */
 .kicker {
   @apply text-xs font-semibold tracking-[0.22em] text-slate-500;
 }
@@ -61,7 +58,7 @@ a { @apply underline-offset-4; }
   @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-medium text-white/90 backdrop-blur;
 }
 
-/* Línea de marca SOLO verde */
+/* Brand line SOLO verde/teal */
 .gradient-line {
   background: linear-gradient(
     90deg,

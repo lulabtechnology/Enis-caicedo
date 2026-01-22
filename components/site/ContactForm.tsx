@@ -1,144 +1,130 @@
-"use client";
-
-import { useMemo, useState } from "react";
+import Image from "next/image";
+import Container from "@/components/ui/Container";
+import { Button } from "@/components/ui/Button";
 import { site, copy } from "@/content/site";
 import { waLink } from "@/lib/links";
-import { Button } from "@/components/ui/Button";
+import { ArrowRight, ShieldCheck, Scale, Home } from "lucide-react";
 
-type Form = {
-  nombre: string;
-  apellido: string;
-  email: string;
-  telefono: string;
-  mensaje: string;
-};
-
-export default function ContactForm({ subject }: { subject?: string }) {
-  const [f, setF] = useState<Form>({
-    nombre: "",
-    apellido: "",
-    email: "",
-    telefono: "",
-    mensaje: "",
-  });
-
-  const [err, setErr] = useState<string | null>(null);
-
-  const waHref = useMemo(() => {
-    const s = subject ? `Asunto: ${subject}\n` : "";
-    const msg =
-      `${s}` +
-      `Nombre: ${f.nombre} ${f.apellido}\n` +
-      `Email: ${f.email}\n` +
-      `Teléfono: ${f.telefono}\n` +
-      `Mensaje: ${f.mensaje}\n\n` +
-      `Hola, me gustaría agendar una asesoría personalizada.`;
-
-    return waLink(site.whatsapp, msg);
-  }, [f, subject]);
-
-  function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!f.nombre || !f.apellido || !f.email || !f.telefono || !f.mensaje) {
-      setErr("Por favor complete todos los campos requeridos.");
-      return;
-    }
-    setErr(null);
-    window.open(waHref, "_blank", "noopener,noreferrer");
-  }
-
-  return (
-    <form
-      onSubmit={onSubmit}
-      className="rounded-[var(--radius)] border border-slate-200 bg-[linear-gradient(135deg,rgba(18,182,182,0.08),rgba(214,177,94,0.06))] p-6 shadow-[0_12px_35px_rgba(2,6,23,0.08)] sm:p-7"
-    >
-      <p className="text-sm font-semibold text-slate-900">{copy.contact.lead}</p>
-
-      <div className="mt-5 grid gap-4 sm:grid-cols-2">
-        <Field
-          label="Nombre"
-          value={f.nombre}
-          onChange={(v) => setF((p) => ({ ...p, nombre: v }))}
-          required
-        />
-        <Field
-          label="Apellido"
-          value={f.apellido}
-          onChange={(v) => setF((p) => ({ ...p, apellido: v }))}
-          required
-        />
-        <Field
-          label="Email"
-          type="email"
-          value={f.email}
-          onChange={(v) => setF((p) => ({ ...p, email: v }))}
-          required
-        />
-        <Field
-          label="Teléfono"
-          value={f.telefono}
-          onChange={(v) => setF((p) => ({ ...p, telefono: v }))}
-          required
-        />
-      </div>
-
-      <div className="mt-4">
-        <label className="text-sm font-semibold text-slate-900">
-          Mensaje <span className="text-brand-gold">*</span>
-        </label>
-        <textarea
-          className="mt-2 h-28 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-brand-aqua/35"
-          value={f.mensaje}
-          onChange={(e) => setF((p) => ({ ...p, mensaje: e.target.value }))}
-          placeholder="Describa brevemente su caso o necesidad."
-        />
-      </div>
-
-      {err ? <p className="mt-3 text-sm font-semibold text-red-600">{err}</p> : null}
-
-      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <Button type="submit" variant="primary" className="w-full sm:w-auto">
-          {copy.contact.submit}
-        </Button>
-
-        <a
-          href={waHref}
-          className="text-sm font-semibold text-brand-teal hover:text-brand-ink no-underline"
-          target="_blank"
-          rel="noreferrer"
-        >
-          O abrir WhatsApp directamente
-        </a>
-      </div>
-    </form>
+export default function Hero() {
+  const waHref = waLink(
+    site.whatsapp,
+    "Hola, me gustaría solicitar una asesoría personalizada con Enis Caicedo. ¿Podemos coordinar una cita?"
   );
-}
 
-function Field({
-  label,
-  value,
-  onChange,
-  required,
-  type = "text",
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  required?: boolean;
-  type?: string;
-}) {
   return (
-    <div>
-      <label className="text-sm font-semibold text-slate-900">
-        {label} {required ? <span className="text-brand-gold">*</span> : null}
-      </label>
-      <input
-        type={type}
-        className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-brand-aqua/35"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={label}
-      />
-    </div>
+    <section className="relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 hidden md:block">
+        <Image src="/images/hero-desktop.jpg" alt="Hero Enis Caicedo" fill priority className="object-cover" />
+      </div>
+      <div className="absolute inset-0 md:hidden">
+        <Image src="/images/hero-mobile.jpg" alt="Hero Enis Caicedo móvil" fill priority className="object-cover" />
+      </div>
+
+      {/* Overlay palette fuerte */}
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(7,22,28,0.92),rgba(6,55,59,0.72),rgba(7,22,28,0.18))]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(18,182,182,0.30),transparent_60%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_40%,rgba(214,177,94,0.18),transparent_60%)]" />
+
+      <Container>
+        <div className="relative grid min-h-[78vh] items-center py-14 sm:py-20">
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
+            {/* LEFT */}
+            <div className="lg:col-span-7">
+              <div className="surface-deep p-6 sm:p-8">
+                <p className="text-xs font-semibold tracking-[0.22em] text-white/70">
+                  {site.tagline}
+                </p>
+
+                <h1 className="mt-4 text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">
+                  <span className="text-brand-gradient">{copy.hero.name}</span>
+                </h1>
+
+                <p className="mt-3 text-lg font-semibold text-white/85 sm:text-xl">
+                  {copy.hero.role}
+                </p>
+
+                <div className="mt-6 h-px w-full bg-white/10" />
+
+                <p className="mt-6 text-base leading-7 text-white/85 sm:text-lg">
+                  {copy.hero.headline}
+                </p>
+
+                <p className="mt-4 text-sm leading-6 text-white/75">
+                  {copy.hero.sub}
+                </p>
+
+                <div className="mt-7 flex flex-wrap gap-2">
+                  <span className="badge-dark"><ShieldCheck size={14} /> Seguridad</span>
+                  <span className="badge-dark"><Scale size={14} /> Legal</span>
+                  <span className="badge-dark"><Home size={14} /> Inmobiliario</span>
+                </div>
+
+                <div className="mt-8 flex flex-wrap items-center gap-3">
+                  <Button href={waHref} variant="primary">
+                    {copy.hero.primaryCta} <ArrowRight size={16} />
+                  </Button>
+                  <Button href="/servicios-legales" variant="secondary" className="bg-white/10 text-white border-white/20 hover:border-white/35">
+                    {copy.hero.secondaryCta}
+                  </Button>
+                </div>
+
+                <div className="mt-8 grid gap-2 sm:grid-cols-2">
+                  {copy.hero.bullets.map((b) => (
+                    <div key={b} className="flex items-start gap-3 rounded-3xl border border-white/10 bg-white/8 p-4">
+                      <span className="mt-1 h-2 w-2 rounded-full bg-brand-gold" />
+                      <p className="text-sm leading-6 text-white/80">{b}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <p className="mt-8 text-sm text-white/70">{site.locationLine}</p>
+              </div>
+            </div>
+
+            {/* RIGHT: foto */}
+            <div className="lg:col-span-5">
+              <div className="mx-auto w-full max-w-sm">
+                <div className="surface-deep overflow-hidden">
+                  <div className="relative aspect-[4/5] w-full">
+                    <div className="absolute inset-0 hidden md:block">
+                      <Image
+                        src="/images/enis-profile.jpg"
+                        alt="Foto profesional de Enis Caicedo"
+                        fill
+                        className="object-cover"
+                        priority
+                      />
+                    </div>
+                    <div className="absolute inset-0 md:hidden">
+                      <Image
+                        src="/images/enis-profile-mobile.jpg"
+                        alt="Foto profesional de Enis Caicedo (móvil)"
+                        fill
+                        className="object-cover"
+                        priority
+                      />
+                    </div>
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(7,22,28,0.62))]" />
+                  </div>
+
+                  <div className="p-5">
+                    <p className="text-sm font-semibold text-white">Asesoría personalizada</p>
+                    <p className="mt-2 text-sm leading-6 text-white/75">
+                      Respuesta rápida por WhatsApp. Agenda y plan según su necesidad.
+                    </p>
+                  </div>
+                </div>
+
+                <p className="mt-3 text-xs text-white/65">
+                  Foto: <span className="font-semibold text-white/80">/public/images/enis-profile.jpg</span> y{" "}
+                  <span className="font-semibold text-white/80">/public/images/enis-profile-mobile.jpg</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
   );
 }

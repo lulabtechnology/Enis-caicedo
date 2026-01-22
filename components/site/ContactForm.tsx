@@ -19,7 +19,7 @@ export default function ContactForm({ subject }: { subject?: string }) {
     apellido: "",
     email: "",
     telefono: "",
-    mensaje: ""
+    mensaje: "",
   });
 
   const [err, setErr] = useState<string | null>(null);
@@ -48,16 +48,38 @@ export default function ContactForm({ subject }: { subject?: string }) {
   }
 
   return (
-    <form onSubmit={onSubmit} className="surface-tint p-6 sm:p-7">
-      <p className="text-sm font-semibold text-slate-900">
-        {copy.contact.lead}
-      </p>
+    <form
+      onSubmit={onSubmit}
+      className="rounded-[var(--radius)] border border-slate-200 bg-[linear-gradient(135deg,rgba(18,182,182,0.08),rgba(214,177,94,0.06))] p-6 shadow-[0_12px_35px_rgba(2,6,23,0.08)] sm:p-7"
+    >
+      <p className="text-sm font-semibold text-slate-900">{copy.contact.lead}</p>
 
       <div className="mt-5 grid gap-4 sm:grid-cols-2">
-        <Field label="Nombre" value={f.nombre} onChange={(v) => setF((p) => ({ ...p, nombre: v }))} required />
-        <Field label="Apellido" value={f.apellido} onChange={(v) => setF((p) => ({ ...p, apellido: v }))} required />
-        <Field label="Email" type="email" value={f.email} onChange={(v) => setF((p) => ({ ...p, email: v }))} required />
-        <Field label="Teléfono" value={f.telefono} onChange={(v) => setF((p) => ({ ...p, telefono: v }))} required />
+        <Field
+          label="Nombre"
+          value={f.nombre}
+          onChange={(v) => setF((p) => ({ ...p, nombre: v }))}
+          required
+        />
+        <Field
+          label="Apellido"
+          value={f.apellido}
+          onChange={(v) => setF((p) => ({ ...p, apellido: v }))}
+          required
+        />
+        <Field
+          label="Email"
+          type="email"
+          value={f.email}
+          onChange={(v) => setF((p) => ({ ...p, email: v }))}
+          required
+        />
+        <Field
+          label="Teléfono"
+          value={f.telefono}
+          onChange={(v) => setF((p) => ({ ...p, telefono: v }))}
+          required
+        />
       </div>
 
       <div className="mt-4">
@@ -71,8 +93,6 @@ export default function ContactForm({ subject }: { subject?: string }) {
           placeholder="Describa brevemente su caso o necesidad."
         />
       </div>
-
-      
 
       {err ? <p className="mt-3 text-sm font-semibold text-red-600">{err}</p> : null}
 
@@ -99,7 +119,7 @@ function Field({
   value,
   onChange,
   required,
-  type = "text"
+  type = "text",
 }: {
   label: string;
   value: string;

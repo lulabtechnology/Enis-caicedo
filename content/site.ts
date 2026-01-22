@@ -74,6 +74,21 @@ export const copy = {
     headline: "Sobre Enis",
     lead: "Perfil profesional y enfoque de trabajo. Transparencia, criterio y acompañamiento de principio a fin.",
   },
+  trust: {
+    credentials: [
+      "Abogada con enfoque práctico y preventivo",
+      "Acompañamiento claro en cada paso",
+      "Criterio legal aplicado a decisiones inmobiliarias",
+      "Comunicación directa y seguimiento",
+      "Revisión documental para minimizar riesgos",
+      "Estrategia y orden en procesos"
+    ],
+    values: [
+      { title: "Transparencia", desc: "Explicaciones claras, alcance definido y expectativas realistas." },
+      { title: "Criterio", desc: "Decisiones con respaldo legal y enfoque en proteger tu patrimonio." },
+      { title: "Confianza", desc: "Acompañamiento profesional, de principio a fin." }
+    ]
+  },
 
   contact: {
     headline: "Contacto",

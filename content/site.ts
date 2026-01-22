@@ -109,6 +109,11 @@ export const copy = {
     altCta: "O escribe directo por WhatsApp",
   },
 
+  footer: {
+    close:
+      "Asesoría legal e inmobiliaria en Panamá con enfoque claro, profesional y orientado a resultados.",
+    rights: "Todos los derechos reservados.",
+  },
 
 
   whyPanama: {

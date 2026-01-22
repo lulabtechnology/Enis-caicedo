@@ -54,6 +54,25 @@ export const copy = {
     headline: "Propiedades",
     lead: "Explora propiedades y proyectos. Sección de edificios al inicio con galerías por proyecto."
   },
+export const copy = {
+  hero: { /* ... */ },
+
+  whyPanama: { /* ... */ },
+
+  realestate: {
+    headline: "Bienes raíces",
+    lead: "Acompañamiento completo para comprar, vender o invertir en Panamá con criterio legal y estrategia.",
+    bullets: [
+      "Búsqueda y selección de propiedades",
+      "Análisis de riesgos y documentación",
+      "Negociación y cierre seguro"
+    ]
+  },
+
+  properties: { /* ... */ },
+
+  buildings: { /* ... */ }
+};
 
   buildings: {
     headline: "Edificios",

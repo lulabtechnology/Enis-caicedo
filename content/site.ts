@@ -40,26 +40,23 @@ export type BuildingItem = {
   name: string;
   subtitle: string;
   desc: string;
-  cover: string;
-  extra1: string;
-  extra2: string;
+  cover: string; // se ve siempre
+  extra1: string; // aparece al presionar
+  extra2: string; // aparece al presionar
 };
 
 export const copy = {
   hero: {
     name: "Enis Caicedo",
     role: "Abogada y corredora de bienes raíces",
-
     headline:
       "Seguridad y confianza para proteger su patrimonio y decidir con estrategia.",
     sub: "Asesoría legal y acompañamiento inmobiliario para clientes e inversionistas que buscan claridad, respaldo y ejecución paso a paso.",
-
     bullets: [
       "Asesoría legal con enfoque estratégico",
       "Acompañamiento en inversiones y compras con estrategia",
       "Asistencia internacional y representación confiable",
     ],
-
     primaryCta: "Escribir por WhatsApp",
     secondaryCta: "Ver servicios",
   },
@@ -88,9 +85,18 @@ export const copy = {
   howItWorks: {
     kicker: "Cómo funciona",
     steps: [
-      { title: "Contáctenos", desc: "Escríbanos por WhatsApp o complete el formulario." },
-      { title: "Describa su caso o necesidad", desc: "Comparta un resumen para orientar la asesoría." },
-      { title: "Agenda y plan de acción", desc: "Le contactaremos para coordinar una cita; el costo depende de la rama." },
+      {
+        title: "Contáctenos",
+        desc: "Escríbanos por WhatsApp o complete el formulario.",
+      },
+      {
+        title: "Describa su caso o necesidad",
+        desc: "Comparta un resumen para orientar la asesoría.",
+      },
+      {
+        title: "Agenda y plan de acción",
+        desc: "Le contactaremos para coordinar una cita; el costo depende de la rama.",
+      },
     ],
   },
 
@@ -158,64 +164,154 @@ export const copy = {
     consent:
       "Al enviar, acepta ser contactado para coordinar su asesoría. No compartimos su información.",
     submit: "Enviar a WhatsApp",
-
-    // extras (solo para evitar más errores si el componente los usa)
-    altCta: "O escríbanos directamente por WhatsApp",
-    nameLabel: "Nombre",
-    phoneLabel: "Teléfono",
-    emailLabel: "Correo",
-    topicLabel: "Asunto",
-    messageLabel: "Mensaje",
-    placeholderName: "Ej: Juan Pérez",
-    placeholderPhone: "Ej: +507 6000-0000",
-    placeholderEmail: "Ej: correo@dominio.com",
-    placeholderTopic: "Ej: Consulta legal / Propiedad",
-    placeholderMessage: "Escriba aquí los detalles de su solicitud…",
   },
 
   footer: {
     close: "Gracias por preferirnos. Sus derechos y su patrimonio estarán protegidos.",
-    rights: "Todos los derechos reservados.",
-    links: [
-      { label: "Inicio", href: "/" },
-      { label: "Servicios legales", href: "/servicios-legales" },
-      { label: "Bienes raíces", href: "/bienes-raices" },
-      { label: "Propiedades", href: "/propiedades" },
-      { label: "Sobre Enis", href: "/sobre-enis" },
-      { label: "Contacto", href: "/contacto" },
-    ],
   },
 
-  // ✅ Sección pedida por el cliente (si tu Home la usa)
+  // NUEVO: (si tu Home lo usa)
   whyPanama: {
     headline: "¿Por qué Panamá?",
-    lead: "Puntos clave para inversión, residencia y oportunidades: conectividad, estabilidad y proyección.",
+    lead: "Beneficios clave para inversión, residencia y operaciones: conectividad, estabilidad y proyección.",
     items: [
-      { title: "Conectividad", desc: "Hub de negocios y logística.", image: "/images/panama/panama-1.jpg" },
-      { title: "Estabilidad", desc: "Ecosistema atractivo para inversionistas.", image: "/images/panama/panama-2.jpg" },
-      { title: "Ubicación", desc: "Puente entre mercados.", image: "/images/panama/panama-3.jpg" },
-      { title: "Infraestructura", desc: "Proyectos premium y servicios.", image: "/images/panama/panama-4.jpg" },
-      { title: "Oportunidades", desc: "Crecimiento y diversidad.", image: "/images/panama/panama-5.jpg" },
-      { title: "Calidad de vida", desc: "Entorno moderno y tropical.", image: "/images/panama/panama-6.jpg" },
+      {
+        title: "Conectividad",
+        desc: "Hub de negocios y logística.",
+        image: "/images/panama/panama-1.jpg",
+      },
+      {
+        title: "Estabilidad",
+        desc: "Ecosistema atractivo para inversionistas.",
+        image: "/images/panama/panama-2.jpg",
+      },
+      {
+        title: "Ubicación",
+        desc: "Puente entre mercados.",
+        image: "/images/panama/panama-3.jpg",
+      },
+      {
+        title: "Infraestructura",
+        desc: "Proyectos premium y servicios.",
+        image: "/images/panama/panama-4.jpg",
+      },
+      {
+        title: "Oportunidades",
+        desc: "Crecimiento y diversidad.",
+        image: "/images/panama/panama-5.jpg",
+      },
+      {
+        title: "Calidad de vida",
+        desc: "Entorno moderno y tropical.",
+        image: "/images/panama/panama-6.jpg",
+      },
     ] as WhyPanamaItem[],
   },
 
-  // ✅ Sección de edificios para /propiedades (si tu página la usa)
+  // NUEVO: (si /propiedades lo usa)
   buildings: {
     headline: "Edificios",
     lead: "Proyectos de ejemplo. Sustituye textos e imágenes por los reales.",
     items: [
-      { id: "bld-01", name: "Edificio 01", subtitle: "Ciudad de Panamá", desc: "Descripción breve (placeholder).", cover: "/images/buildings/bld-01-cover.jpg", extra1: "/images/buildings/bld-01-1.jpg", extra2: "/images/buildings/bld-01-2.jpg" },
-      { id: "bld-02", name: "Edificio 02", subtitle: "Ciudad de Panamá", desc: "Descripción breve (placeholder).", cover: "/images/buildings/bld-02-cover.jpg", extra1: "/images/buildings/bld-02-1.jpg", extra2: "/images/buildings/bld-02-2.jpg" },
-      { id: "bld-03", name: "Edificio 03", subtitle: "Ciudad de Panamá", desc: "Descripción breve (placeholder).", cover: "/images/buildings/bld-03-cover.jpg", extra1: "/images/buildings/bld-03-1.jpg", extra2: "/images/buildings/bld-03-2.jpg" },
-      { id: "bld-04", name: "Edificio 04", subtitle: "Ciudad de Panamá", desc: "Descripción breve (placeholder).", cover: "/images/buildings/bld-04-cover.jpg", extra1: "/images/buildings/bld-04-1.jpg", extra2: "/images/buildings/bld-04-2.jpg" },
-      { id: "bld-05", name: "Edificio 05", subtitle: "Ciudad de Panamá", desc: "Descripción breve (placeholder).", cover: "/images/buildings/bld-05-cover.jpg", extra1: "/images/buildings/bld-05-1.jpg", extra2: "/images/buildings/bld-05-2.jpg" },
-      { id: "bld-06", name: "Edificio 06", subtitle: "Ciudad de Panamá", desc: "Descripción breve (placeholder).", cover: "/images/buildings/bld-06-cover.jpg", extra1: "/images/buildings/bld-06-1.jpg", extra2: "/images/buildings/bld-06-2.jpg" },
-      { id: "bld-07", name: "Edificio 07", subtitle: "Ciudad de Panamá", desc: "Descripción breve (placeholder).", cover: "/images/buildings/bld-07-cover.jpg", extra1: "/images/buildings/bld-07-1.jpg", extra2: "/images/buildings/bld-07-2.jpg" },
-      { id: "bld-08", name: "Edificio 08", subtitle: "Ciudad de Panamá", desc: "Descripción breve (placeholder).", cover: "/images/buildings/bld-08-cover.jpg", extra1: "/images/buildings/bld-08-1.jpg", extra2: "/images/buildings/bld-08-2.jpg" },
-      { id: "bld-09", name: "Edificio 09", subtitle: "Ciudad de Panamá", desc: "Descripción breve (placeholder).", cover: "/images/buildings/bld-09-cover.jpg", extra1: "/images/buildings/bld-09-1.jpg", extra2: "/images/buildings/bld-09-2.jpg" },
-      { id: "bld-10", name: "Edificio 10", subtitle: "Ciudad de Panamá", desc: "Descripción breve (placeholder).", cover: "/images/buildings/bld-10-cover.jpg", extra1: "/images/buildings/bld-10-1.jpg", extra2: "/images/buildings/bld-10-2.jpg" },
-      { id: "bld-11", name: "Edificio 11", subtitle: "Ciudad de Panamá", desc: "Descripción breve (placeholder).", cover: "/images/buildings/bld-11-cover.jpg", extra1: "/images/buildings/bld-11-1.jpg", extra2: "/images/buildings/bld-11-2.jpg" },
+      {
+        id: "bld-01",
+        name: "Edificio Placeholder 01",
+        subtitle: "Ciudad de Panamá",
+        desc: "Descripción breve del edificio (placeholder).",
+        cover: "/images/buildings/bld-01-cover.jpg",
+        extra1: "/images/buildings/bld-01-1.jpg",
+        extra2: "/images/buildings/bld-01-2.jpg",
+      },
+      {
+        id: "bld-02",
+        name: "Edificio Placeholder 02",
+        subtitle: "Ciudad de Panamá",
+        desc: "Descripción breve del edificio (placeholder).",
+        cover: "/images/buildings/bld-02-cover.jpg",
+        extra1: "/images/buildings/bld-02-1.jpg",
+        extra2: "/images/buildings/bld-02-2.jpg",
+      },
+      {
+        id: "bld-03",
+        name: "Edificio Placeholder 03",
+        subtitle: "Ciudad de Panamá",
+        desc: "Descripción breve del edificio (placeholder).",
+        cover: "/images/buildings/bld-03-cover.jpg",
+        extra1: "/images/buildings/bld-03-1.jpg",
+        extra2: "/images/buildings/bld-03-2.jpg",
+      },
+      {
+        id: "bld-04",
+        name: "Edificio Placeholder 04",
+        subtitle: "Ciudad de Panamá",
+        desc: "Descripción breve del edificio (placeholder).",
+        cover: "/images/buildings/bld-04-cover.jpg",
+        extra1: "/images/buildings/bld-04-1.jpg",
+        extra2: "/images/buildings/bld-04-2.jpg",
+      },
+      {
+        id: "bld-05",
+        name: "Edificio Placeholder 05",
+        subtitle: "Ciudad de Panamá",
+        desc: "Descripción breve del edificio (placeholder).",
+        cover: "/images/buildings/bld-05-cover.jpg",
+        extra1: "/images/buildings/bld-05-1.jpg",
+        extra2: "/images/buildings/bld-05-2.jpg",
+      },
+      {
+        id: "bld-06",
+        name: "Edificio Placeholder 06",
+        subtitle: "Ciudad de Panamá",
+        desc: "Descripción breve del edificio (placeholder).",
+        cover: "/images/buildings/bld-06-cover.jpg",
+        extra1: "/images/buildings/bld-06-1.jpg",
+        extra2: "/images/buildings/bld-06-2.jpg",
+      },
+      {
+        id: "bld-07",
+        name: "Edificio Placeholder 07",
+        subtitle: "Ciudad de Panamá",
+        desc: "Descripción breve del edificio (placeholder).",
+        cover: "/images/buildings/bld-07-cover.jpg",
+        extra1: "/images/buildings/bld-07-1.jpg",
+        extra2: "/images/buildings/bld-07-2.jpg",
+      },
+      {
+        id: "bld-08",
+        name: "Edificio Placeholder 08",
+        subtitle: "Ciudad de Panamá",
+        desc: "Descripción breve del edificio (placeholder).",
+        cover: "/images/buildings/bld-08-cover.jpg",
+        extra1: "/images/buildings/bld-08-1.jpg",
+        extra2: "/images/buildings/bld-08-2.jpg",
+      },
+      {
+        id: "bld-09",
+        name: "Edificio Placeholder 09",
+        subtitle: "Ciudad de Panamá",
+        desc: "Descripción breve del edificio (placeholder).",
+        cover: "/images/buildings/bld-09-cover.jpg",
+        extra1: "/images/buildings/bld-09-1.jpg",
+        extra2: "/images/buildings/bld-09-2.jpg",
+      },
+      {
+        id: "bld-10",
+        name: "Edificio Placeholder 10",
+        subtitle: "Ciudad de Panamá",
+        desc: "Descripción breve del edificio (placeholder).",
+        cover: "/images/buildings/bld-10-cover.jpg",
+        extra1: "/images/buildings/bld-10-1.jpg",
+        extra2: "/images/buildings/bld-10-2.jpg",
+      },
+      {
+        id: "bld-11",
+        name: "Edificio Placeholder 11",
+        subtitle: "Ciudad de Panamá",
+        desc: "Descripción breve del edificio (placeholder).",
+        cover: "/images/buildings/bld-11-cover.jpg",
+        extra1: "/images/buildings/bld-11-1.jpg",
+        extra2: "/images/buildings/bld-11-2.jpg",
+      },
     ] as BuildingItem[],
   },
 } as const;

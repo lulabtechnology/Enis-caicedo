@@ -3,7 +3,7 @@ import Container from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { site, copy } from "@/content/site";
 import { waLink } from "@/lib/links";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ShieldCheck, Scale, Home } from "lucide-react";
 
 export default function Hero() {
   const waHref = waLink(
@@ -15,72 +15,74 @@ export default function Hero() {
     <section className="relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 hidden md:block">
-        <Image
-          src="/images/hero-desktop.jpg"
-          alt="Hero Enis Caicedo"
-          fill
-          priority
-          className="object-cover"
-        />
+        <Image src="/images/hero-desktop.jpg" alt="Hero Enis Caicedo" fill priority className="object-cover" />
       </div>
       <div className="absolute inset-0 md:hidden">
-        <Image
-          src="/images/hero-mobile.jpg"
-          alt="Hero Enis Caicedo móvil"
-          fill
-          priority
-          className="object-cover"
-        />
+        <Image src="/images/hero-mobile.jpg" alt="Hero Enis Caicedo móvil" fill priority className="object-cover" />
       </div>
 
-      {/* Overlay */}
+      {/* Overlay palette fuerte */}
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(7,22,28,0.92),rgba(6,55,59,0.72),rgba(7,22,28,0.18))]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(18,182,182,0.28),transparent_60%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(18,182,182,0.30),transparent_60%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_40%,rgba(214,177,94,0.18),transparent_60%)]" />
 
       <Container>
         <div className="relative grid min-h-[78vh] items-center py-14 sm:py-20">
           <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
+            {/* LEFT */}
             <div className="lg:col-span-7">
               <div className="surface-deep p-6 sm:p-8">
                 <p className="text-xs font-semibold tracking-[0.22em] text-white/70">
                   {site.tagline}
                 </p>
 
-                {/* TÍTULO: Playfair Display + SOLO VERDE */}
-                <h1 className="mt-4 font-display text-4xl font-semibold tracking-tight text-brand-aqua sm:text-5xl lg:text-6xl">
-                  {copy.hero.name}
+                <h1 className="mt-4 text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">
+                  <span className="text-brand-gradient">{copy.hero.name}</span>
                 </h1>
 
-                {/* Subtítulo: Montserrat */}
-                <p className="mt-3 text-lg font-semibold text-white/90 sm:text-xl">
+                <p className="mt-3 text-lg font-semibold text-white/85 sm:text-xl">
                   {copy.hero.role}
                 </p>
 
                 <div className="mt-6 h-px w-full bg-white/10" />
 
-                <p className="mt-6 text-base leading-7 text-white/90 sm:text-lg">
+                <p className="mt-6 text-base leading-7 text-white/85 sm:text-lg">
                   {copy.hero.headline}
                 </p>
+
                 <p className="mt-4 text-sm leading-6 text-white/75">
                   {copy.hero.sub}
                 </p>
+
+                <div className="mt-7 flex flex-wrap gap-2">
+                  <span className="badge-dark"><ShieldCheck size={14} /> Seguridad</span>
+                  <span className="badge-dark"><Scale size={14} /> Legal</span>
+                  <span className="badge-dark"><Home size={14} /> Inmobiliario</span>
+                </div>
 
                 <div className="mt-8 flex flex-wrap items-center gap-3">
                   <Button href={waHref} variant="primary">
                     {copy.hero.primaryCta} <ArrowRight size={16} />
                   </Button>
-                  <Button
-                    href="/servicios-legales"
-                    variant="secondary"
-                    className="bg-white/10 text-white border-white/20 hover:border-white/30"
-                  >
+                  <Button href="/servicios-legales" variant="secondary" className="bg-white/10 text-white border-white/20 hover:border-white/35">
                     {copy.hero.secondaryCta}
                   </Button>
                 </div>
+
+                <div className="mt-8 grid gap-2 sm:grid-cols-2">
+                  {copy.hero.bullets.map((b) => (
+                    <div key={b} className="flex items-start gap-3 rounded-3xl border border-white/10 bg-white/8 p-4">
+                      <span className="mt-1 h-2 w-2 rounded-full bg-brand-gold" />
+                      <p className="text-sm leading-6 text-white/80">{b}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <p className="mt-8 text-sm text-white/70">{site.locationLine}</p>
               </div>
             </div>
 
-            {/* Foto Enis */}
+            {/* RIGHT: foto */}
             <div className="lg:col-span-5">
               <div className="mx-auto w-full max-w-sm">
                 <div className="surface-deep overflow-hidden">
@@ -88,7 +90,7 @@ export default function Hero() {
                     <div className="absolute inset-0 hidden md:block">
                       <Image
                         src="/images/enis-profile.jpg"
-                        alt="Foto Enis Caicedo"
+                        alt="Foto profesional de Enis Caicedo"
                         fill
                         className="object-cover"
                         priority
@@ -97,7 +99,7 @@ export default function Hero() {
                     <div className="absolute inset-0 md:hidden">
                       <Image
                         src="/images/enis-profile-mobile.jpg"
-                        alt="Foto Enis Caicedo móvil"
+                        alt="Foto profesional de Enis Caicedo (móvil)"
                         fill
                         className="object-cover"
                         priority
@@ -107,9 +109,7 @@ export default function Hero() {
                   </div>
 
                   <div className="p-5">
-                    <p className="text-sm font-semibold text-white">
-                      Asesoría personalizada
-                    </p>
+                    <p className="text-sm font-semibold text-white">Asesoría personalizada</p>
                     <p className="mt-2 text-sm leading-6 text-white/75">
                       Respuesta rápida por WhatsApp. Agenda y plan según su necesidad.
                     </p>
@@ -122,7 +122,6 @@ export default function Hero() {
                 </p>
               </div>
             </div>
-
           </div>
         </div>
       </Container>

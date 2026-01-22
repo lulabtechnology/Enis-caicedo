@@ -8,7 +8,6 @@ export default function HomePage() {
     <>
       <Hero />
 
-      {/* ¿Por qué Panamá? */}
       <section className="py-14 sm:py-16">
         <Container>
           <div className="surface-tint p-8 sm:p-10">

@@ -93,7 +93,10 @@ export const copy = {
   contact: {
     headline: "Contacto",
     lead: "Conversemos por WhatsApp o agenda una cita. Respuesta rápida.",
+    consent:
+      "Al enviar este formulario, aceptas que te contactemos para responder tu solicitud. No compartimos tu información con terceros.",
   },
+
 
   whyPanama: {
     headline: "¿Por qué Panamá?",

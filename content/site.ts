@@ -61,26 +61,29 @@ export const copy = {
     secondaryCta: "Ver servicios",
   },
 
-  trust: {
-    headline: "Respaldo profesional",
-    items: [
-      { title: "Experiencia", desc: "9 años de experiencia en derecho." },
-      {
-        title: "Enfoque",
-        desc: "Defensa con estrategia y acompañamiento personalizado.",
-      },
-      {
-        title: "Confianza",
-        desc: "Responsabilidad y criterio para tomar decisiones seguras.",
-      },
-    ],
-    credentials: [
-      "Vicepresidenta de la Asociación Nacional de Abogados de Panamá (ANDAP)",
-      "Miembro de ACOBIR y del comité legal de ACOBIR",
-      "Comisiones de derecho marítimo y derecho migratorio (Colegio Nacional de Abogados)",
-      "Gerente Internacional de ECREISAS (Enis Caicedo Real Estate International)",
-    ],
-  },
+ trust: {
+  headline: "Respaldo profesional",
+  items: [
+    { title: "Experiencia", desc: "9 años de experiencia en derecho." },
+    { title: "Enfoque", desc: "Defensa con estrategia y acompañamiento personalizado." },
+    { title: "Confianza", desc: "Responsabilidad y criterio para tomar decisiones seguras." },
+  ],
+
+  // ✅ AGREGA ESTO (para que app/page.tsx no explote)
+  values: [
+    { title: "Experiencia", desc: "9 años de experiencia en derecho." },
+    { title: "Enfoque", desc: "Defensa con estrategia y acompañamiento personalizado." },
+    { title: "Confianza", desc: "Responsabilidad y criterio para tomar decisiones seguras." },
+  ],
+
+  credentials: [
+    "Vicepresidenta de la Asociación Nacional de Abogados de Panamá (ANDAP)",
+    "Miembro de ACOBIR y del comité legal de ACOBIR",
+    "Comisiones de derecho marítimo y derecho migratorio (Colegio Nacional de Abogados)",
+    "Gerente Internacional de ECREISAS (Enis Caicedo Real Estate International)",
+  ],
+},
+
 
   howItWorks: {
     kicker: "Cómo funciona",

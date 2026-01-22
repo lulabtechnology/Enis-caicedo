@@ -95,7 +95,20 @@ export const copy = {
     lead: "Conversemos por WhatsApp o agenda una cita. Respuesta rápida.",
     consent:
       "Al enviar este formulario, aceptas que te contactemos para responder tu solicitud. No compartimos tu información con terceros.",
+    submit: "Enviar mensaje",
+    nameLabel: "Nombre",
+    phoneLabel: "Teléfono",
+    emailLabel: "Correo",
+    topicLabel: "Asunto",
+    messageLabel: "Mensaje",
+    placeholderName: "Ej: Juan Pérez",
+    placeholderPhone: "Ej: +507 6000-0000",
+    placeholderEmail: "Ej: correo@dominio.com",
+    placeholderTopic: "Ej: Consulta legal / Propiedad",
+    placeholderMessage: "Escribe aquí los detalles de tu solicitud…",
+    altCta: "O escribe directo por WhatsApp",
   },
+
 
 
   whyPanama: {

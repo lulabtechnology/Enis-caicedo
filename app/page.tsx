@@ -1,115 +1,124 @@
-import PageHero from "@/components/site/PageHero";
-import Container from "@/components/ui/Container";
-import { copy, site } from "@/content/site";
-import Image from "next/image";
-import { Button } from "@/components/ui/Button";
-import { waLink } from "@/lib/links";
+"use client";
 
-export default function SobreEnisPage() {
-  const waHref = waLink(
-    site.whatsapp,
-    "Hola Enis, me gustaría conocer más sobre tu perfil y coordinar una asesoría. ¿Podemos agendar?"
-  );
+import { useMemo, useState } from "react";
+import { site, copy } from "@/content/site";
+import { waLink } from "@/lib/links";
+import { Button } from "@/components/ui/Button";
+
+type Form = {
+  nombre: string;
+  apellido: string;
+  email: string;
+  telefono: string;
+  mensaje: string;
+};
+
+export default function ContactForm({ subject }: { subject?: string }) {
+  const [f, setF] = useState<Form>({
+    nombre: "",
+    apellido: "",
+    email: "",
+    telefono: "",
+    mensaje: ""
+  });
+
+  const [err, setErr] = useState<string | null>(null);
+
+  const waHref = useMemo(() => {
+    const s = subject ? `Asunto: ${subject}\n` : "";
+    const msg =
+      `${s}` +
+      `Nombre: ${f.nombre} ${f.apellido}\n` +
+      `Email: ${f.email}\n` +
+      `Teléfono: ${f.telefono}\n` +
+      `Mensaje: ${f.mensaje}\n\n` +
+      `Hola, me gustaría agendar una asesoría personalizada.`;
+
+    return waLink(site.whatsapp, msg);
+  }, [f, subject]);
+
+  function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!f.nombre || !f.apellido || !f.email || !f.telefono || !f.mensaje) {
+      setErr("Por favor complete todos los campos requeridos.");
+      return;
+    }
+    setErr(null);
+    window.open(waHref, "_blank", "noopener,noreferrer");
+  }
 
   return (
-    <>
-      <PageHero
-        kicker="Perfil"
-        title={copy.about.headline}
-        subtitle={copy.about.lead}
-        image="/images/about-banner.jpg"
+    <form onSubmit={onSubmit} className="surface-tint p-6 sm:p-7">
+      <p className="text-sm font-semibold text-slate-900">
+        {copy.contact.lead}
+      </p>
+
+      <div className="mt-5 grid gap-4 sm:grid-cols-2">
+        <Field label="Nombre" value={f.nombre} onChange={(v) => setF((p) => ({ ...p, nombre: v }))} required />
+        <Field label="Apellido" value={f.apellido} onChange={(v) => setF((p) => ({ ...p, apellido: v }))} required />
+        <Field label="Email" type="email" value={f.email} onChange={(v) => setF((p) => ({ ...p, email: v }))} required />
+        <Field label="Teléfono" value={f.telefono} onChange={(v) => setF((p) => ({ ...p, telefono: v }))} required />
+      </div>
+
+      <div className="mt-4">
+        <label className="text-sm font-semibold text-slate-900">
+          Mensaje <span className="text-brand-gold">*</span>
+        </label>
+        <textarea
+          className="mt-2 h-28 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-brand-aqua/35"
+          value={f.mensaje}
+          onChange={(e) => setF((p) => ({ ...p, mensaje: e.target.value }))}
+          placeholder="Describa brevemente su caso o necesidad."
+        />
+      </div>
+
+      <p className="mt-4 text-xs leading-5 text-slate-500">{copy.contact.consent}</p>
+
+      {err ? <p className="mt-3 text-sm font-semibold text-red-600">{err}</p> : null}
+
+      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <Button type="submit" variant="primary" className="w-full sm:w-auto">
+          {copy.contact.submit}
+        </Button>
+
+        <a
+          href={waHref}
+          className="text-sm font-semibold text-brand-teal hover:text-brand-ink no-underline"
+          target="_blank"
+          rel="noreferrer"
+        >
+          O abrir WhatsApp directamente
+        </a>
+      </div>
+    </form>
+  );
+}
+
+function Field({
+  label,
+  value,
+  onChange,
+  required,
+  type = "text"
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  required?: boolean;
+  type?: string;
+}) {
+  return (
+    <div>
+      <label className="text-sm font-semibold text-slate-900">
+        {label} {required ? <span className="text-brand-gold">*</span> : null}
+      </label>
+      <input
+        type={type}
+        className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-brand-aqua/35"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={label}
       />
-
-      <section className="py-14 sm:py-16">
-        <Container>
-          <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
-            {/* Columna texto */}
-            <div className="lg:col-span-7">
-              <div className="surface-tint p-8 sm:p-10">
-                <p className="kicker">Sobre Enis Caicedo</p>
-                <h2 className="h2 mt-3">Criterio legal + visión inmobiliaria</h2>
-                <p className="p mt-4">
-                  Texto placeholder: aquí se explica su enfoque de trabajo, cómo acompaña al cliente y
-                  qué la diferencia. Tú lo puedes reemplazar con la biografía real cuando la tengas.
-                </p>
-
-                <div className="mt-8">
-                  <p className="font-display text-xl font-semibold text-brand-teal">
-                    Credenciales
-                  </p>
-                  <ul className="mt-4 grid gap-2 text-sm text-slate-600">
-                    {copy.trust.credentials.map((c) => (
-                      <li key={c} className="flex gap-3">
-                        <span className="mt-2 h-1.5 w-1.5 rounded-full bg-brand-aqua" />
-                        <span>{c}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="mt-10 grid gap-4 sm:grid-cols-3">
-                  {copy.trust.values.map((v) => (
-                    <div key={v.title} className="card p-6">
-                      <p className="font-display text-lg font-semibold text-brand-teal">
-                        {v.title}
-                      </p>
-                      <p className="mt-2 text-sm leading-6 text-slate-600">{v.desc}</p>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <Button href={waHref} variant="primary">
-                    Agendar por WhatsApp
-                  </Button>
-                  <Button href="/contacto" variant="secondary">
-                    Ver contacto
-                  </Button>
-                </div>
-              </div>
-            </div>
-
-            {/* Columna imagen */}
-            <div className="lg:col-span-5">
-              <div className="card overflow-hidden">
-                <div className="relative aspect-[4/5] w-full">
-                  <div className="absolute inset-0 hidden md:block">
-                    <Image
-                      src="/images/about-photo.jpg"
-                      alt="Enis Caicedo"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="absolute inset-0 md:hidden">
-                    <Image
-                      src="/images/about-photo-mobile.jpg"
-                      alt="Enis Caicedo móvil"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(7,22,28,0.45))]" />
-                </div>
-
-                <div className="p-6">
-                  <p className="font-display text-lg font-semibold text-brand-teal">
-                    Atención personalizada
-                  </p>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">
-                    Placeholder: breve texto sobre disponibilidad, proceso y tipo de casos.
-                  </p>
-                </div>
-              </div>
-
-              <p className="mt-3 text-xs text-slate-500">
-                Fotos: <span className="font-semibold">/public/images/about-photo.jpg</span> y{" "}
-                <span className="font-semibold">/public/images/about-photo-mobile.jpg</span>
-              </p>
-            </div>
-          </div>
-        </Container>
-      </section>
-    </>
+    </div>
   );
 }

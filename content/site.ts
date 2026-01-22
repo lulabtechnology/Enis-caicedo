@@ -40,18 +40,19 @@ export const copy = {
   },
 
   legal: {
-  headline: "Servicios legales",
-  lead: "Acompañamiento legal con claridad, orden y enfoque estratégico para reducir riesgos y tomar decisiones con respaldo.",
-  areas: [
-    "Contratos y acuerdos",
-    "Constitución y formalización",
-    "Trámites y gestión documental",
-    "Asesoría preventiva y cumplimiento",
-    "Revisión de documentos de compraventa",
-    "Acompañamiento legal en cierres"
-  ],
-},
-,
+    headline: "Servicios legales",
+    lead: "Acompañamiento legal con claridad, orden y enfoque estratégico para reducir riesgos y tomar decisiones con respaldo.",
+    areas: [
+      "Contratos y acuerdos",
+      "Constitución y formalización",
+      "Trámites y gestión documental",
+      "Asesoría preventiva y cumplimiento",
+      "Revisión de documentos de compraventa",
+      "Acompañamiento legal en cierres",
+    ],
+  },
+
+
 
   realestate: {
     headline: "Bienes raíces",

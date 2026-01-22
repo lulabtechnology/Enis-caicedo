@@ -1,124 +1,124 @@
-"use client";
-
-import { useMemo, useState } from "react";
-import { site, copy } from "@/content/site";
-import { waLink } from "@/lib/links";
+import Hero from "@/components/site/Hero";
+import Container from "@/components/ui/Container";
+import { copy } from "@/content/site";
 import { Button } from "@/components/ui/Button";
+import { ArrowRight, ShieldCheck, Scale, Home } from "lucide-react";
 
-type Form = {
-  nombre: string;
-  apellido: string;
-  email: string;
-  telefono: string;
-  mensaje: string;
-};
-
-export default function ContactForm({ subject }: { subject?: string }) {
-  const [f, setF] = useState<Form>({
-    nombre: "",
-    apellido: "",
-    email: "",
-    telefono: "",
-    mensaje: ""
-  });
-
-  const [err, setErr] = useState<string | null>(null);
-
-  const waHref = useMemo(() => {
-    const s = subject ? `Asunto: ${subject}\n` : "";
-    const msg =
-      `${s}` +
-      `Nombre: ${f.nombre} ${f.apellido}\n` +
-      `Email: ${f.email}\n` +
-      `Teléfono: ${f.telefono}\n` +
-      `Mensaje: ${f.mensaje}\n\n` +
-      `Hola, me gustaría agendar una asesoría personalizada.`;
-
-    return waLink(site.whatsapp, msg);
-  }, [f, subject]);
-
-  function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!f.nombre || !f.apellido || !f.email || !f.telefono || !f.mensaje) {
-      setErr("Por favor complete todos los campos requeridos.");
-      return;
-    }
-    setErr(null);
-    window.open(waHref, "_blank", "noopener,noreferrer");
-  }
-
+export default function HomePage() {
   return (
-    <form onSubmit={onSubmit} className="surface-tint p-6 sm:p-7">
-      <p className="text-sm font-semibold text-slate-900">
-        {copy.contact.lead}
-      </p>
+    <>
+      <Hero />
 
-      <div className="mt-5 grid gap-4 sm:grid-cols-2">
-        <Field label="Nombre" value={f.nombre} onChange={(v) => setF((p) => ({ ...p, nombre: v }))} required />
-        <Field label="Apellido" value={f.apellido} onChange={(v) => setF((p) => ({ ...p, apellido: v }))} required />
-        <Field label="Email" type="email" value={f.email} onChange={(v) => setF((p) => ({ ...p, email: v }))} required />
-        <Field label="Teléfono" value={f.telefono} onChange={(v) => setF((p) => ({ ...p, telefono: v }))} required />
-      </div>
+      {/* Trust / Credenciales */}
+      <section className="py-14 sm:py-16">
+        <Container>
+          <div className="grid gap-8 lg:grid-cols-12">
+            <div className="lg:col-span-5">
+              <p className="kicker">{copy.trust.headline}</p>
+              <h2 className="h2 mt-3">
+                Decisiones claras con{" "}
+                <span className="text-brand-gradient">respaldo sólido</span>
+              </h2>
+              <p className="p mt-4">
+                Unifique su estrategia legal e inmobiliaria con una asesoría que prioriza su seguridad y confianza.
+              </p>
 
-      <div className="mt-4">
-        <label className="text-sm font-semibold text-slate-900">
-          Mensaje <span className="text-brand-gold">*</span>
-        </label>
-        <textarea
-          className="mt-2 h-28 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-brand-aqua/35"
-          value={f.mensaje}
-          onChange={(e) => setF((p) => ({ ...p, mensaje: e.target.value }))}
-          placeholder="Describa brevemente su caso o necesidad."
-        />
-      </div>
+              <div className="mt-7 flex flex-wrap gap-3">
+                <Button href="/servicios-legales" variant="primary">
+                  Servicios legales <ArrowRight size={16} />
+                </Button>
+                <Button href="/bienes-raices" variant="secondary">
+                  Bienes raíces
+                </Button>
+              </div>
+            </div>
 
-      <p className="mt-4 text-xs leading-5 text-slate-500">{copy.contact.consent}</p>
+            <div className="lg:col-span-7">
+              <div className="grid gap-4 sm:grid-cols-2">
+                {copy.trust.items.map((it) => (
+                  <div key={it.title} className="surface-tint p-6">
+                    <div className="flex items-center gap-2 text-sm font-semibold text-slate-900">
+                      {it.title === "Experiencia" ? <ShieldCheck size={16} className="text-brand-aqua" /> : null}
+                      {it.title === "Enfoque" ? <Scale size={16} className="text-brand-teal" /> : null}
+                      {it.title === "Confianza" ? <Home size={16} className="text-brand-gold" /> : null}
+                      {it.title}
+                    </div>
+                    <p className="mt-3 text-sm leading-6 text-slate-600">{it.desc}</p>
+                  </div>
+                ))}
+              </div>
 
-      {err ? <p className="mt-3 text-sm font-semibold text-red-600">{err}</p> : null}
+              <div className="mt-6 surface-tint p-6">
+                <p className="text-sm font-semibold text-slate-900">Credenciales</p>
+                <ul className="mt-3 grid gap-2 text-sm text-slate-600">
+                  {copy.trust.credentials.map((c) => (
+                    <li key={c} className="flex gap-3">
+                      <span className="mt-2 h-1.5 w-1.5 rounded-full bg-brand-aqua" />
+                      <span>{c}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
 
-      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <Button type="submit" variant="primary" className="w-full sm:w-auto">
-          {copy.contact.submit}
-        </Button>
+      {/* Proceso */}
+      <section className="py-14 sm:py-16">
+        <Container>
+          <div className="surface-tint p-8 sm:p-10">
+            <p className="kicker">{copy.howItWorks.kicker}</p>
+            <h2 className="h2 mt-3">Un proceso simple y profesional</h2>
+            <p className="p mt-4">
+              Transparencia desde el primer contacto: información, agenda y plan de acción.
+            </p>
 
-        <a
-          href={waHref}
-          className="text-sm font-semibold text-brand-teal hover:text-brand-ink no-underline"
-          target="_blank"
-          rel="noreferrer"
-        >
-          O abrir WhatsApp directamente
-        </a>
-      </div>
-    </form>
-  );
-}
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+              {copy.howItWorks.steps.map((s, idx) => (
+                <div key={s.title} className="card p-6">
+                  <div className="text-xs font-semibold tracking-widest text-slate-500">
+                    PASO {idx + 1}
+                  </div>
+                  <div className="mt-2 text-base font-semibold text-slate-900">{s.title}</div>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">{s.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Container>
+      </section>
 
-function Field({
-  label,
-  value,
-  onChange,
-  required,
-  type = "text"
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  required?: boolean;
-  type?: string;
-}) {
-  return (
-    <div>
-      <label className="text-sm font-semibold text-slate-900">
-        {label} {required ? <span className="text-brand-gold">*</span> : null}
-      </label>
-      <input
-        type={type}
-        className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-brand-aqua/35"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={label}
-      />
-    </div>
+      {/* CTA final */}
+      <section className="py-14 sm:py-16">
+        <Container>
+          <div className="surface-deep p-8 sm:p-10">
+            <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
+              <div className="lg:col-span-7">
+                <p className="text-xs font-semibold tracking-[0.22em] text-white/70">Contacto</p>
+                <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+                  Agende su asesoría con{" "}
+                  <span className="text-brand-gradient">claridad</span>
+                </h2>
+                <p className="mt-4 text-base leading-7 text-white/80">
+                  Si necesita resolver asuntos legales o evitar riesgos al comprar propiedades, este es el punto de inicio.
+                </p>
+              </div>
+
+              <div className="lg:col-span-5">
+                <div className="grid gap-3">
+                  <Button href="/contacto" variant="primary" className="w-full">
+                    Ir a Contacto
+                  </Button>
+                  <Button href="/propiedades" variant="secondary" className="w-full bg-white/10 text-white border-white/15 hover:border-white/30">
+                    Ver Propiedades
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+    </>
   );
 }

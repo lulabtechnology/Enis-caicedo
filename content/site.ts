@@ -165,6 +165,10 @@ export const copy = {
       "Al enviar, acepta ser contactado para coordinar su asesoría. No compartimos su información.",
     submit: "Enviar a WhatsApp",
   },
+  about: {
+    headline: "Sobre Enis",
+    lead: "Perfil profesional, credenciales y enfoque de trabajo. Transparencia, criterio y acompañamiento de principio a fin.",
+  },
 
   footer: {
     close: "Gracias por preferirnos. Sus derechos y su patrimonio estarán protegidos.",

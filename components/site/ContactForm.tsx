@@ -72,7 +72,7 @@ export default function ContactForm({ subject }: { subject?: string }) {
         />
       </div>
 
-      <p className="mt-4 text-xs leading-5 text-slate-500">{copy.contact.consent}</p>
+      
 
       {err ? <p className="mt-3 text-sm font-semibold text-red-600">{err}</p> : null}
 

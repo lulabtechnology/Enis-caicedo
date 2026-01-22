@@ -1,23 +1,35 @@
-import type { Metadata } from "next";
 import "./globals.css";
+import type { Metadata } from "next";
+import { Playfair_Display, Montserrat } from "next/font/google";
+
 import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
-import WhatsAppFloat from "@/components/site/WhatsAppFloat";
-import { site } from "@/content/site";
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap"
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap"
+});
 
 export const metadata: Metadata = {
-  title: `${site.brand} | ${site.tagline}`,
-  description: site.tagline
+  title: "Enis Caicedo | Soluciones Legales e Inmobiliarias en Panamá",
+  description:
+    "Servicios legales y acompañamiento inmobiliario en Panamá. Abogada y corredora de bienes raíces."
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es">
-      <body>
+    <html lang="es" className={`${montserrat.variable} ${playfair.variable}`}>
+      <body className="min-h-screen font-sans">
         <Header />
-        <main>{children}</main>
+        {children}
         <Footer />
-        <WhatsAppFloat />
       </body>
     </html>
   );

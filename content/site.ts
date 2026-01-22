@@ -50,8 +50,9 @@ export const copy = {
       "Revisión de documentos de compraventa",
       "Acompañamiento legal en cierres",
     ],
+    note:
+      "Cada caso se evalúa de forma personalizada. Se confirma alcance, tiempos y documentación necesaria antes de iniciar.",
   },
-
 
 
   realestate: {

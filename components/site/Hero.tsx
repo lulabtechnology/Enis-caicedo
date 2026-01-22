@@ -1,127 +1,163 @@
-import Image from "next/image";
-import Container from "@/components/ui/Container";
-import { Button } from "@/components/ui/Button";
-import { site, copy } from "@/content/site";
-import { waLink } from "@/lib/links";
-import { ArrowRight, ShieldCheck, Scale, Home } from "lucide-react";
+export const site = {
+  brand: "Enis Caicedo",
+  tagline: "Soluciones Legales e Inmobiliarias en Panamá",
+  locationLine: "Avenida Balboa, edificio BOC, Balboa Office Center, piso 34, oficina 3422",
+  whatsapp: "+50763782755",
+  email: "contacto@tudominio.com",
+  phone: "+507 6378-2755",
+  socials: {
+    instagram: "https://www.instagram.com/eniscaicedorealestate/",
+    youtube: "https://www.youtube.com/@abogadaeniscaicedo190",
+    facebook: "https://www.facebook.com/ENISCAICEDOREALESTATE?locale=es_LA"
+  }
+};
 
-export default function Hero() {
-  const waHref = waLink(
-    site.whatsapp,
-    "Hola, me gustaría solicitar una asesoría personalizada con Enis Caicedo. ¿Podemos coordinar una cita?"
-  );
+export type Building = {
+  id: string;
+  name: string;
+  subtitle: string;
+  desc: string;
+  cover: string;     // se ve siempre
+  extra1: string;    // aparece al presionar
+  extra2: string;    // aparece al presionar
+};
 
-  return (
-    <section className="relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 hidden md:block">
-        <Image src="/images/hero-desktop.jpg" alt="Hero Enis Caicedo" fill priority className="object-cover" />
-      </div>
-      <div className="absolute inset-0 md:hidden">
-        <Image src="/images/hero-mobile.jpg" alt="Hero Enis Caicedo móvil" fill priority className="object-cover" />
-      </div>
+export const copy = {
+  hero: {
+    name: "Enis Caicedo",
+    role: "Abogada y corredora de bienes raíces",
+    headline: "Seguridad y confianza para proteger su patrimonio y decidir con estrategia.",
+    sub: "Asesoría legal y acompañamiento inmobiliario con enfoque claro, profesional y paso a paso.",
+    bullets: [
+      "Asesoría legal con enfoque estratégico",
+      "Acompañamiento en inversiones y compras",
+      "Representación confiable"
+    ],
+    primaryCta: "Escribir por WhatsApp",
+    secondaryCta: "Ver servicios"
+  },
 
-      {/* Overlay palette fuerte */}
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(7,22,28,0.92),rgba(6,55,59,0.72),rgba(7,22,28,0.18))]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(18,182,182,0.30),transparent_60%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_40%,rgba(214,177,94,0.18),transparent_60%)]" />
+  whyPanama: {
+    headline: "¿Por qué Panamá?",
+    lead: "Beneficios clave para inversión, residencia y operaciones: conectividad, estabilidad y proyección.",
+    items: [
+      { title: "Conectividad", desc: "Hub de negocios y logística.", image: "/images/panama-1.jpg" },
+      { title: "Estabilidad", desc: "Ecosistema atractivo para inversionistas.", image: "/images/panama-2.jpg" },
+      { title: "Ubicación", desc: "Puente entre mercados.", image: "/images/panama-3.jpg" },
+      { title: "Infraestructura", desc: "Proyectos premium y servicios.", image: "/images/panama-4.jpg" },
+      { title: "Oportunidades", desc: "Crecimiento y diversidad.", image: "/images/panama-5.jpg" },
+      { title: "Calidad de vida", desc: "Entorno moderno y tropical.", image: "/images/panama-6.jpg" }
+    ]
+  },
 
-      <Container>
-        <div className="relative grid min-h-[78vh] items-center py-14 sm:py-20">
-          <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
-            {/* LEFT */}
-            <div className="lg:col-span-7">
-              <div className="surface-deep p-6 sm:p-8">
-                <p className="text-xs font-semibold tracking-[0.22em] text-white/70">
-                  {site.tagline}
-                </p>
+  properties: {
+    headline: "Propiedades",
+    lead: "Explora propiedades y proyectos. Sección de edificios al inicio con galerías por proyecto."
+  },
 
-                <h1 className="mt-4 text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">
-                  <span className="text-brand-gradient">{copy.hero.name}</span>
-                </h1>
-
-                <p className="mt-3 text-lg font-semibold text-white/85 sm:text-xl">
-                  {copy.hero.role}
-                </p>
-
-                <div className="mt-6 h-px w-full bg-white/10" />
-
-                <p className="mt-6 text-base leading-7 text-white/85 sm:text-lg">
-                  {copy.hero.headline}
-                </p>
-
-                <p className="mt-4 text-sm leading-6 text-white/75">
-                  {copy.hero.sub}
-                </p>
-
-                <div className="mt-7 flex flex-wrap gap-2">
-                  <span className="badge-dark"><ShieldCheck size={14} /> Seguridad</span>
-                  <span className="badge-dark"><Scale size={14} /> Legal</span>
-                  <span className="badge-dark"><Home size={14} /> Inmobiliario</span>
-                </div>
-
-                <div className="mt-8 flex flex-wrap items-center gap-3">
-                  <Button href={waHref} variant="primary">
-                    {copy.hero.primaryCta} <ArrowRight size={16} />
-                  </Button>
-                  <Button href="/servicios-legales" variant="secondary" className="bg-white/10 text-white border-white/20 hover:border-white/35">
-                    {copy.hero.secondaryCta}
-                  </Button>
-                </div>
-
-                <div className="mt-8 grid gap-2 sm:grid-cols-2">
-                  {copy.hero.bullets.map((b) => (
-                    <div key={b} className="flex items-start gap-3 rounded-3xl border border-white/10 bg-white/8 p-4">
-                      <span className="mt-1 h-2 w-2 rounded-full bg-brand-gold" />
-                      <p className="text-sm leading-6 text-white/80">{b}</p>
-                    </div>
-                  ))}
-                </div>
-
-                <p className="mt-8 text-sm text-white/70">{site.locationLine}</p>
-              </div>
-            </div>
-
-            {/* RIGHT: foto */}
-            <div className="lg:col-span-5">
-              <div className="mx-auto w-full max-w-sm">
-                <div className="surface-deep overflow-hidden">
-                  <div className="relative aspect-[4/5] w-full">
-                    <div className="absolute inset-0 hidden md:block">
-                      <Image
-                        src="/images/enis-profile.jpg"
-                        alt="Foto profesional de Enis Caicedo"
-                        fill
-                        className="object-cover"
-                        priority
-                      />
-                    </div>
-                    <div className="absolute inset-0 md:hidden">
-                      <Image
-                        src="/images/enis-profile-mobile.jpg"
-                        alt="Foto profesional de Enis Caicedo (móvil)"
-                        fill
-                        className="object-cover"
-                        priority
-                      />
-                    </div>
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(7,22,28,0.62))]" />
-                  </div>
-
-                  <div className="p-5">
-                    <p className="text-sm font-semibold text-white">Asesoría personalizada</p>
-                    <p className="mt-2 text-sm leading-6 text-white/75">
-                      Respuesta rápida por WhatsApp. Agenda y plan según su necesidad.
-                    </p>
-                  </div>
-                </div>
-
-                
-              </div>
-            </div>
-          </div>
-        </div>
-      </Container>
-    </section>
-  );
-}
+  buildings: {
+    headline: "Edificios",
+    lead: "11 proyectos (placeholders). Cada card muestra 1 foto y al presionar abre 2 adicionales.",
+    items: [
+      {
+        id: "bld-01",
+        name: "Edificio Placeholder 01",
+        subtitle: "Costa del Este",
+        desc: "Descripción breve del edificio (placeholder).",
+        cover: "/images/buildings/bld-01-cover.jpg",
+        extra1: "/images/buildings/bld-01-1.jpg",
+        extra2: "/images/buildings/bld-01-2.jpg"
+      },
+      {
+        id: "bld-02",
+        name: "Edificio Placeholder 02",
+        subtitle: "Avenida Balboa",
+        desc: "Descripción breve del edificio (placeholder).",
+        cover: "/images/buildings/bld-02-cover.jpg",
+        extra1: "/images/buildings/bld-02-1.jpg",
+        extra2: "/images/buildings/bld-02-2.jpg"
+      },
+      {
+        id: "bld-03",
+        name: "Edificio Placeholder 03",
+        subtitle: "Punta Pacífica",
+        desc: "Descripción breve del edificio (placeholder).",
+        cover: "/images/buildings/bld-03-cover.jpg",
+        extra1: "/images/buildings/bld-03-1.jpg",
+        extra2: "/images/buildings/bld-03-2.jpg"
+      },
+      {
+        id: "bld-04",
+        name: "Edificio Placeholder 04",
+        subtitle: "San Francisco",
+        desc: "Descripción breve del edificio (placeholder).",
+        cover: "/images/buildings/bld-04-cover.jpg",
+        extra1: "/images/buildings/bld-04-1.jpg",
+        extra2: "/images/buildings/bld-04-2.jpg"
+      },
+      {
+        id: "bld-05",
+        name: "Edificio Placeholder 05",
+        subtitle: "Obarrio",
+        desc: "Descripción breve del edificio (placeholder).",
+        cover: "/images/buildings/bld-05-cover.jpg",
+        extra1: "/images/buildings/bld-05-1.jpg",
+        extra2: "/images/buildings/bld-05-2.jpg"
+      },
+      {
+        id: "bld-06",
+        name: "Edificio Placeholder 06",
+        subtitle: "Bella Vista",
+        desc: "Descripción breve del edificio (placeholder).",
+        cover: "/images/buildings/bld-06-cover.jpg",
+        extra1: "/images/buildings/bld-06-1.jpg",
+        extra2: "/images/buildings/bld-06-2.jpg"
+      },
+      {
+        id: "bld-07",
+        name: "Edificio Placeholder 07",
+        subtitle: "Clayton",
+        desc: "Descripción breve del edificio (placeholder).",
+        cover: "/images/buildings/bld-07-cover.jpg",
+        extra1: "/images/buildings/bld-07-1.jpg",
+        extra2: "/images/buildings/bld-07-2.jpg"
+      },
+      {
+        id: "bld-08",
+        name: "Edificio Placeholder 08",
+        subtitle: "Albrook",
+        desc: "Descripción breve del edificio (placeholder).",
+        cover: "/images/buildings/bld-08-cover.jpg",
+        extra1: "/images/buildings/bld-08-1.jpg",
+        extra2: "/images/buildings/bld-08-2.jpg"
+      },
+      {
+        id: "bld-09",
+        name: "Edificio Placeholder 09",
+        subtitle: "Santa María",
+        desc: "Descripción breve del edificio (placeholder).",
+        cover: "/images/buildings/bld-09-cover.jpg",
+        extra1: "/images/buildings/bld-09-1.jpg",
+        extra2: "/images/buildings/bld-09-2.jpg"
+      },
+      {
+        id: "bld-10",
+        name: "Edificio Placeholder 10",
+        subtitle: "El Cangrejo",
+        desc: "Descripción breve del edificio (placeholder).",
+        cover: "/images/buildings/bld-10-cover.jpg",
+        extra1: "/images/buildings/bld-10-1.jpg",
+        extra2: "/images/buildings/bld-10-2.jpg"
+      },
+      {
+        id: "bld-11",
+        name: "Edificio Placeholder 11",
+        subtitle: "Casco Viejo",
+        desc: "Descripción breve del edificio (placeholder).",
+        cover: "/images/buildings/bld-11-cover.jpg",
+        extra1: "/images/buildings/bld-11-1.jpg",
+        extra2: "/images/buildings/bld-11-2.jpg"
+      }
+    ] as Building[]
+  }
+};

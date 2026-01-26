@@ -36,14 +36,16 @@ export default function Header() {
           <Link href="/" className="flex items-center gap-3 no-underline">
             <div className="relative grid h-10 w-10 place-items-center rounded-2xl border border-slate-200 bg-white shadow-soft overflow-hidden">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(18,182,182,0.35),transparent_60%)]" />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(214,177,94,0.22),transparent_55%)]" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(18,182,182,0.22),transparent_55%)]" />
               <span className="relative text-sm font-extrabold tracking-tight text-brand-ink">
                 EC
               </span>
             </div>
 
             <div className="leading-tight">
-              <div className="text-sm font-semibold text-slate-900">{site.brand}</div>
+              <div className="text-sm font-semibold text-slate-900 font-display">
+                {site.brand}
+              </div>
               <div className="text-xs font-semibold text-[#12B6B6]">
                 Abogada &amp; Real Estate
               </div>
@@ -59,9 +61,7 @@ export default function Header() {
                   href={n.href}
                   className={[
                     "text-sm font-semibold no-underline transition",
-                    active
-                      ? "text-brand-teal"
-                      : "text-slate-600 hover:text-slate-900"
+                    active ? "text-brand-teal" : "text-slate-600 hover:text-slate-900"
                   ].join(" ")}
                 >
                   {n.label}

@@ -25,11 +25,11 @@ export default function PageHero({
         <div className="relative py-16 sm:py-20">
           <div className="surface-deep p-7 sm:p-9">
             <p className="text-xs font-semibold tracking-[0.22em] text-white/70">{kicker}</p>
-            <h1 className="mt-3 font-display text-4xl font-semibold tracking-tight text-brand-aqua sm:text-5xl">
+            <h1 className="mt-3 font-display text-4xl font-semibold tracking-tight text-[#12B6B6] sm:text-5xl">
               {title}
             </h1>
             {subtitle ? (
-              <p className="mt-5 max-w-2xl text-base leading-7 text-white/85">
+              <p className="mt-5 max-w-2xl text-base leading-7 text-white/80">
                 {subtitle}
               </p>
             ) : null}

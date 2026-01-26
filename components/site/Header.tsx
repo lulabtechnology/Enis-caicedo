@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo, useState } from "react";
@@ -16,6 +17,9 @@ const nav = [
   { href: "/sobre-enis", label: "Sobre Enis" },
   { href: "/contacto", label: "Contacto" }
 ];
+
+// Ruta del logo (debe existir en /public/images/)
+const LOGO_SRC = "/images/logo.png";
 
 export default function Header() {
   const pathname = usePathname();
@@ -34,20 +38,27 @@ export default function Header() {
       <Container>
         <div className="flex h-16 items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-3 no-underline">
+            {/* LOGO (imagen) */}
             <div className="relative grid h-10 w-10 place-items-center rounded-2xl border border-slate-200 bg-white shadow-soft overflow-hidden">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(18,182,182,0.35),transparent_60%)]" />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(18,182,182,0.22),transparent_55%)]" />
-              <span className="relative text-sm font-extrabold tracking-tight text-brand-ink">
-                EC
-              </span>
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(214,177,94,0.22),transparent_55%)]" />
+
+              {/* Imagen del logo */}
+              <Image
+                src={LOGO_SRC}
+                alt={`${site.brand} logo`}
+                fill
+                sizes="40px"
+                className="relative z-10 object-contain p-1"
+                priority
+              />
             </div>
 
             <div className="leading-tight">
-              <div className="text-sm font-semibold text-slate-900 font-display">
-                {site.brand}
-              </div>
-              <div className="text-xs font-semibold text-[#12B6B6]">
-                Abogada &amp; Real Estate
+              <div className="text-sm font-semibold text-slate-900">{site.brand}</div>
+              <div className="text-xs text-slate-500">
+                <span className="text-brand-gradient font-semibold">Legal</span> &{" "}
+                <span className="text-brand-gradient font-semibold">Real Estate</span>
               </div>
             </div>
           </Link>

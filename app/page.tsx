@@ -100,25 +100,4 @@ export default function HomePage() {
                   Agende su asesoría con{" "}
                   <span className="text-brand-gradient">claridad</span>
                 </h2>
-                <p className="mt-4 text-base leading-7 text-white/80">
-                  Si necesita resolver asuntos legales o evitar riesgos al comprar propiedades, este es el punto de inicio.
-                </p>
-              </div>
-
-              <div className="lg:col-span-5">
-                <div className="grid gap-3">
-                  <Button href="/contacto" variant="primary" className="w-full">
-                    Ir a Contacto
-                  </Button>
-                  <Button href="/propiedades" variant="secondary" className="w-full bg-white/10 text-white border-white/15 hover:border-white/30">
-                    Ver Propiedades
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Container>
-      </section>
-    </>
-  );
-}
+                <p className="mt-4 text-base leading-7 text-white

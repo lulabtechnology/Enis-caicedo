@@ -44,9 +44,8 @@ export default function Header() {
 
             <div className="leading-tight">
               <div className="text-sm font-semibold text-slate-900">{site.brand}</div>
-              <div className="text-xs text-slate-500">
-                <span className="text-brand-gradient font-semibold">Legal</span> &{" "}
-                <span className="text-brand-gradient font-semibold">Real Estate</span>
+              <div className="text-xs font-semibold text-[#12B6B6]">
+                Abogada &amp; Real Estate
               </div>
             </div>
           </Link>

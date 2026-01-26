@@ -4,6 +4,19 @@ import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
 import WhatsAppFloat from "@/components/site/WhatsAppFloat";
 import { site } from "@/content/site";
+import { Playfair_Display, Montserrat } from "next/font/google";
+
+const fontDisplay = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap"
+});
+
+const fontSans = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap"
+});
 
 export const metadata: Metadata = {
   title: `${site.brand} | ${site.tagline}`,
@@ -12,7 +25,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es">
+    <html lang="es" className={`${fontSans.variable} ${fontDisplay.variable}`}>
       <body>
         <Header />
         <main>{children}</main>

@@ -29,7 +29,7 @@ export default function Footer() {
           <div className="grid gap-10 py-14 lg:grid-cols-12">
             <div className="lg:col-span-5">
               <div className="inline-flex items-center gap-3">
-                <div className="relative grid h-10 w-10 place-items-center rounded-2xl border border-white/12 bg-white/8 overflow-hidden">
+                <div className="relative grid h-10 w-10 place-items-center rounded-2xl border border-white/10 bg-white/10 overflow-hidden">
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(18,182,182,0.35),transparent_60%)]" />
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(214,177,94,0.22),transparent_55%)]" />
                   <span className="relative text-sm font-extrabold tracking-tight text-white">EC</span>
@@ -53,14 +53,14 @@ export default function Footer() {
 
             <div className="lg:col-span-7">
               <div className="grid gap-6 sm:grid-cols-2">
-                <div className="rounded-[var(--radius)] border border-white/12 bg-white/8 p-6 backdrop-blur">
+                <div className="rounded-[var(--radius)] border border-white/10 bg-white/10 p-6 backdrop-blur">
                   <div className="flex items-center gap-2 text-sm font-semibold text-white">
                     <MapPin size={16} className="text-brand-aqua" /> Dirección
                   </div>
                   <p className="mt-3 text-sm leading-6 text-white/75">{site.locationLine}</p>
                 </div>
 
-                <div className="rounded-[var(--radius)] border border-white/12 bg-white/8 p-6 backdrop-blur">
+                <div className="rounded-[var(--radius)] border border-white/10 bg-white/10 p-6 backdrop-blur">
                   <div className="flex items-center gap-2 text-sm font-semibold text-white">
                     <Phone size={16} className="text-brand-gold" /> Teléfono / WhatsApp
                   </div>

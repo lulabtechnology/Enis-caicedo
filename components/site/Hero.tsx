@@ -21,10 +21,10 @@ export default function Hero() {
         <Image src="/images/hero-mobile.jpg" alt="Hero Enis Caicedo móvil" fill priority className="object-cover" />
       </div>
 
-      {/* Overlay palette fuerte */}
+      {/* Overlay: SOLO VERDES (sin dorado) */}
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(7,22,28,0.92),rgba(6,55,59,0.72),rgba(7,22,28,0.18))]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(18,182,182,0.30),transparent_60%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_40%,rgba(214,177,94,0.18),transparent_60%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_40%,rgba(18,182,182,0.18),transparent_60%)]" />
 
       <Container>
         <div className="relative grid min-h-[78vh] items-center py-14 sm:py-20">
@@ -36,17 +36,18 @@ export default function Hero() {
                   {site.tagline}
                 </p>
 
-                <h1 className="mt-4 text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">
-                  <span className="text-brand-gradient">{copy.hero.name}</span>
+                <h1 className="mt-4 font-display text-4xl font-semibold tracking-tight text-[#12B6B6] sm:text-5xl lg:text-6xl">
+                  {copy.hero.name}
                 </h1>
 
-                <p className="mt-3 text-lg font-semibold text-white/85 sm:text-xl">
+                {/* Subtítulo (4ta imagen) */}
+                <p className="mt-3 text-lg font-semibold text-[#12B6B6] opacity-90 sm:text-xl">
                   {copy.hero.role}
                 </p>
 
                 <div className="mt-6 h-px w-full bg-white/10" />
 
-                <p className="mt-6 text-base leading-7 text-white/85 sm:text-lg">
+                <p className="mt-6 text-base leading-7 text-white/80 sm:text-lg">
                   {copy.hero.headline}
                 </p>
 
@@ -64,15 +65,22 @@ export default function Hero() {
                   <Button href={waHref} variant="primary">
                     {copy.hero.primaryCta} <ArrowRight size={16} />
                   </Button>
-                  <Button href="/servicios-legales" variant="secondary" className="bg-white/10 text-white border-white/20 hover:border-white/35">
+                  <Button
+                    href="/servicios-legales"
+                    variant="secondary"
+                    className="bg-white/10 text-white border-white/20 hover:border-white/30"
+                  >
                     {copy.hero.secondaryCta}
                   </Button>
                 </div>
 
                 <div className="mt-8 grid gap-2 sm:grid-cols-2">
                   {copy.hero.bullets.map((b) => (
-                    <div key={b} className="flex items-start gap-3 rounded-3xl border border-white/10 bg-white/8 p-4">
-                      <span className="mt-1 h-2 w-2 rounded-full bg-brand-gold" />
+                    <div
+                      key={b}
+                      className="flex items-start gap-3 rounded-3xl border border-white/10 bg-white/10 p-4"
+                    >
+                      <span className="mt-1 h-2 w-2 rounded-full bg-[#12B6B6]" />
                       <p className="text-sm leading-6 text-white/80">{b}</p>
                     </div>
                   ))}
@@ -108,8 +116,11 @@ export default function Hero() {
                     <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(7,22,28,0.62))]" />
                   </div>
 
+                  {/* 5ta imagen: un solo color + texto requerido */}
                   <div className="p-5">
-                    <p className="text-sm font-semibold text-white">Asesoría personalizada</p>
+                    <p className="text-sm font-semibold text-[#12B6B6]">
+                      Abogada &amp; Real Estate
+                    </p>
                     <p className="mt-2 text-sm leading-6 text-white/75">
                       Respuesta rápida por WhatsApp. Agenda y plan según su necesidad.
                     </p>

@@ -88,33 +88,195 @@ export const copy = {
   },
 
   properties: {
-    headline: "Propiedades",
-    lead: "Listado de ejemplo. Sustituye imágenes, precios y detalles por las propiedades reales.",
+    headline: "Edificios y propiedades",
+    lead: "Seleccione una propiedad para ver su galería (4 imágenes) y solicitar información por WhatsApp.",
     cta: "Solicitar información por WhatsApp",
+
+    // 11 propiedades (placeholders). Cada item:
+    // - building: nombre del edificio (para segmentar)
+    // - image: portada
+    // - images: 4 imágenes (portada + 3)
+    // - highlights: detalles clave (los reemplazas luego)
     items: [
       {
         id: "prop-01",
-        title: "Apartamento premium con vista",
+        building: "PH (Edificio) — Avenida Balboa",
+        title: "Apartamento 2 recámaras con vista",
         priceFrom: "Desde $325,000",
-        location: "Ciudad de Panamá",
-        tags: ["Apartamento", "Inversión"],
-        image: "/images/property-1.jpg"
+        location: "Avenida Balboa, Ciudad de Panamá",
+        tags: ["Apartamento", "Vista"],
+        image: "/images/properties/prop-01-cover.jpg",
+        images: [
+          "/images/properties/prop-01-cover.jpg",
+          "/images/properties/prop-01-2.jpg",
+          "/images/properties/prop-01-3.jpg",
+          "/images/properties/prop-01-4.jpg"
+        ],
+        highlights: ["2 recámaras", "2 baños", "1 estacionamiento"]
       },
       {
         id: "prop-02",
-        title: "Residencia familiar en zona exclusiva",
-        priceFrom: "Desde $540,000",
-        location: "Costa del Este / San Francisco",
-        tags: ["Casa", "Familia"],
-        image: "/images/property-2.jpg"
+        building: "PH (Edificio) — Avenida Balboa",
+        title: "Apartamento tipo inversión",
+        priceFrom: "Desde $210,000",
+        location: "Avenida Balboa, Ciudad de Panamá",
+        tags: ["Apartamento", "Inversión"],
+        image: "/images/properties/prop-02-cover.jpg",
+        images: [
+          "/images/properties/prop-02-cover.jpg",
+          "/images/properties/prop-02-2.jpg",
+          "/images/properties/prop-02-3.jpg",
+          "/images/properties/prop-02-4.jpg"
+        ],
+        highlights: ["1 recámara", "1 baño", "Amenidades"]
       },
       {
         id: "prop-03",
-        title: "Oficina corporativa lista para operar",
+        building: "PH (Edificio) — Avenida Balboa",
+        title: "Apartamento familiar amplio",
+        priceFrom: "Desde $540,000",
+        location: "Avenida Balboa, Ciudad de Panamá",
+        tags: ["Apartamento", "Familia"],
+        image: "/images/properties/prop-03-cover.jpg",
+        images: [
+          "/images/properties/prop-03-cover.jpg",
+          "/images/properties/prop-03-2.jpg",
+          "/images/properties/prop-03-3.jpg",
+          "/images/properties/prop-03-4.jpg"
+        ],
+        highlights: ["3 recámaras", "3 baños", "Balcón"]
+      },
+
+      {
+        id: "prop-04",
+        building: "PH (Edificio) — Costa del Este",
+        title: "Apartamento moderno",
+        priceFrom: "Desde $295,000",
+        location: "Costa del Este, Ciudad de Panamá",
+        tags: ["Apartamento", "Moderno"],
+        image: "/images/properties/prop-04-cover.jpg",
+        images: [
+          "/images/properties/prop-04-cover.jpg",
+          "/images/properties/prop-04-2.jpg",
+          "/images/properties/prop-04-3.jpg",
+          "/images/properties/prop-04-4.jpg"
+        ],
+        highlights: ["2 recámaras", "2 baños", "Área social"]
+      },
+      {
+        id: "prop-05",
+        building: "PH (Edificio) — Costa del Este",
+        title: "Apartamento con amenidades completas",
+        priceFrom: "Desde $360,000",
+        location: "Costa del Este, Ciudad de Panamá",
+        tags: ["Apartamento", "Amenidades"],
+        image: "/images/properties/prop-05-cover.jpg",
+        images: [
+          "/images/properties/prop-05-cover.jpg",
+          "/images/properties/prop-05-2.jpg",
+          "/images/properties/prop-05-3.jpg",
+          "/images/properties/prop-05-4.jpg"
+        ],
+        highlights: ["2 recámaras", "2.5 baños", "Depósito"]
+      },
+      {
+        id: "prop-06",
+        building: "PH (Edificio) — Costa del Este",
+        title: "Apartamento premium",
+        priceFrom: "Desde $490,000",
+        location: "Costa del Este, Ciudad de Panamá",
+        tags: ["Apartamento", "Premium"],
+        image: "/images/properties/prop-06-cover.jpg",
+        images: [
+          "/images/properties/prop-06-cover.jpg",
+          "/images/properties/prop-06-2.jpg",
+          "/images/properties/prop-06-3.jpg",
+          "/images/properties/prop-06-4.jpg"
+        ],
+        highlights: ["3 recámaras", "3 baños", "Vista"]
+      },
+
+      {
+        id: "prop-07",
+        building: "PH (Edificio) — San Francisco",
+        title: "Apartamento céntrico",
+        priceFrom: "Desde $180,000",
+        location: "San Francisco, Ciudad de Panamá",
+        tags: ["Apartamento", "Céntrico"],
+        image: "/images/properties/prop-07-cover.jpg",
+        images: [
+          "/images/properties/prop-07-cover.jpg",
+          "/images/properties/prop-07-2.jpg",
+          "/images/properties/prop-07-3.jpg",
+          "/images/properties/prop-07-4.jpg"
+        ],
+        highlights: ["1 recámara", "1 baño", "Cerca de todo"]
+      },
+      {
+        id: "prop-08",
+        building: "PH (Edificio) — San Francisco",
+        title: "Apartamento ideal para familia",
+        priceFrom: "Desde $260,000",
+        location: "San Francisco, Ciudad de Panamá",
+        tags: ["Apartamento", "Familia"],
+        image: "/images/properties/prop-08-cover.jpg",
+        images: [
+          "/images/properties/prop-08-cover.jpg",
+          "/images/properties/prop-08-2.jpg",
+          "/images/properties/prop-08-3.jpg",
+          "/images/properties/prop-08-4.jpg"
+        ],
+        highlights: ["2 recámaras", "2 baños", "Balcón"]
+      },
+
+      {
+        id: "prop-09",
+        building: "PH (Edificio) — Punta Pacífica",
+        title: "Apartamento con vista",
+        priceFrom: "Desde $410,000",
+        location: "Punta Pacífica, Ciudad de Panamá",
+        tags: ["Apartamento", "Vista"],
+        image: "/images/properties/prop-09-cover.jpg",
+        images: [
+          "/images/properties/prop-09-cover.jpg",
+          "/images/properties/prop-09-2.jpg",
+          "/images/properties/prop-09-3.jpg",
+          "/images/properties/prop-09-4.jpg"
+        ],
+        highlights: ["2 recámaras", "2 baños", "Amenidades"]
+      },
+      {
+        id: "prop-10",
+        building: "PH (Edificio) — Punta Pacífica",
+        title: "Apartamento tipo lujo",
+        priceFrom: "Desde $650,000",
+        location: "Punta Pacífica, Ciudad de Panamá",
+        tags: ["Apartamento", "Lujo"],
+        image: "/images/properties/prop-10-cover.jpg",
+        images: [
+          "/images/properties/prop-10-cover.jpg",
+          "/images/properties/prop-10-2.jpg",
+          "/images/properties/prop-10-3.jpg",
+          "/images/properties/prop-10-4.jpg"
+        ],
+        highlights: ["3 recámaras", "3.5 baños", "Vista al mar"]
+      },
+
+      {
+        id: "prop-11",
+        building: "PH (Edificio) — Área Bancaria",
+        title: "Oficina lista para operar",
         priceFrom: "Desde $210,000",
-        location: "Avenida Balboa",
+        location: "Área Bancaria, Ciudad de Panamá",
         tags: ["Comercial", "Oficina"],
-        image: "/images/property-3.jpg"
+        image: "/images/properties/prop-11-cover.jpg",
+        images: [
+          "/images/properties/prop-11-cover.jpg",
+          "/images/properties/prop-11-2.jpg",
+          "/images/properties/prop-11-3.jpg",
+          "/images/properties/prop-11-4.jpg"
+        ],
+        highlights: ["Lista para operar", "Ubicación estratégica", "Seguridad"]
       }
     ]
   },

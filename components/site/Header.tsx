@@ -18,9 +18,6 @@ const nav = [
   { href: "/contacto", label: "Contacto" }
 ];
 
-// Ruta del logo (debe existir en /public/images/)
-const LOGO_SRC = "/images/logo.png";
-
 export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -32,24 +29,22 @@ export default function Header() {
     );
   }, []);
 
+  const logoSrc = site.logo || "/images/logo.png";
+
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/85 backdrop-blur">
       <div className="h-px w-full gradient-line" />
       <Container>
         <div className="flex h-16 items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-3 no-underline">
-            {/* LOGO (imagen) */}
-            <div className="relative grid h-10 w-10 place-items-center rounded-2xl border border-slate-200 bg-white shadow-soft overflow-hidden">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(18,182,182,0.35),transparent_60%)]" />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(214,177,94,0.22),transparent_55%)]" />
-
-              {/* Imagen del logo */}
+            {/* LOGO (más grande + sin fondos/gradientes) */}
+            <div className="relative grid h-12 w-12 sm:h-14 sm:w-14 place-items-center rounded-2xl bg-white shadow-soft overflow-hidden">
               <Image
-                src={LOGO_SRC}
+                src={logoSrc}
                 alt={`${site.brand} logo`}
                 fill
-                sizes="40px"
-                className="relative z-10 object-contain p-1"
+                sizes="(min-width: 640px) 56px, 48px"
+                className="object-contain"
                 priority
               />
             </div>

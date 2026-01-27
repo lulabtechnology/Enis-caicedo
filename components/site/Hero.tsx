@@ -15,10 +15,22 @@ export default function Hero() {
     <section className="relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 hidden md:block">
-        <Image src="/images/hero-desktop.jpg" alt="Hero Enis Caicedo" fill priority className="object-cover" />
+        <Image
+          src="/images/hero-desktop.jpg"
+          alt="Hero Enis Caicedo"
+          fill
+          priority
+          className="object-cover"
+        />
       </div>
       <div className="absolute inset-0 md:hidden">
-        <Image src="/images/hero-mobile.jpg" alt="Hero Enis Caicedo móvil" fill priority className="object-cover" />
+        <Image
+          src="/images/hero-mobile.jpg"
+          alt="Hero Enis Caicedo móvil"
+          fill
+          priority
+          className="object-cover"
+        />
       </div>
 
       {/* Overlay: SOLO VERDES (sin dorado) */}
@@ -40,7 +52,6 @@ export default function Hero() {
                   {copy.hero.name}
                 </h1>
 
-                {/* Subtítulo (4ta imagen) */}
                 <p className="mt-3 text-lg font-semibold text-[#12B6B6] opacity-90 sm:text-xl">
                   {copy.hero.role}
                 </p>
@@ -62,9 +73,14 @@ export default function Hero() {
                 </div>
 
                 <div className="mt-8 flex flex-wrap items-center gap-3">
-                  <Button href={waHref} variant="primary">
+                  <Button
+                    href={waHref}
+                    variant="primary"
+                    className="after:border-[#12B6B6]/35"
+                  >
                     {copy.hero.primaryCta} <ArrowRight size={16} />
                   </Button>
+
                   <Button
                     href="/servicios-legales"
                     variant="secondary"
@@ -116,7 +132,6 @@ export default function Hero() {
                     <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(7,22,28,0.62))]" />
                   </div>
 
-                  {/* 5ta imagen: un solo color + texto requerido */}
                   <div className="p-5">
                     <p className="text-sm font-semibold text-[#12B6B6]">
                       Abogada &amp; Real Estate
@@ -127,10 +142,7 @@ export default function Hero() {
                   </div>
                 </div>
 
-                <p className="mt-3 text-xs text-white/65">
-                  Foto: <span className="font-semibold text-white/80">/public/images/enis-profile.jpg</span> y{" "}
-                  <span className="font-semibold text-white/80">/public/images/enis-profile-mobile.jpg</span>
-                </p>
+                {/* ✅ Eliminado el texto de rutas que estaba circundado */}
               </div>
             </div>
           </div>

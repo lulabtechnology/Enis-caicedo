@@ -295,32 +295,60 @@ export const copy = {
     ],
 
     // ✅ NUEVO: LOTES (misma estructura para que reuse PropertyCard)
-    lots: [
-      {
-        id: "lot-01",
-        building: "Las Guías de Occidente",
-        title: "Lote de 3,723 m² a orilla de calle (alto potencial)",
-        priceFrom: "Consultar precio",
-        location: "Las Guías de Occidente, Antón (Coclé)",
-        tags: ["Lote", "Inversión", "Alto potencial"],
-        image: "/images/lots/lot-01-cover.jpg",
-        images: [
-          "/images/lots/lot-01-cover.jpg",
-          "/images/lots/lot-01-2.jpg",
-          "/images/lots/lot-01-3.jpg",
-          "/images/lots/lot-01-4.jpg"
-        ],
-        highlights: [
-          "3,723 m² planos",
-          "A orilla de calle y acceso inmediato a la vía principal",
-          "Cerca de playas atractivas de la zona",
-          "A minutos del Aeropuerto de Antón",
-          "Área en crecimiento y desarrollo",
-          "Ideal para proyecto comercial, turístico o residencial",
-          "Ubicación premium, inversión segura"
-        ]
-      }
+   lots: [
+  {
+    id: "lot-01",
+    building: "Las Guías de Occidente",
+    title: "Lote de 3,723 m² a orilla de calle (alto potencial)",
+    priceFrom: "Consultar precio",
+    location: "Las Guías de Occidente, Antón (Coclé)",
+    tags: ["Lote", "Inversión", "Alto potencial"],
+    image: "/images/lots/lot-01-cover.jpg",
+    images: [
+      "/images/lots/lot-01-cover.jpg",
+      "/images/lots/lot-01-2.jpg",
+      "/images/lots/lot-01-3.jpg",
+      "/images/lots/lot-01-4.jpg"
+    ],
+    highlights: [
+      "3,723 m² planos",
+      "A orilla de calle y acceso inmediato a la vía principal",
+      "Cerca de playas atractivas de la zona",
+      "A minutos del Aeropuerto de Antón",
+      "Área en crecimiento y desarrollo",
+      "Ideal para proyecto comercial, turístico o residencial",
+      "Ubicación premium, inversión segura"
     ]
+  },
+
+  // ✅ NUEVO: Oportunidad en La Chorrera (la mostramos en Lotes/Oportunidades sin tocar componentes)
+  {
+    id: "lot-02",
+    building: "La Chorrera (Matuna)",
+    title: "Casa esquinera 2 pisos – oportunidad comercial (Matuna)",
+    priceFrom: "Precio oportunidad: $420,000",
+    location: "Detrás del Estadio Matuna, La Chorrera (Panamá Oeste)",
+    tags: ["Oportunidad", "Esquinera", "Comercial", "Inversión"],
+    image: "/images/lots/lot-02-cover.jpg",
+    images: [
+      "/images/lots/lot-02-cover.jpg",
+      "/images/lots/lot-02-2.jpg",
+      "/images/lots/lot-02-3.jpg",
+      "/images/lots/lot-02-4.jpg"
+    ],
+    highlights: [
+      "Esquinera (mayor visibilidad y accesibilidad)",
+      "736 m² de terreno",
+      "2 niveles y espacios XL",
+      "9 habitaciones / 8 baños",
+      "5 estacionamientos",
+      "Frente a nuevos desarrollos (Machetazo + Farmacia Arrocha)",
+      "Zona en expansión comercial (alto potencial de valorización)",
+      "Ideal para: clínica, hostal/Airbnb, oficinas, restaurante, mini plaza"
+    ]
+  }
+]
+
   },
 
   contact: {

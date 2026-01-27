@@ -39,14 +39,15 @@ export default function Header() {
           <Link href="/" className="flex items-center gap-3 no-underline">
             {/* LOGO (más grande + sin fondos/gradientes) */}
             <div className="relative grid h-12 w-12 sm:h-14 sm:w-14 place-items-center rounded-2xl bg-white shadow-soft overflow-hidden">
-              <Image
-                src={logoSrc}
-                alt={`${site.brand} logo`}
-                fill
-                sizes="(min-width: 640px) 56px, 48px"
-                className="object-contain"
-                priority
-              />
+             <Image
+  src={logoSrc}
+  alt={`${site.brand} logo`}
+  fill
+  sizes="(min-width: 640px) 56px, 48px"
+  className="object-contain scale-[1.18]"
+  priority
+/>
+
             </div>
 
             <div className="leading-tight">

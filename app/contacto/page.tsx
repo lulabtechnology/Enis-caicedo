@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Container from "@/components/ui/Container";
 import ContactForm from "@/components/site/ContactForm";
 import { site, copy } from "@/content/site";
@@ -17,7 +18,8 @@ export default function ContactPage() {
       <section className="py-14 sm:py-16">
         <Container>
           <div className="grid gap-10 lg:grid-cols-12 lg:items-start">
-            <div className="lg:col-span-5">
+            {/* LEFT */}
+            <div className="lg:col-span-5 space-y-6">
               <div className="surface-tint p-7 sm:p-8">
                 <p className="kicker">Información</p>
                 <h2 className="h2 mt-3">Canales oficiales</h2>
@@ -28,7 +30,9 @@ export default function ContactPage() {
                     <div className="flex items-center gap-2 text-sm font-semibold text-slate-900">
                       <MapPin size={16} className="text-brand-teal" /> Dirección
                     </div>
-                    <p className="mt-3 text-sm leading-6 text-slate-600">{site.locationLine}</p>
+                    <p className="mt-3 text-sm leading-6 text-slate-600">
+                      {site.locationLine}
+                    </p>
                   </div>
 
                   <div className="card p-6">
@@ -44,8 +48,44 @@ export default function ContactPage() {
                   </div>
                 </div>
               </div>
+
+              {/* FOTO CONTACTO (desktop + mobile) */}
+              <div className="surface-tint overflow-hidden">
+                <div className="relative aspect-[4/5] w-full">
+                  {/* Desktop */}
+                  <div className="absolute inset-0 hidden md:block">
+                    <Image
+                      src="/images/contact-photo.jpg"
+                      alt="Enis Caicedo"
+                      fill
+                      className="object-cover"
+                      priority={false}
+                    />
+                  </div>
+
+                  {/* Mobile */}
+                  <div className="absolute inset-0 md:hidden">
+                    <Image
+                      src="/images/contact-photo-mobile.jpg"
+                      alt="Enis Caicedo (móvil)"
+                      fill
+                      className="object-cover"
+                      priority={false}
+                    />
+                  </div>
+
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(7,22,28,0.55))]" />
+                </div>
+
+                <div className="p-6">
+                  <p className="text-sm font-semibold text-slate-900">{site.brand}</p>
+                  <p className="mt-1 text-sm text-slate-600">Abogada &amp; Real Estate</p>
+                </div>
+              </div>
+              {/* /FOTO CONTACTO */}
             </div>
 
+            {/* RIGHT */}
             <div className="lg:col-span-7">
               <ContactForm subject="Contacto / Agendar cita" />
             </div>

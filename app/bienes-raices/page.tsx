@@ -4,6 +4,9 @@ import ContactForm from "@/components/site/ContactForm";
 import { copy } from "@/content/site";
 
 export default function RealEstatePage() {
+  const hooks =
+    (copy.realestate as { hooks?: Record<string, string> }).hooks ?? {};
+
   return (
     <>
       <PageHero
@@ -24,7 +27,7 @@ export default function RealEstatePage() {
                 <div key={b} className="card p-6">
                   <div className="text-base font-semibold text-slate-900">{b}</div>
                   <p className="mt-2 text-sm leading-6 text-slate-600">
-                    Enfoque práctico para reducir riesgos y proteger su patrimonio.
+                    {hooks[b] ?? "Enfoque práctico para reducir riesgos y proteger su patrimonio."}
                   </p>
                 </div>
               ))}

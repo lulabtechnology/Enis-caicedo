@@ -4,6 +4,9 @@ import ContactForm from "@/components/site/ContactForm";
 import { copy } from "@/content/site";
 
 export default function LegalPage() {
+  const hooks =
+    (copy.legal as { hooks?: Record<string, string> }).hooks ?? {};
+
   return (
     <>
       <PageHero
@@ -24,7 +27,7 @@ export default function LegalPage() {
                 <div key={a} className="card p-6">
                   <div className="text-base font-semibold text-slate-900">{a}</div>
                   <p className="mt-2 text-sm leading-6 text-slate-600">
-                    Representación legal y asesoría con enfoque estratégico.
+                    {hooks[a] ?? "Representación legal y asesoría con enfoque estratégico."}
                   </p>
                 </div>
               ))}

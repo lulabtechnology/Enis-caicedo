@@ -9,7 +9,7 @@ export const site = {
   // WhatsApp oficial (E.164)
   whatsapp: "+50763782755",
 
-  email: "contacto@tudominio.com",
+  email: "enislawpty@gmail.com",
   phone: "+507 6378-2755",
 
   socials: {

@@ -1,7 +1,7 @@
 export const site = {
   brand: "Enis Caicedo",
   tagline: "Soluciones Legales e Inmobiliarias en Panamá",
-  locationLine: "Avenida Balboa, edificio BOC, Balboa Office Center, piso 34, oficina 3422",
+  locationLine: "Marbella, edificio World Trade Center, piso 19, oficina 1902",
 
   // ✅ Logo (lo usaremos en Header cuando me pegues Header.tsx)
   logo: "/images/logo.png",

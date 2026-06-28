@@ -1,0 +1,11 @@
+{
+  "generatedAt": null,
+  "source": "ACOBIR IDX",
+  "feeds": ["res", "com"],
+  "counts": {
+    "total": 0,
+    "residential": 0,
+    "commercial": 0
+  },
+  "listings": []
+}

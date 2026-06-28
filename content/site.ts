@@ -127,8 +127,7 @@ export const copy = {
         images: [
           "/images/properties/prop-01-cover.jpg",
           "/images/properties/prop-01-2.jpg",
-          "/images/properties/prop-01-3.jpg",
-          "/images/properties/prop-01-4.jpg"
+          "/images/properties/prop-01-3.jpg"
         ],
         highlights: ["Metraje desde 53 m²", "Proyecto nuevo", "Solicite disponibilidad"]
       },
@@ -223,8 +222,7 @@ export const copy = {
         images: [
           "/images/properties/prop-07-cover.jpg",
           "/images/properties/prop-07-2.jpg",
-          "/images/properties/prop-07-3.jpg",
-          "/images/properties/prop-07-4.jpg"
+          "/images/properties/prop-07-3.jpg"
         ],
         highlights: ["Metraje desde 304 m²", "Proyecto de playa", "Solicite disponibilidad"]
       },
@@ -271,8 +269,7 @@ export const copy = {
         images: [
           "/images/properties/prop-10-cover.jpg",
           "/images/properties/prop-10-2.jpg",
-          "/images/properties/prop-10-3.jpg",
-          "/images/properties/prop-10-4.jpg"
+          "/images/properties/prop-10-3.jpg"
         ],
         highlights: ["Facilidades de pago", "Amenidades de lujo", "Rentas cortas"]
       },
@@ -287,8 +284,7 @@ export const copy = {
         images: [
           "/images/properties/prop-11-cover.jpg",
           "/images/properties/prop-11-2.jpg",
-          "/images/properties/prop-11-3.jpg",
-          "/images/properties/prop-11-4.jpg"
+          "/images/properties/prop-11-3.jpg"
         ],
         highlights: ["Metraje desde 45 m²", "A pasos de Avenida Balboa", "Rentas cortas"]
       }

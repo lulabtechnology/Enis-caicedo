@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { site } from "@/content/site";
@@ -13,9 +14,17 @@ export type Property = {
   priceFrom: string;
   location: string;
   tags: string[];
-  image: string;     // portada
-  images: string[];  // 4 imágenes (portada + 3)
+  image: string;
+  images: string[];
   highlights: string[];
+  description?: string;
+  source?: string;
+  operation?: string;
+  propertyType?: string;
+  bedrooms?: number;
+  bathrooms?: number;
+  area?: string;
+  lotArea?: string;
 };
 
 export default function PropertyCard({ p }: { p: Property }) {
@@ -23,10 +32,13 @@ export default function PropertyCard({ p }: { p: Property }) {
   const [active, setActive] = useState(0);
 
   const gallery = useMemo(() => {
-    const base = Array.isArray(p.images) && p.images.length ? p.images : [p.image];
-    const normalized = [p.image, ...base.filter((x) => x !== p.image)];
-    return normalized.slice(0, 4);
+    const cover = p.image || "/images/properties-banner.jpg";
+    const base = Array.isArray(p.images) && p.images.length ? p.images : [cover];
+    const normalized = [cover, ...base.filter((x) => x && x !== cover)];
+    return normalized.slice(0, 12);
   }, [p.image, p.images]);
+
+  const detailHref = `/propiedades/${p.id}`;
 
   const wa = waLink(
     site.whatsapp,
@@ -60,7 +72,7 @@ export default function PropertyCard({ p }: { p: Property }) {
           onClick={() => setOpen(true)}
           aria-label={`Ver fotos de ${p.title}`}
         >
-          <Image src={p.image} alt={p.title} fill className="object-cover" />
+          <Image src={gallery[0]} alt={p.title} fill className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/65 via-brand-ink/10 to-transparent" />
 
           <div className="absolute top-4 left-4 inline-flex rounded-full border border-brand-aqua/30 bg-white/90 px-3 py-1 text-xs font-semibold text-slate-900">
@@ -90,6 +102,11 @@ export default function PropertyCard({ p }: { p: Property }) {
           ) : null}
 
           <div className="mt-4 flex flex-wrap gap-2">
+            {p.source ? (
+              <span className="rounded-full border border-brand-aqua/40 bg-brand-aqua/10 px-3 py-1 text-xs font-semibold text-brand-teal">
+                {p.source}
+              </span>
+            ) : null}
             {p.tags.map((t) => (
               <span
                 key={t}
@@ -108,6 +125,13 @@ export default function PropertyCard({ p }: { p: Property }) {
               WhatsApp
             </Button>
           </div>
+
+          <Link
+            href={detailHref}
+            className="mt-4 inline-flex text-sm font-semibold text-brand-teal no-underline hover:text-brand-deep"
+          >
+            Ver ficha completa
+          </Link>
         </div>
       </div>
 
@@ -190,7 +214,7 @@ export default function PropertyCard({ p }: { p: Property }) {
                   </div>
 
                   <p className="mt-4 text-xs text-slate-500">
-                    Galería: 4 imágenes (portada + 3).
+                    Galería: {gallery.length} imagen{gallery.length === 1 ? "" : "es"}.
                   </p>
                 </div>
               </div>

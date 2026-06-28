@@ -4,19 +4,6 @@ import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
 import WhatsAppFloat from "@/components/site/WhatsAppFloat";
 import { site } from "@/content/site";
-import { Playfair_Display, Montserrat } from "next/font/google";
-
-const fontDisplay = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-display",
-  display: "swap"
-});
-
-const fontSans = Montserrat({
-  subsets: ["latin"],
-  variable: "--font-sans",
-  display: "swap"
-});
 
 export const metadata: Metadata = {
   title: `${site.brand} | ${site.tagline}`,
@@ -25,7 +12,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={`${fontSans.variable} ${fontDisplay.variable}`}>
+    <html lang="es">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Playfair+Display:wght@400..900&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body>
         <Header />
         <main>{children}</main>

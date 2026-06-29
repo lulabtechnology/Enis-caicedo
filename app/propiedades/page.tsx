@@ -2,17 +2,17 @@ import PageHero from "@/components/site/PageHero";
 import Container from "@/components/ui/Container";
 import { copy } from "@/content/site";
 import PropertyCard from "@/components/site/PropertyCard";
-import { getIdxData, getIdxProperties } from "@/lib/idx/local-store";
-import { getManualProperties, groupPropertiesByBuilding } from "@/lib/properties";
+import { getIdxData } from "@/lib/idx/local-store";
+import { getActivePropertiesForSite, groupPropertiesByBuilding } from "@/lib/properties";
 import { Info, RefreshCw } from "lucide-react";
 
-export default function PropertiesPage() {
+export const dynamic = "force-dynamic";
+
+export default async function PropertiesPage() {
   const idxData = getIdxData();
-  const idxProperties = getIdxProperties();
-  const manualProperties = getManualProperties();
-  const activeProperties = idxProperties.length ? idxProperties : manualProperties;
+  const { properties: activeProperties, usingIdx } = await getActivePropertiesForSite();
   const grouped = groupPropertiesByBuilding(activeProperties);
-  const usingIdx = idxProperties.length > 0;
+  const total = activeProperties.length;
 
   return (
     <>
@@ -32,7 +32,7 @@ export default function PropertiesPage() {
                 <h2 className="h2 mt-2">{usingIdx ? "Propiedades ACOBIR IDX" : "Propiedades destacadas"}</h2>
                 <p className="p mt-3 max-w-3xl">
                   {usingIdx
-                    ? "Listado conectado al feed IDX. Las imágenes se sirven desde esta web, no como hotlink externo."
+                    ? "Listado conectado al feed IDX. Las imágenes se sirven desde Supabase Storage, no como hotlink externo."
                     : "Inventario manual mientras se conecta y sincroniza el feed IDX de ACOBIR."}
                 </p>
               </div>
@@ -40,12 +40,14 @@ export default function PropertiesPage() {
               <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600 shadow-soft">
                 <div className="flex items-center gap-2 font-semibold text-slate-900">
                   <RefreshCw size={16} className="text-brand-teal" />
-                  {usingIdx ? `${idxData.counts.total} propiedades IDX` : "Modo manual"}
+                  {usingIdx ? `${total} propiedades IDX` : "Modo manual"}
                 </div>
                 <p className="mt-1 text-xs text-slate-500">
                   {idxData.generatedAt
-                    ? `Última sincronización: ${new Date(idxData.generatedAt).toLocaleString("es-PA")}`
-                    : "IDX listo para sincronizar cuando se configuren las credenciales."}
+                    ? `Última sincronización local: ${new Date(idxData.generatedAt).toLocaleString("es-PA")}`
+                    : usingIdx
+                      ? "Datos cargados desde Supabase."
+                      : "IDX listo para sincronizar cuando se configuren las credenciales."}
                 </p>
               </div>
             </div>

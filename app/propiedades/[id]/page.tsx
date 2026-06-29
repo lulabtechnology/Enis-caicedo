@@ -5,15 +5,18 @@ import PageHero from "@/components/site/PageHero";
 import Container from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { site } from "@/content/site";
-import { getAllPropertiesForSite, getPropertyById } from "@/lib/properties";
+import { getPropertyById } from "@/lib/properties";
 import { waLink } from "@/lib/links";
 
-export function generateStaticParams() {
-  return getAllPropertiesForSite().map((property) => ({ id: property.id }));
+export const dynamic = "force-dynamic";
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  return [];
 }
 
-export function generateMetadata({ params }: { params: { id: string } }): Metadata {
-  const property = getPropertyById(params.id);
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+  const property = await getPropertyById(params.id);
 
   if (!property) {
     return {
@@ -32,8 +35,8 @@ export function generateMetadata({ params }: { params: { id: string } }): Metada
   };
 }
 
-export default function PropertyDetailPage({ params }: { params: { id: string } }) {
-  const property = getPropertyById(params.id);
+export default async function PropertyDetailPage({ params }: { params: { id: string } }) {
+  const property = await getPropertyById(params.id);
 
   if (!property) notFound();
 

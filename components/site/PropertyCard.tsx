@@ -19,6 +19,9 @@ export type Property = {
   highlights: string[];
   description?: string;
   source?: string;
+  feedType?: "res" | "com";
+  uniqueId?: string;
+  listingPhotoCount?: number;
   operation?: string;
   propertyType?: string;
   bedrooms?: number;

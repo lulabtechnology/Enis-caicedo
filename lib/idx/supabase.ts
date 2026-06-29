@@ -101,6 +101,67 @@ export function createSupabaseAdminClient(): SupabaseClient {
   return createClient(config.url, config.serviceRoleKey, supabaseServerOptions);
 }
 
+
+function buildSupabasePublicPhotoUrl(configUrl: string, bucket: string, uniqueId: string, fileName: string): string {
+  const cleanBase = configUrl.replace(/\/+$/, "");
+  const safeBucket = encodeURIComponent(bucket);
+  const objectPath = [uniqueId, fileName].map((part) => encodeURIComponent(part)).join("/");
+  return `${cleanBase}/storage/v1/object/public/${safeBucket}/${objectPath}`;
+}
+
+function photoInfoFromValue(value: string): { uniqueId: string; fileName: string } | null {
+  const trimmed = String(value || "").trim();
+  if (!trimmed) return null;
+
+  const localMatch = trimmed.match(/(?:^|\/)idx\/photos\/([^/?#]+\.L\d{2}\.jpg)$/i);
+  if (localMatch?.[1]) {
+    const fileName = localMatch[1];
+    const uniqueId = fileName.replace(/\.L\d{2}\.jpg$/i, "");
+    return { uniqueId, fileName };
+  }
+
+  try {
+    const url = new URL(trimmed);
+    const isRealityServerPhoto = url.hostname.includes("images.realtyserver.com") && url.pathname.includes("photo_server.php");
+    const name = url.searchParams.get("name");
+    if (isRealityServerPhoto && name && /\.L\d{2}$/i.test(name)) {
+      const uniqueId = name.replace(/\.L\d{2}$/i, "");
+      return { uniqueId, fileName: `${name}.jpg` };
+    }
+  } catch {
+    // No es una URL absoluta. Si no coincide con el patrón local, se deja igual.
+  }
+
+  return null;
+}
+
+function resolveSupabasePhotoValue(value: string, config: SupabaseIdxConfig): string {
+  const trimmed = String(value || "").trim();
+  if (!trimmed) return trimmed;
+
+  if (trimmed.includes("/storage/v1/object/public/")) return trimmed;
+  if (!config.url || !config.bucket) return trimmed;
+
+  const photoInfo = photoInfoFromValue(trimmed);
+  if (!photoInfo) return trimmed;
+
+  return buildSupabasePublicPhotoUrl(config.url, config.bucket, photoInfo.uniqueId, photoInfo.fileName);
+}
+
+function withResolvedSupabasePhotoUrls(property: IdxProperty, config: SupabaseIdxConfig): IdxProperty {
+  const images = Array.isArray(property.images)
+    ? property.images.map((src) => resolveSupabasePhotoValue(src, config)).filter(Boolean)
+    : [];
+
+  const image = resolveSupabasePhotoValue(property.image, config) || images[0] || property.image;
+
+  return {
+    ...property,
+    image,
+    images: images.length ? Array.from(new Set(images)) : property.images
+  };
+}
+
 export function idxPropertyToSupabaseRow(property: IdxProperty): SupabaseListingRow {
   return {
     id: property.id,
@@ -122,8 +183,9 @@ export function idxPropertyToSupabaseRow(property: IdxProperty): SupabaseListing
 }
 
 export async function getSupabaseIdxListings(): Promise<IdxProperty[]> {
+  const config = getSupabaseIdxConfig();
   const client = createSupabaseReadClient();
-  if (!client) return [];
+  if (!client || !config) return [];
 
   const { data, error } = await client
     .from("idx_listings")
@@ -137,12 +199,14 @@ export async function getSupabaseIdxListings(): Promise<IdxProperty[]> {
 
   return (data ?? [])
     .map((row: { payload?: IdxProperty | null }) => row.payload)
-    .filter((property): property is IdxProperty => Boolean(property));
+    .filter((property): property is IdxProperty => Boolean(property))
+    .map((property) => withResolvedSupabasePhotoUrls(property, config));
 }
 
 export async function getSupabaseIdxListingById(id: string): Promise<IdxProperty | null> {
+  const config = getSupabaseIdxConfig();
   const client = createSupabaseReadClient();
-  if (!client) return null;
+  if (!client || !config) return null;
 
   const { data, error } = await client
     .from("idx_listings")
@@ -155,5 +219,6 @@ export async function getSupabaseIdxListingById(id: string): Promise<IdxProperty
     return null;
   }
 
-  return (data?.payload as IdxProperty | undefined) ?? null;
+  const property = (data?.payload as IdxProperty | undefined) ?? null;
+  return property ? withResolvedSupabasePhotoUrls(property, config) : null;
 }

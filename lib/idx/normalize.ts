@@ -6,7 +6,28 @@ const FALLBACK_IMAGE = "/images/properties-banner.jpg";
 const fieldCandidates = {
   uniqueId: ["unique_id", "uniqueid", "listing_unique_id", "mls_id", "mls_number", "listing_id", "id"],
   photoCount: ["listing_photo_count", "photo_count", "photos", "num_photos", "cantidad_fotos"],
-  price: ["price", "list_price", "listing_price", "asking_price", "precio", "precio_venta", "rental_price"],
+  price: [
+    "price",
+    "list_price",
+    "listing_price",
+    "asking_price",
+    "current_price",
+    "sale_price",
+    "sales_price",
+    "rent_price",
+    "rental_price",
+    "monthly_rent",
+    "lease_price",
+    "precio",
+    "precio_lista",
+    "precio_de_lista",
+    "precio_venta",
+    "precio_de_venta",
+    "precio_renta",
+    "precio_alquiler",
+    "valor",
+    "valor_venta"
+  ],
   title: ["title", "listing_title", "marketing_title", "titulo", "headline"],
   description: ["public_remarks", "remarks", "description", "descripcion", "comentarios", "observaciones"],
   building: ["building", "building_name", "edificio", "project_name", "subdivision", "neighborhood", "neighbourhood", "barrio", "zona"],
@@ -49,14 +70,94 @@ function read(record: IdxRawRecord, keyMap: Map<string, string>, candidates: str
   return "";
 }
 
+function parseNumericValue(value: string): number {
+  let normalized = String(value || "")
+    .replace(/[^0-9.,-]/g, "")
+    .trim();
+
+  if (!normalized) return Number.NaN;
+
+  const hasComma = normalized.includes(",");
+  const hasDot = normalized.includes(".");
+
+  if (hasComma && hasDot) {
+    const lastComma = normalized.lastIndexOf(",");
+    const lastDot = normalized.lastIndexOf(".");
+    normalized = lastComma > lastDot
+      ? normalized.replace(/\./g, "").replace(",", ".")
+      : normalized.replace(/,/g, "");
+  } else if (hasComma) {
+    const commaParts = normalized.split(",");
+    const last = commaParts[commaParts.length - 1] ?? "";
+    normalized = last.length === 3 ? normalized.replace(/,/g, "") : normalized.replace(",", ".");
+  }
+
+  return Number(normalized);
+}
+
 function toNumber(value: string): number | undefined {
-  const normalized = value.replace(/[^0-9.]/g, "");
-  const parsed = Number(normalized);
+  const parsed = parseNumericValue(value);
   return Number.isFinite(parsed) && parsed > 0 ? parsed : undefined;
 }
 
+function looksLikePriceKey(key: string): boolean {
+  const normalized = normalizeKey(key);
+  const includesPriceWord = [
+    "price",
+    "precio",
+    "valor",
+    "renta",
+    "rental",
+    "rent",
+    "alquiler",
+    "venta",
+    "sale"
+  ].some((word) => normalized.includes(word));
+
+  const isNoise = [
+    "per",
+    "por",
+    "metro",
+    "meter",
+    "sq",
+    "m2",
+    "maintenance",
+    "mantenimiento",
+    "hoa",
+    "condo",
+    "tax",
+    "impuesto",
+    "fee",
+    "comision",
+    "commission"
+  ].some((word) => normalized.includes(word));
+
+  return includesPriceWord && !isNoise;
+}
+
+function readPrice(record: IdxRawRecord, keyMap: Map<string, string>): string {
+  const direct = read(record, keyMap, fieldCandidates.price);
+  if (toNumber(direct)) return direct;
+
+  const fallback = Object.entries(record)
+    .filter(([key, value]) => looksLikePriceKey(key) && toNumber(String(value ?? "")))
+    .sort(([keyA], [keyB]) => {
+      const score = (key: string) => {
+        const normalized = normalizeKey(key);
+        if (normalized.includes("list") || normalized.includes("lista")) return 0;
+        if (normalized.includes("current")) return 1;
+        if (normalized.includes("sale") || normalized.includes("venta")) return 2;
+        if (normalized.includes("rent") || normalized.includes("renta") || normalized.includes("alquiler")) return 3;
+        return 4;
+      };
+      return score(keyA) - score(keyB);
+    })[0];
+
+  return fallback ? String(fallback[1] ?? "").trim() : direct;
+}
+
 function formatMoney(value: string): string {
-  const parsed = Number(value.replace(/[^0-9.]/g, ""));
+  const parsed = parseNumericValue(value);
   if (!Number.isFinite(parsed) || parsed <= 0) return value || "Consultar precio";
 
   return new Intl.NumberFormat("es-PA", {
@@ -93,7 +194,7 @@ export function normalizeIdxRecord(
   const listingPhotoCount = normalizePhotoCount(read(record, keyMap, fieldCandidates.photoCount));
   const photos = buildIdxPhotos(uniqueId, listingPhotoCount, options.maxPhotos ?? 12);
 
-  const price = read(record, keyMap, fieldCandidates.price);
+  const price = readPrice(record, keyMap);
   const propertyType = read(record, keyMap, fieldCandidates.propertyType) || (feedType === "res" ? "Residencial" : "Comercial");
   const operation = read(record, keyMap, fieldCandidates.operation) || "Disponible";
   const building = read(record, keyMap, fieldCandidates.building) || titleCaseFallback(read(record, keyMap, fieldCandidates.city));

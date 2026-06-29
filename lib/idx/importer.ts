@@ -5,6 +5,7 @@ import { mkdir, readFile, rm, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { DEFAULT_IDX_HOST, IDX_DATA_PATH, IDX_PHOTO_PUBLIC_DIR, parseFeeds } from "./config";
 import { buildIdxPhotoUrl, photoFileName } from "./photos";
+import { filterAllowedIdxProperties, getAllowedIdxZoneLabel } from "./allowed-zones";
 import { normalizeIdxRecords } from "./normalize";
 import type { IdxDataFile, IdxFeedType, IdxProperty, IdxRawRecord } from "./types";
 import { createSupabaseAdminClient, idxPropertyToSupabaseRow, requireSupabaseAdminConfig } from "./supabase";
@@ -396,17 +397,19 @@ export async function runIdxImport(options: RunIdxImportOptions = {}): Promise<R
       }
 
       const records = await parseCsvFile(csvPath);
-      const properties = normalizeIdxRecords(records, feed, {
+      const normalizedProperties = normalizeIdxRecords(records, feed, {
         maxPhotos,
         includeRaw
       });
+      const properties = filterAllowedIdxProperties(normalizedProperties);
 
-      log(`${feed}: ${properties.length} propiedades normalizadas.`);
+      log(`${feed}: ${normalizedProperties.length} propiedades normalizadas.`);
+      log(`${feed}: ${properties.length} propiedades permitidas para ${getAllowedIdxZoneLabel()}.`);
       allProperties.push(...properties);
     }
 
     if (!allProperties.length) {
-      throw new Error("No se importó ninguna propiedad IDX. Revise credenciales, prefijos y archivos CSV disponibles.");
+      throw new Error(`No se importó ninguna propiedad IDX para las zonas permitidas (${getAllowedIdxZoneLabel()}). Revise el filtro IDX_ALLOWED_ZONES o los campos de ubicación del CSV.`);
     }
 
     let writtenSupabase = false;

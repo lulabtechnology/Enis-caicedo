@@ -41,9 +41,10 @@ export default async function PropertyDetailPage({ params }: { params: { id: str
   if (!property) notFound();
 
   const gallery = Array.from(new Set([property.image, ...(property.images ?? [])].filter(Boolean))).slice(0, 12);
+  const mlsCode = property.uniqueId ? `MLS/ACOBIR: ${property.uniqueId}` : "";
   const wa = waLink(
     site.whatsapp,
-    `Hola, me interesa esta propiedad: ${property.title}\n${property.priceFrom}\nUbicación: ${property.location}\nLink: /propiedades/${property.id}\n¿Me puede compartir más información?`
+    `Hola, me interesa esta propiedad: ${property.title}\n${property.priceFrom}\n${mlsCode ? `${mlsCode}\n` : ""}Ubicación: ${property.location}\nLink: /propiedades/${property.id}\n¿Me puede compartir más información?`
   );
 
   return (
@@ -87,6 +88,11 @@ export default async function PropertyDetailPage({ params }: { params: { id: str
                 <p className="kicker">Ficha</p>
                 <h1 className="mt-2 font-display text-2xl font-semibold text-slate-900">{property.title}</h1>
                 <p className="mt-3 text-lg font-semibold text-brand-teal">{property.priceFrom}</p>
+                {property.uniqueId ? (
+                  <p className="mt-2 text-xs font-semibold tracking-wide text-brand-teal">
+                    MLS/ACOBIR: {property.uniqueId}
+                  </p>
+                ) : null}
                 <p className="mt-2 text-sm leading-6 text-slate-600">{property.location}</p>
 
                 <div className="mt-5 flex flex-wrap gap-2">

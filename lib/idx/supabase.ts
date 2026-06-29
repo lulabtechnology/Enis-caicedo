@@ -1,5 +1,6 @@
 import { createClient, type SupabaseClient, type SupabaseClientOptions } from "@supabase/supabase-js";
 import WebSocket from "ws";
+import { isAllowedIdxProperty } from "./allowed-zones";
 import type { IdxProperty } from "./types";
 
 export const DEFAULT_SUPABASE_BUCKET = "idx-photos";
@@ -200,7 +201,8 @@ export async function getSupabaseIdxListings(): Promise<IdxProperty[]> {
   return (data ?? [])
     .map((row: { payload?: IdxProperty | null }) => row.payload)
     .filter((property): property is IdxProperty => Boolean(property))
-    .map((property) => withResolvedSupabasePhotoUrls(property, config));
+    .map((property) => withResolvedSupabasePhotoUrls(property, config))
+    .filter(isAllowedIdxProperty);
 }
 
 export async function getSupabaseIdxListingById(id: string): Promise<IdxProperty | null> {
@@ -220,5 +222,8 @@ export async function getSupabaseIdxListingById(id: string): Promise<IdxProperty
   }
 
   const property = (data?.payload as IdxProperty | undefined) ?? null;
-  return property ? withResolvedSupabasePhotoUrls(property, config) : null;
+  if (!property) return null;
+
+  const resolvedProperty = withResolvedSupabasePhotoUrls(property, config);
+  return isAllowedIdxProperty(resolvedProperty) ? resolvedProperty : null;
 }

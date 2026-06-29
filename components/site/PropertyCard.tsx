@@ -43,9 +43,11 @@ export default function PropertyCard({ p }: { p: Property }) {
 
   const detailHref = `/propiedades/${p.id}`;
 
+  const mlsCode = p.uniqueId ? `MLS/ACOBIR: ${p.uniqueId}` : "";
+
   const wa = waLink(
     site.whatsapp,
-    `Hola, me interesa la propiedad: ${p.title}\nEdificio: ${p.building}\n${p.priceFrom}\nUbicación: ${p.location}\n¿Podemos coordinar una visita o recibir más información?`
+    `Hola, me interesa la propiedad: ${p.title}\nEdificio: ${p.building}\n${p.priceFrom}\n${mlsCode ? `${mlsCode}\n` : ""}Ubicación: ${p.location}\n¿Podemos coordinar una visita o recibir más información?`
   );
 
   const close = () => setOpen(false);
@@ -78,8 +80,15 @@ export default function PropertyCard({ p }: { p: Property }) {
           <Image src={gallery[0]} alt={p.title} fill className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/65 via-brand-ink/10 to-transparent" />
 
-          <div className="absolute top-4 left-4 inline-flex rounded-full border border-brand-aqua/30 bg-white/90 px-3 py-1 text-xs font-semibold text-slate-900">
-            {p.priceFrom}
+          <div className="absolute top-4 left-4 flex flex-col items-start gap-2">
+            <span className="inline-flex rounded-full border border-brand-aqua/30 bg-white/90 px-3 py-1 text-xs font-semibold text-slate-900">
+              {p.priceFrom}
+            </span>
+            {p.uniqueId ? (
+              <span className="inline-flex rounded-full border border-white/60 bg-brand-ink/70 px-3 py-1 text-[11px] font-semibold tracking-wide text-white backdrop-blur">
+                MLS/ACOBIR {p.uniqueId}
+              </span>
+            ) : null}
           </div>
 
           <div className="absolute bottom-4 left-4 right-4">
@@ -92,6 +101,12 @@ export default function PropertyCard({ p }: { p: Property }) {
 
         <div className="p-6">
           <p className="text-sm text-slate-600">{p.location}</p>
+
+          {p.uniqueId ? (
+            <p className="mt-2 text-xs font-semibold tracking-wide text-brand-teal">
+              MLS/ACOBIR: {p.uniqueId}
+            </p>
+          ) : null}
 
           {p.highlights?.length ? (
             <ul className="mt-4 grid gap-2 text-sm text-slate-700">
@@ -153,6 +168,11 @@ export default function PropertyCard({ p }: { p: Property }) {
                 <p className="text-xs font-semibold tracking-widest text-slate-500">{p.building}</p>
                 <h3 className="mt-1 font-display text-xl font-semibold text-slate-900">{p.title}</h3>
                 <p className="mt-1 text-sm text-slate-600">{p.location}</p>
+                {p.uniqueId ? (
+                  <p className="mt-1 text-xs font-semibold tracking-wide text-brand-teal">
+                    MLS/ACOBIR: {p.uniqueId}
+                  </p>
+                ) : null}
               </div>
 
               <button
@@ -197,6 +217,11 @@ export default function PropertyCard({ p }: { p: Property }) {
               <div className="lg:col-span-4">
                 <div className="rounded-2xl border border-slate-200 bg-white p-5">
                   <p className="text-sm font-semibold text-slate-900">{p.priceFrom}</p>
+                  {p.uniqueId ? (
+                    <p className="mt-1 text-xs font-semibold tracking-wide text-brand-teal">
+                      MLS/ACOBIR: {p.uniqueId}
+                    </p>
+                  ) : null}
                   <p className="mt-2 text-sm text-slate-600">{p.location}</p>
 
                   {p.highlights?.length ? (

@@ -28,11 +28,17 @@ export type SupabaseIdxConfig = {
   bucket: string;
 };
 
+function cleanEnvValue(value: string | undefined): string {
+  return String(value ?? "")
+    .replace(/[\u0000-\u001f\u007f]/g, "")
+    .trim();
+}
+
 export function getSupabaseIdxConfig(): SupabaseIdxConfig | null {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || "";
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || "";
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
-  const bucket = process.env.SUPABASE_STORAGE_BUCKET || DEFAULT_SUPABASE_BUCKET;
+  const url = cleanEnvValue(process.env.NEXT_PUBLIC_SUPABASE_URL) || cleanEnvValue(process.env.SUPABASE_URL);
+  const anonKey = cleanEnvValue(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) || cleanEnvValue(process.env.SUPABASE_ANON_KEY);
+  const serviceRoleKey = cleanEnvValue(process.env.SUPABASE_SERVICE_ROLE_KEY);
+  const bucket = cleanEnvValue(process.env.SUPABASE_STORAGE_BUCKET) || DEFAULT_SUPABASE_BUCKET;
 
   if (!url) return null;
 

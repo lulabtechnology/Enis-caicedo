@@ -34,10 +34,20 @@ export type RunIdxImportResult = {
   dataDriver: IdxDataDriver;
 };
 
+function cleanEnvValue(value: string | undefined): string {
+  return String(value ?? "")
+    .replace(/[\u0000-\u001f\u007f]/g, "")
+    .trim();
+}
+
+function envValue(name: string, fallback = ""): string {
+  return cleanEnvValue(process.env[name]) || fallback;
+}
+
 function envFlag(name: string, defaultValue: boolean): boolean {
-  const value = process.env[name];
-  if (value === undefined) return defaultValue;
-  return value === "true";
+  const value = envValue(name);
+  if (!value) return defaultValue;
+  return value.toLowerCase() === "true";
 }
 
 function parseDataDriver(value?: string): IdxDataDriver {
@@ -53,9 +63,9 @@ function parseStorageDriver(value?: string): IdxStorageDriver {
 }
 
 function requireEnv(name: string): string {
-  const value = process.env[name];
+  const value = envValue(name);
   if (!value) {
-    throw new Error(`Falta configurar ${name}. Revise .env.local o las variables del entorno.`);
+    throw new Error(`Falta configurar ${name}. Revise .env.local, Vercel o GitHub Secrets.`);
   }
   return value;
 }
@@ -156,7 +166,7 @@ async function hydrateListingPhotos(
   if (storageDriver === "none") return;
 
   const outputDir = path.join(rootDir, IDX_PHOTO_PUBLIC_DIR);
-  const bucket = process.env.SUPABASE_STORAGE_BUCKET || "idx-photos";
+  const bucket = envValue("SUPABASE_STORAGE_BUCKET", "idx-photos");
 
   if (storageDriver === "local") {
     await mkdir(outputDir, { recursive: true });
@@ -221,7 +231,7 @@ async function writeSupabaseIdxData(properties: IdxProperty[], dryRun: boolean, 
     return false;
   }
 
-  const batchSize = Number(process.env.IDX_SUPABASE_BATCH_SIZE ?? "250");
+  const batchSize = Number(envValue("IDX_SUPABASE_BATCH_SIZE", "250"));
   for (let start = 0; start < rows.length; start += batchSize) {
     const chunk = rows.slice(start, start + batchSize);
     const { error } = await client.from("idx_listings").upsert(chunk, { onConflict: "id" });
@@ -240,16 +250,16 @@ export async function runIdxImport(options: RunIdxImportOptions = {}): Promise<R
   const tmpDir = path.join(rootDir, ".idx-tmp");
   const headersDir = path.join(rootDir, "data/idx/headers");
   const feeds = parseFeeds(options.feeds ?? process.env.IDX_FEEDS);
-  const maxPhotos = Number(process.env.IDX_MAX_PHOTOS_PER_LISTING ?? "12");
+  const maxPhotos = Number(envValue("IDX_MAX_PHOTOS_PER_LISTING", "12"));
   const log = options.log || console.log;
   const downloadPhotos = options.downloadPhotos ?? envFlag("IDX_DOWNLOAD_PHOTOS", true);
   const includeRaw = options.includeRaw ?? envFlag("IDX_INCLUDE_RAW", false);
   const dryRun = options.dryRun ?? false;
-  const dataDriver = options.dataDriver ?? parseDataDriver(process.env.IDX_DATA_DRIVER);
-  const storageDriver = downloadPhotos ? options.storageDriver ?? parseStorageDriver(process.env.IDX_STORAGE_DRIVER) : "none";
+  const dataDriver = options.dataDriver ?? parseDataDriver(envValue("IDX_DATA_DRIVER"));
+  const storageDriver = downloadPhotos ? options.storageDriver ?? parseStorageDriver(envValue("IDX_STORAGE_DRIVER")) : "none";
 
   const client = new Client();
-  client.ftp.verbose = process.env.IDX_FTP_VERBOSE === "true";
+  client.ftp.verbose = envFlag("IDX_FTP_VERBOSE", false);
 
   await rm(tmpDir, { recursive: true, force: true });
   await mkdir(tmpDir, { recursive: true });
@@ -257,10 +267,10 @@ export async function runIdxImport(options: RunIdxImportOptions = {}): Promise<R
 
   try {
     await client.access({
-      host: process.env.IDX_FTP_HOST || DEFAULT_IDX_HOST,
+      host: envValue("IDX_FTP_HOST", DEFAULT_IDX_HOST),
       user: requireEnv("IDX_FTP_USER"),
       password: requireEnv("IDX_FTP_PASSWORD"),
-      secure: process.env.IDX_FTP_SECURE === "true"
+      secure: envFlag("IDX_FTP_SECURE", false)
     });
 
     const files = await client.list();

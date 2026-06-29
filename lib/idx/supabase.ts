@@ -1,4 +1,5 @@
-import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient, type SupabaseClientOptions } from "@supabase/supabase-js";
+import WebSocket from "ws";
 import type { IdxProperty } from "./types";
 
 export const DEFAULT_SUPABASE_BUCKET = "idx-photos";
@@ -69,29 +70,35 @@ export function requireSupabaseAdminConfig(): Required<SupabaseIdxConfig> {
   };
 }
 
+const wsTransport = WebSocket as unknown as NonNullable<SupabaseClientOptions<"public">["realtime"]>["transport"];
+
+const supabaseServerOptions: SupabaseClientOptions<"public"> = {
+  auth: {
+    persistSession: false,
+    autoRefreshToken: false,
+    detectSessionInUrl: false
+  },
+  // Supabase JS initializes the Realtime client even when this project only uses DB/Storage.
+  // GitHub Actions and Vercel run on Node 20, which does not provide a native WebSocket.
+  // Providing ws prevents runtime failures during IDX imports and server-side reads.
+  realtime: {
+    transport: wsTransport
+  }
+};
+
 export function createSupabaseReadClient(): SupabaseClient | null {
   const config = getSupabaseIdxConfig();
   const key = config?.anonKey || config?.serviceRoleKey;
 
   if (!config?.url || !key) return null;
 
-  return createClient(config.url, key, {
-    auth: {
-      persistSession: false,
-      autoRefreshToken: false
-    }
-  });
+  return createClient(config.url, key, supabaseServerOptions);
 }
 
 export function createSupabaseAdminClient(): SupabaseClient {
   const config = requireSupabaseAdminConfig();
 
-  return createClient(config.url, config.serviceRoleKey, {
-    auth: {
-      persistSession: false,
-      autoRefreshToken: false
-    }
-  });
+  return createClient(config.url, config.serviceRoleKey, supabaseServerOptions);
 }
 
 export function idxPropertyToSupabaseRow(property: IdxProperty): SupabaseListingRow {

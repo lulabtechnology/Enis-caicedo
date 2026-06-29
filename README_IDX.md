@@ -59,3 +59,17 @@ npm run build
 ## Cuando conectemos DB / storage
 
 Después se cambia el destino de `scripts/import-idx.ts` para escribir en Supabase, Neon, PlanetScale o el servicio que se defina. La normalización y la estructura visual ya quedan listas.
+
+
+## Control de tiempo para fotos en GitHub Actions
+
+El workflow guarda primero las propiedades en `idx_listings` y después procesa las fotos.
+Para evitar que GitHub Actions cancele el job por duración, se usan estas variables:
+
+```env
+IDX_PHOTO_TIME_BUDGET_MINUTES=45
+IDX_PHOTO_PROGRESS_EVERY=10
+IDX_PHOTO_FETCH_TIMEOUT_MS=20000
+```
+
+Si el tiempo se agota, el importador termina de forma segura: las propiedades quedan en Supabase y las fotos ya subidas se reutilizan en el próximo sync.

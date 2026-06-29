@@ -8,7 +8,7 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -32,6 +32,9 @@ jobs:
           IDX_FEEDS: ${{ secrets.IDX_FEEDS }}
           IDX_DOWNLOAD_PHOTOS: ${{ secrets.IDX_DOWNLOAD_PHOTOS }}
           IDX_MAX_PHOTOS_PER_LISTING: ${{ secrets.IDX_MAX_PHOTOS_PER_LISTING }}
+          IDX_PHOTO_TIME_BUDGET_MINUTES: 45
+          IDX_PHOTO_PROGRESS_EVERY: 10
+          IDX_PHOTO_FETCH_TIMEOUT_MS: 20000
           IDX_DATA_DRIVER: supabase
           IDX_STORAGE_DRIVER: supabase
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}

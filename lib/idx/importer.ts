@@ -1,4 +1,5 @@
 import { Client, FileInfo } from "basic-ftp";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { parse } from "csv-parse/sync";
 import { mkdir, readFile, rm, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -48,6 +49,11 @@ function envFlag(name: string, defaultValue: boolean): boolean {
   const value = envValue(name);
   if (!value) return defaultValue;
   return value.toLowerCase() === "true";
+}
+
+function envNumber(name: string, defaultValue: number): number {
+  const value = Number(envValue(name));
+  return Number.isFinite(value) && value > 0 ? value : defaultValue;
 }
 
 function parseDataDriver(value?: string): IdxDataDriver {
@@ -104,21 +110,29 @@ async function exists(filePath: string): Promise<boolean> {
 
 async function fetchPhotoBuffer(uniqueId: string, index: number): Promise<Buffer | null> {
   const url = buildIdxPhotoUrl(uniqueId, index);
-  const response = await fetch(url);
+  const timeoutMs = envNumber("IDX_PHOTO_FETCH_TIMEOUT_MS", 20000);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
-  if (!response.ok) {
-    console.warn(`No se pudo descargar foto ${uniqueId}.L${String(index).padStart(2, "0")}: ${response.status}`);
-    return null;
+  try {
+    const response = await fetch(url, { signal: controller.signal });
+
+    if (!response.ok) {
+      console.warn(`No se pudo descargar foto ${uniqueId}.L${String(index).padStart(2, "0")}: ${response.status}`);
+      return null;
+    }
+
+    const contentType = response.headers.get("content-type") ?? "";
+    if (!contentType.includes("image")) {
+      console.warn(`Respuesta inesperada para foto ${uniqueId}.L${String(index).padStart(2, "0")}: ${contentType}`);
+      return null;
+    }
+
+    const arrayBuffer = await response.arrayBuffer();
+    return Buffer.from(arrayBuffer);
+  } finally {
+    clearTimeout(timeout);
   }
-
-  const contentType = response.headers.get("content-type") ?? "";
-  if (!contentType.includes("image")) {
-    console.warn(`Respuesta inesperada para foto ${uniqueId}.L${String(index).padStart(2, "0")}: ${contentType}`);
-    return null;
-  }
-
-  const arrayBuffer = await response.arrayBuffer();
-  return Buffer.from(arrayBuffer);
 }
 
 async function writeLocalPhoto(uniqueId: string, index: number, outputDir: string): Promise<string | null> {
@@ -132,9 +146,45 @@ async function writeLocalPhoto(uniqueId: string, index: number, outputDir: strin
   return target;
 }
 
-async function uploadSupabasePhoto(uniqueId: string, index: number, bucket: string): Promise<string | null> {
-  const config = requireSupabaseAdminConfig();
-  const client = createSupabaseAdminClient();
+function supabasePhotoPublicUrl(configUrl: string, bucket: string, uniqueId: string, fileName: string): string {
+  const objectPath = `${uniqueId}/${fileName}`;
+  return `${configUrl}/storage/v1/object/public/${bucket}/${objectPath}`;
+}
+
+async function listExistingSupabasePhotos(
+  client: SupabaseClient,
+  configUrl: string,
+  bucket: string,
+  uniqueId: string,
+  maxPhotos: number
+): Promise<string[]> {
+  const { data, error } = await client.storage.from(bucket).list(uniqueId, {
+    limit: Math.max(maxPhotos + 5, 20),
+    sortBy: { column: "name", order: "asc" }
+  });
+
+  if (error) return [];
+
+  const available = new Set((data ?? []).map((item) => item.name));
+  const urls: string[] = [];
+
+  for (let index = 1; index <= maxPhotos; index += 1) {
+    const fileName = photoFileName(uniqueId, index);
+    if (available.has(fileName)) {
+      urls.push(supabasePhotoPublicUrl(configUrl, bucket, uniqueId, fileName));
+    }
+  }
+
+  return urls;
+}
+
+async function uploadSupabasePhoto(
+  client: SupabaseClient,
+  configUrl: string,
+  uniqueId: string,
+  index: number,
+  bucket: string
+): Promise<string | null> {
   const buffer = await fetchPhotoBuffer(uniqueId, index);
   if (!buffer) return null;
 
@@ -153,7 +203,16 @@ async function uploadSupabasePhoto(uniqueId: string, index: number, bucket: stri
   }
 
   const { data } = client.storage.from(bucket).getPublicUrl(objectPath);
-  return data.publicUrl || `${config.url}/storage/v1/object/public/${bucket}/${objectPath}`;
+  return data.publicUrl || supabasePhotoPublicUrl(configUrl, bucket, uniqueId, fileName);
+}
+
+function photoDeadline(): number | null {
+  const minutes = envNumber("IDX_PHOTO_TIME_BUDGET_MINUTES", 45);
+  return minutes > 0 ? Date.now() + minutes * 60_000 : null;
+}
+
+function deadlineReached(deadline: number | null): boolean {
+  return Boolean(deadline && Date.now() >= deadline);
 }
 
 async function hydrateListingPhotos(
@@ -167,6 +226,10 @@ async function hydrateListingPhotos(
 
   const outputDir = path.join(rootDir, IDX_PHOTO_PUBLIC_DIR);
   const bucket = envValue("SUPABASE_STORAGE_BUCKET", "idx-photos");
+  const deadline = photoDeadline();
+  const progressEvery = Math.max(1, Math.floor(envNumber("IDX_PHOTO_PROGRESS_EVERY", 10)));
+  const supabaseConfig = storageDriver === "supabase" ? requireSupabaseAdminConfig() : null;
+  const supabaseClient = storageDriver === "supabase" ? createSupabaseAdminClient() : null;
 
   if (storageDriver === "local") {
     await mkdir(outputDir, { recursive: true });
@@ -174,20 +237,43 @@ async function hydrateListingPhotos(
 
   let ready = 0;
   let failed = 0;
+  let skippedExisting = 0;
+  let stoppedByBudget = false;
 
-  for (const property of properties) {
+  log(`Fotos IDX: iniciando storage ${storageDriver}. Límite: ${maxPhotos} fotos por propiedad.`);
+
+  for (let propertyIndex = 0; propertyIndex < properties.length; propertyIndex += 1) {
+    if (deadlineReached(deadline)) {
+      stoppedByBudget = true;
+      break;
+    }
+
+    const property = properties[propertyIndex];
     const total = Math.min(property.listingPhotoCount, maxPhotos);
     const images: string[] = [];
 
-    for (let index = 1; index <= total; index += 1) {
+    if (storageDriver === "supabase" && supabaseClient && supabaseConfig) {
+      const existing = await listExistingSupabasePhotos(supabaseClient, supabaseConfig.url, bucket, property.uniqueId, total);
+      if (existing.length) {
+        images.push(...existing);
+        skippedExisting += existing.length;
+      }
+    }
+
+    for (let index = images.length + 1; index <= total; index += 1) {
+      if (deadlineReached(deadline)) {
+        stoppedByBudget = true;
+        break;
+      }
+
       try {
         if (storageDriver === "local") {
           const localPath = await writeLocalPhoto(property.uniqueId, index, outputDir);
           if (localPath) images.push(`/idx/photos/${photoFileName(property.uniqueId, index)}`);
         }
 
-        if (storageDriver === "supabase") {
-          const publicUrl = await uploadSupabasePhoto(property.uniqueId, index, bucket);
+        if (storageDriver === "supabase" && supabaseClient && supabaseConfig) {
+          const publicUrl = await uploadSupabasePhoto(supabaseClient, supabaseConfig.url, property.uniqueId, index, bucket);
           if (publicUrl) images.push(publicUrl);
         }
 
@@ -202,9 +288,25 @@ async function hydrateListingPhotos(
       property.images = images;
       property.image = images[0];
     }
+
+    if ((propertyIndex + 1) % progressEvery === 0 || propertyIndex === properties.length - 1 || stoppedByBudget) {
+      log(
+        `Fotos IDX: ${propertyIndex + 1}/${properties.length} propiedades procesadas. ` +
+          `Nuevas: ${ready}. Existentes reutilizadas: ${skippedExisting}. Fallidas/omitidas: ${failed}.`
+      );
+    }
+
+    if (stoppedByBudget) break;
   }
 
-  log(`Fotos IDX listas con storage ${storageDriver}: ${ready}. Fallidas/omitidas: ${failed}.`);
+  if (stoppedByBudget) {
+    log(
+      "Fotos IDX: se detuvo por presupuesto de tiempo para evitar que GitHub Actions cancele el job. " +
+        "Las propiedades ya quedan guardadas y el próximo sync continuará reutilizando fotos existentes."
+    );
+  }
+
+  log(`Fotos IDX listas con storage ${storageDriver}: ${ready}. Existentes reutilizadas: ${skippedExisting}. Fallidas/omitidas: ${failed}.`);
 }
 
 async function writeLocalIdxData(data: IdxDataFile, rootDir: string, dryRun: boolean, log: (...args: unknown[]) => void): Promise<boolean> {
@@ -307,6 +409,13 @@ export async function runIdxImport(options: RunIdxImportOptions = {}): Promise<R
       throw new Error("No se importó ninguna propiedad IDX. Revise credenciales, prefijos y archivos CSV disponibles.");
     }
 
+    let writtenSupabase = false;
+
+    if (dataDriver === "supabase" || dataDriver === "both") {
+      log("Guardando propiedades IDX en Supabase antes de procesar fotos...");
+      writtenSupabase = await writeSupabaseIdxData(allProperties, dryRun, log);
+    }
+
     if (downloadPhotos) {
       await hydrateListingPhotos(allProperties, rootDir, maxPhotos, storageDriver, log);
     } else {
@@ -327,7 +436,11 @@ export async function runIdxImport(options: RunIdxImportOptions = {}): Promise<R
     };
 
     const writtenLocal = dataDriver === "local" || dataDriver === "both" ? await writeLocalIdxData(data, rootDir, dryRun, log) : false;
-    const writtenSupabase = dataDriver === "supabase" || dataDriver === "both" ? await writeSupabaseIdxData(allProperties, dryRun, log) : false;
+
+    if (downloadPhotos && (dataDriver === "supabase" || dataDriver === "both")) {
+      log("Actualizando Supabase con URLs de fotos procesadas...");
+      writtenSupabase = await writeSupabaseIdxData(allProperties, dryRun, log);
+    }
 
     if (dataDriver === "local") log("Modo data local: no se escribió en Supabase.");
     if (dataDriver === "supabase") log("Modo data Supabase: no se actualizó data/idx/listings.json.");

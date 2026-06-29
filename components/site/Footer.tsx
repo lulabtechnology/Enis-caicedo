@@ -91,7 +91,11 @@ export default function Footer() {
               </div>
 
               <p className="mt-4 text-xs text-white/55">
-                © {new Date().getFullYear()} {site.brand}. Todos los derechos reservados.
+                © {new Date().getFullYear()} {site.brand}. Todos los derechos reservados. Desarrollado por{" "}
+                <Link className="text-white/75 no-underline hover:text-white" href="https://lulabtech.com" target="_blank" rel="noopener">
+                  LulabTech.com
+                </Link>
+                .
               </p>
             </div>
           </div>

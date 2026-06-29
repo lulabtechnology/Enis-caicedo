@@ -2,17 +2,14 @@ import PageHero from "@/components/site/PageHero";
 import Container from "@/components/ui/Container";
 import { copy } from "@/content/site";
 import PropertyCard from "@/components/site/PropertyCard";
-import { getIdxData } from "@/lib/idx/local-store";
 import { getActivePropertiesForSite, groupPropertiesByBuilding } from "@/lib/properties";
-import { Info, RefreshCw } from "lucide-react";
+import { Info } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
 export default async function PropertiesPage() {
-  const idxData = getIdxData();
-  const { properties: activeProperties, usingIdx } = await getActivePropertiesForSite();
+  const { properties: activeProperties } = await getActivePropertiesForSite();
   const grouped = groupPropertiesByBuilding(activeProperties);
-  const total = activeProperties.length;
 
   return (
     <>
@@ -26,30 +23,12 @@ export default async function PropertiesPage() {
       <section className="py-14 sm:py-16">
         <Container>
           <div className="surface-tint p-8 sm:p-10">
-            <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-              <div>
-                <p className="kicker">Inventario inmobiliario</p>
-                <h2 className="h2 mt-2">{usingIdx ? "Propiedades ACOBIR IDX" : "Propiedades destacadas"}</h2>
-                <p className="p mt-3 max-w-3xl">
-                  {usingIdx
-                    ? "Listado conectado al feed IDX. Las imágenes se sirven desde Supabase Storage, no como hotlink externo."
-                    : "Inventario manual mientras se conecta y sincroniza el feed IDX de ACOBIR."}
-                </p>
-              </div>
-
-              <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600 shadow-soft">
-                <div className="flex items-center gap-2 font-semibold text-slate-900">
-                  <RefreshCw size={16} className="text-brand-teal" />
-                  {usingIdx ? `${total} propiedades IDX` : "Modo manual"}
-                </div>
-                <p className="mt-1 text-xs text-slate-500">
-                  {idxData.generatedAt
-                    ? `Última sincronización local: ${new Date(idxData.generatedAt).toLocaleString("es-PA")}`
-                    : usingIdx
-                      ? "Datos cargados desde Supabase."
-                      : "IDX listo para sincronizar cuando se configuren las credenciales."}
-                </p>
-              </div>
+            <div>
+              <p className="kicker">Inventario inmobiliario</p>
+              <h2 className="h2 mt-2">Propiedades disponibles</h2>
+              <p className="p mt-3 max-w-3xl">
+                Explora las propiedades disponibles y solicita más información directamente por WhatsApp.
+              </p>
             </div>
 
             <div className="mt-8 grid gap-10">

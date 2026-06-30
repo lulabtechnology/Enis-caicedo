@@ -15,6 +15,22 @@ export async function generateStaticParams() {
   return [];
 }
 
+function clean(value?: string | number | null): string {
+  return String(value ?? "").trim();
+}
+
+function listingAgentLabel(property: Awaited<ReturnType<typeof getPropertyById>>): string {
+  if (!property) return "";
+
+  const name = clean(property.listingAgentName);
+  const code = clean(property.listingAgentCode);
+
+  if (name && code) return `${name} · ID ${code}`;
+  if (name) return name;
+  if (code) return `ID ${code}`;
+  return "";
+}
+
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const property = await getPropertyById(params.id);
 
@@ -24,12 +40,15 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     };
   }
 
+  const priceLabel = clean(property.priceFrom) || "Consultar precio";
+  const mlsCode = clean(property.mlsCode) || clean(property.uniqueId);
+
   return {
     title: `${property.title} | ${site.brand}`,
-    description: `${property.priceFrom} - ${property.location}`,
+    description: `${priceLabel} - ${property.location}${mlsCode ? ` - Código MLS/ACOBIR ${mlsCode}` : ""}`,
     openGraph: {
       title: property.title,
-      description: `${property.priceFrom} - ${property.location}`,
+      description: `${priceLabel} - ${property.location}`,
       images: [property.image]
     }
   };
@@ -41,10 +60,20 @@ export default async function PropertyDetailPage({ params }: { params: { id: str
   if (!property) notFound();
 
   const gallery = Array.from(new Set([property.image, ...(property.images ?? [])].filter(Boolean))).slice(0, 12);
-  const mlsCode = property.uniqueId ? `MLS/ACOBIR: ${property.uniqueId}` : "";
+  const priceLabel = clean(property.priceFrom) || "Consultar precio";
+  const mlsCode = clean(property.mlsCode) || clean(property.uniqueId);
+  const agentLabel = listingAgentLabel(property);
   const wa = waLink(
     site.whatsapp,
-    `Hola, me interesa esta propiedad: ${property.title}\n${property.priceFrom}\n${mlsCode ? `${mlsCode}\n` : ""}Ubicación: ${property.location}\nLink: /propiedades/${property.id}\n¿Me puede compartir más información?`
+    [
+      `Hola, me interesa esta propiedad: ${property.title}`,
+      `Precio: ${priceLabel}`,
+      mlsCode ? `Código MLS/ACOBIR: ${mlsCode}` : "",
+      agentLabel ? `Agente de lista: ${agentLabel}` : "",
+      `Ubicación: ${property.location}`,
+      `Link: /propiedades/${property.id}`,
+      "¿Me puede compartir más información?"
+    ].filter(Boolean).join("\n")
   );
 
   return (
@@ -52,7 +81,7 @@ export default async function PropertyDetailPage({ params }: { params: { id: str
       <PageHero
         kicker={property.source ? property.source : "Propiedad"}
         title={property.title}
-        subtitle={`${property.priceFrom} · ${property.location}`}
+        subtitle={`${priceLabel} · ${property.location}${mlsCode ? ` · Código MLS/ACOBIR ${mlsCode}` : ""}`}
         image={gallery[0] || "/images/properties-banner.jpg"}
       />
 
@@ -87,13 +116,29 @@ export default async function PropertyDetailPage({ params }: { params: { id: str
               <div className="card sticky top-24 p-6">
                 <p className="kicker">Ficha</p>
                 <h1 className="mt-2 font-display text-2xl font-semibold text-slate-900">{property.title}</h1>
-                <p className="mt-3 text-lg font-semibold text-brand-teal">{property.priceFrom}</p>
-                {property.uniqueId ? (
-                  <p className="mt-2 text-xs font-semibold tracking-wide text-brand-teal">
-                    MLS/ACOBIR: {property.uniqueId}
-                  </p>
-                ) : null}
-                <p className="mt-2 text-sm leading-6 text-slate-600">{property.location}</p>
+
+                <div className="mt-5 grid gap-3 rounded-2xl border border-slate-200 bg-brand-ice/70 p-4 text-sm">
+                  <div>
+                    <p className="font-semibold text-slate-600">Precio</p>
+                    <p className="mt-1 text-xl font-bold text-brand-teal">{priceLabel}</p>
+                  </div>
+
+                  {mlsCode ? (
+                    <div className="border-t border-slate-200 pt-3">
+                      <p className="font-semibold text-slate-600">Código MLS/ACOBIR</p>
+                      <p className="mt-1 font-bold text-slate-900">{mlsCode}</p>
+                    </div>
+                  ) : null}
+
+                  {agentLabel ? (
+                    <div className="border-t border-slate-200 pt-3">
+                      <p className="font-semibold text-slate-600">Agente de lista</p>
+                      <p className="mt-1 font-bold text-slate-900">{agentLabel}</p>
+                    </div>
+                  ) : null}
+                </div>
+
+                <p className="mt-4 text-sm leading-6 text-slate-600">{property.location}</p>
 
                 <div className="mt-5 flex flex-wrap gap-2">
                   {property.source ? (

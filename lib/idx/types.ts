@@ -13,10 +13,18 @@ export type IdxProperty = {
   source: "ACOBIR IDX";
   feedType: IdxFeedType;
   uniqueId: string;
+  /** Código visible del listado en ACOBIR/MLS. Si el feed no trae otro código, se usa uniqueId. */
+  mlsCode?: string;
+  /** Datos del agente capturados si el CSV de ACOBIR los incluye. */
+  listingAgentName?: string;
+  listingAgentCode?: string;
+  listingAgentPhone?: string;
+  listingAgentEmail?: string;
   listingPhotoCount: number;
   title: string;
   building: string;
   priceFrom: string;
+  priceValue?: number;
   location: string;
   tags: string[];
   image: string;

@@ -5,19 +5,48 @@ const FALLBACK_IMAGE = "/images/properties-banner.jpg";
 
 const fieldCandidates = {
   uniqueId: ["unique_id", "uniqueid", "listing_unique_id", "mls_id", "mls_number", "listing_id", "id"],
+  mlsCode: [
+    "mls_number",
+    "mls_id",
+    "mls_code",
+    "mls",
+    "acobir_id",
+    "acobir_code",
+    "acobir_number",
+    "listing_number",
+    "listing_code",
+    "listing_id",
+    "numero_mls",
+    "codigo_mls",
+    "codigo_acobir",
+    "cod_acobir",
+    "codigo_listado",
+    "numero_listado",
+    "unique_id"
+  ],
   photoCount: ["listing_photo_count", "photo_count", "photos", "num_photos", "cantidad_fotos"],
   price: [
     "price",
+    "price_usd",
     "list_price",
+    "listprice",
     "listing_price",
+    "listingprice",
     "asking_price",
+    "askingprice",
     "current_price",
+    "current_list_price",
+    "original_price",
     "sale_price",
     "sales_price",
+    "selling_price",
+    "purchase_price",
     "rent_price",
     "rental_price",
     "monthly_rent",
     "lease_price",
+    "lease_rate",
+    "lp",
     "precio",
     "precio_lista",
     "precio_de_lista",
@@ -26,7 +55,8 @@ const fieldCandidates = {
     "precio_renta",
     "precio_alquiler",
     "valor",
-    "valor_venta"
+    "valor_venta",
+    "valor_alquiler"
   ],
   title: ["title", "listing_title", "marketing_title", "titulo", "headline"],
   description: ["public_remarks", "remarks", "description", "descripcion", "comentarios", "observaciones"],
@@ -40,7 +70,56 @@ const fieldCandidates = {
   bedrooms: ["bedrooms", "beds", "recamaras", "habitaciones", "bedrooms_total"],
   bathrooms: ["bathrooms", "baths", "banos", "baños", "bathrooms_total"],
   area: ["living_area", "building_area", "construction_area", "area", "area_construccion", "m2", "sq_m"],
-  lotArea: ["lot_size", "lot_area", "land_area", "terreno", "area_terreno"]
+  lotArea: ["lot_size", "lot_area", "land_area", "terreno", "area_terreno"],
+  listingAgentName: [
+    "listing_agent_name",
+    "list_agent_name",
+    "listingagentname",
+    "listagentname",
+    "agent_name",
+    "agent_full_name",
+    "sales_agent",
+    "broker_agent",
+    "nombre_agente",
+    "agente",
+    "asesor",
+    "agente_listador",
+    "agente_captador",
+    "corredor"
+  ],
+  listingAgentCode: [
+    "listing_agent_id",
+    "list_agent_id",
+    "listingagentid",
+    "listagentid",
+    "agent_id",
+    "agent_code",
+    "member_id",
+    "member_number",
+    "agt_id",
+    "agt_code",
+    "codigo_agente",
+    "id_agente",
+    "agente_id",
+    "broker_agent_id",
+    "listing_agent_code"
+  ],
+  listingAgentPhone: [
+    "listing_agent_phone",
+    "list_agent_phone",
+    "agent_phone",
+    "agent_mobile",
+    "phone",
+    "telefono_agente",
+    "celular_agente"
+  ],
+  listingAgentEmail: [
+    "listing_agent_email",
+    "list_agent_email",
+    "agent_email",
+    "email_agente",
+    "correo_agente"
+  ]
 } satisfies Record<string, string[]>;
 
 function normalizeKey(key: string): string {
@@ -109,9 +188,12 @@ function looksLikePriceKey(key: string): boolean {
     "renta",
     "rental",
     "rent",
+    "lease",
     "alquiler",
     "venta",
-    "sale"
+    "sale",
+    "asking",
+    "list"
   ].some((word) => normalized.includes(word));
 
   const isNoise = [
@@ -129,31 +211,47 @@ function looksLikePriceKey(key: string): boolean {
     "impuesto",
     "fee",
     "comision",
-    "commission"
+    "commission",
+    "percent",
+    "porcentaje"
   ].some((word) => normalized.includes(word));
 
   return includesPriceWord && !isNoise;
 }
 
-function readPrice(record: IdxRawRecord, keyMap: Map<string, string>): string {
+function readPrice(record: IdxRawRecord, keyMap: Map<string, string>, operation = ""): { raw: string; numeric?: number } {
   const direct = read(record, keyMap, fieldCandidates.price);
-  if (toNumber(direct)) return direct;
+  const directNumber = toNumber(direct);
+  if (directNumber) return { raw: direct, numeric: directNumber };
+
+  const normalizedOperation = normalizeKey(operation);
+  const prefersRent = ["rent", "renta", "alquiler", "lease"].some((word) => normalizedOperation.includes(word)) &&
+    !["sale", "venta"].some((word) => normalizedOperation.includes(word));
 
   const fallback = Object.entries(record)
     .filter(([key, value]) => looksLikePriceKey(key) && toNumber(String(value ?? "")))
     .sort(([keyA], [keyB]) => {
       const score = (key: string) => {
         const normalized = normalizeKey(key);
-        if (normalized.includes("list") || normalized.includes("lista")) return 0;
+        const isRent = normalized.includes("rent") || normalized.includes("renta") || normalized.includes("alquiler") || normalized.includes("lease");
+        const isSale = normalized.includes("sale") || normalized.includes("venta") || normalized.includes("list") || normalized.includes("lista") || normalized.includes("asking");
+
+        if (prefersRent && isRent) return 0;
+        if (!prefersRent && isSale) return 0;
         if (normalized.includes("current")) return 1;
-        if (normalized.includes("sale") || normalized.includes("venta")) return 2;
-        if (normalized.includes("rent") || normalized.includes("renta") || normalized.includes("alquiler")) return 3;
+        if (normalized.includes("price") || normalized.includes("precio") || normalized.includes("valor")) return 2;
+        if (isRent || isSale) return 3;
         return 4;
       };
       return score(keyA) - score(keyB);
     })[0];
 
-  return fallback ? String(fallback[1] ?? "").trim() : direct;
+  if (fallback) {
+    const raw = String(fallback[1] ?? "").trim();
+    return { raw, numeric: toNumber(raw) };
+  }
+
+  return { raw: direct, numeric: directNumber };
 }
 
 function formatMoney(value: string): string {
@@ -194,9 +292,14 @@ export function normalizeIdxRecord(
   const listingPhotoCount = normalizePhotoCount(read(record, keyMap, fieldCandidates.photoCount));
   const photos = buildIdxPhotos(uniqueId, listingPhotoCount, options.maxPhotos ?? 12);
 
-  const price = readPrice(record, keyMap);
   const propertyType = read(record, keyMap, fieldCandidates.propertyType) || (feedType === "res" ? "Residencial" : "Comercial");
   const operation = read(record, keyMap, fieldCandidates.operation) || "Disponible";
+  const price = readPrice(record, keyMap, operation);
+  const mlsCode = read(record, keyMap, fieldCandidates.mlsCode) || uniqueId;
+  const listingAgentName = read(record, keyMap, fieldCandidates.listingAgentName);
+  const listingAgentCode = read(record, keyMap, fieldCandidates.listingAgentCode);
+  const listingAgentPhone = read(record, keyMap, fieldCandidates.listingAgentPhone);
+  const listingAgentEmail = read(record, keyMap, fieldCandidates.listingAgentEmail);
   const building = read(record, keyMap, fieldCandidates.building) || titleCaseFallback(read(record, keyMap, fieldCandidates.city));
   const city = read(record, keyMap, fieldCandidates.city);
   const province = read(record, keyMap, fieldCandidates.province);
@@ -237,10 +340,16 @@ export function normalizeIdxRecord(
     source: "ACOBIR IDX",
     feedType,
     uniqueId,
+    mlsCode,
+    listingAgentName,
+    listingAgentCode,
+    listingAgentPhone,
+    listingAgentEmail,
     listingPhotoCount,
     title,
     building: building || (feedType === "res" ? "Residencial" : "Comercial"),
-    priceFrom: price ? formatMoney(price) : "Consultar precio",
+    priceFrom: price.raw ? formatMoney(price.raw) : "Consultar precio",
+    priceValue: price.numeric,
     location,
     tags,
     image,

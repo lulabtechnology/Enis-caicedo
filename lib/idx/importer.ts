@@ -6,6 +6,7 @@ import path from "node:path";
 import { DEFAULT_IDX_HOST, IDX_DATA_PATH, IDX_PHOTO_PUBLIC_DIR, parseFeeds } from "./config";
 import { buildIdxPhotoUrl, photoFileName } from "./photos";
 import { filterAllowedIdxProperties, getAllowedIdxZoneLabel } from "./allowed-zones";
+import { buildIdxAgentLookup, enrichIdxPropertiesWithAgents } from "./agents";
 import { normalizeIdxRecords } from "./normalize";
 import type { IdxDataFile, IdxFeedType, IdxProperty, IdxRawRecord } from "./types";
 import { createSupabaseAdminClient, idxPropertyToSupabaseRow, requireSupabaseAdminConfig } from "./supabase";
@@ -77,14 +78,14 @@ function requireEnv(name: string): string {
   return value;
 }
 
-function latestCsvForPrefix(files: FileInfo[], prefix: IdxFeedType): FileInfo | undefined {
+function latestCsvForPrefix(files: FileInfo[], prefix: IdxFeedType | "agt" | "ofc"): FileInfo | undefined {
   const matcher = new RegExp(`^${prefix}\\d{8}\\.csv$`, "i");
   return files
     .filter((file) => file.isFile && matcher.test(file.name))
     .sort((a, b) => b.name.localeCompare(a.name))[0];
 }
 
-function headerFileForPrefix(files: FileInfo[], prefix: IdxFeedType): FileInfo | undefined {
+function headerFileForPrefix(files: FileInfo[], prefix: IdxFeedType | "agt" | "ofc"): FileInfo | undefined {
   return files.find((file) => file.isFile && file.name.toLowerCase() === `${prefix}_headers.csv`);
 }
 
@@ -98,6 +99,30 @@ async function parseCsvFile(filePath: string): Promise<IdxRawRecord[]> {
     relax_quotes: true,
     relax_column_count: true
   }) as IdxRawRecord[];
+}
+
+async function downloadOptionalCsvRecords(
+  client: Client,
+  files: FileInfo[],
+  prefix: "agt" | "ofc",
+  tmpDir: string,
+  headersDir: string,
+  log: (...args: unknown[]) => void
+): Promise<IdxRawRecord[]> {
+  const latestCsv = latestCsvForPrefix(files, prefix);
+  if (!latestCsv) return [];
+
+  const csvPath = path.join(tmpDir, latestCsv.name);
+  await client.downloadTo(csvPath, latestCsv.name);
+  log(`CSV descargado: ${latestCsv.name}`);
+
+  const headerFile = headerFileForPrefix(files, prefix);
+  if (headerFile) {
+    await client.downloadTo(path.join(headersDir, headerFile.name), headerFile.name);
+    log(`Headers descargados: ${headerFile.name}`);
+  }
+
+  return parseCsvFile(csvPath);
 }
 
 async function exists(filePath: string): Promise<boolean> {
@@ -378,6 +403,9 @@ export async function runIdxImport(options: RunIdxImportOptions = {}): Promise<R
 
     const files = await client.list();
     const allProperties: IdxProperty[] = [];
+    const agentRecords = await downloadOptionalCsvRecords(client, files, "agt", tmpDir, headersDir, log);
+    const agentLookup = buildIdxAgentLookup(agentRecords);
+    if (agentLookup.size) log(`Agentes IDX detectados: ${agentLookup.size}.`);
 
     for (const feed of feeds) {
       const latestCsv = latestCsvForPrefix(files, feed);
@@ -408,9 +436,15 @@ export async function runIdxImport(options: RunIdxImportOptions = {}): Promise<R
       allProperties.push(...properties);
     }
 
+    enrichIdxPropertiesWithAgents(allProperties, agentLookup);
+
     if (!allProperties.length) {
       throw new Error(`No se importó ninguna propiedad IDX para las zonas permitidas (${getAllowedIdxZoneLabel()}). Revise el filtro IDX_ALLOWED_ZONES o los campos de ubicación del CSV.`);
     }
+
+    const withPrice = allProperties.filter((property) => property.priceFrom && property.priceFrom !== "Consultar precio").length;
+    const withAgent = allProperties.filter((property) => property.listingAgentName || property.listingAgentCode).length;
+    log(`IDX resumen visible: ${allProperties.length} propiedades, ${withPrice} con precio, ${withAgent} con agente/código de lista.`);
 
     let writtenSupabase = false;
 

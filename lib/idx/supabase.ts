@@ -158,6 +158,8 @@ function withResolvedSupabasePhotoUrls(property: IdxProperty, config: SupabaseId
 
   return {
     ...property,
+    mlsCode: property.mlsCode || property.uniqueId,
+    priceFrom: property.priceFrom || "Consultar precio",
     image,
     images: images.length ? Array.from(new Set(images)) : property.images
   };

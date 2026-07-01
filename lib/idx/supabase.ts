@@ -1,6 +1,7 @@
 import { createClient, type SupabaseClient, type SupabaseClientOptions } from "@supabase/supabase-js";
 import WebSocket from "ws";
 import { isAllowedIdxProperty } from "./allowed-zones";
+import { normalizeStoredIdxPropertyPrice } from "./prices";
 import type { IdxProperty } from "./types";
 
 export const DEFAULT_SUPABASE_BUCKET = "idx-photos";
@@ -156,13 +157,13 @@ function withResolvedSupabasePhotoUrls(property: IdxProperty, config: SupabaseId
 
   const image = resolveSupabasePhotoValue(property.image, config) || images[0] || property.image;
 
-  return {
+  return normalizeStoredIdxPropertyPrice({
     ...property,
     mlsCode: property.mlsCode || property.uniqueId,
     priceFrom: property.priceFrom || "Consultar precio",
     image,
     images: images.length ? Array.from(new Set(images)) : property.images
-  };
+  });
 }
 
 export function idxPropertyToSupabaseRow(property: IdxProperty): SupabaseListingRow {

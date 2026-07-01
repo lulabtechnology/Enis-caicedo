@@ -1,4 +1,5 @@
 import { buildIdxPhotos, normalizePhotoCount } from "./photos";
+import { normalizeIdxPrice, normalizePriceKey, parseIdxPriceValue } from "./prices";
 import type { IdxFeedType, IdxProperty, IdxRawRecord } from "./types";
 
 const FALLBACK_IMAGE = "/images/properties-banner.jpg";
@@ -149,33 +150,8 @@ function read(record: IdxRawRecord, keyMap: Map<string, string>, candidates: str
   return "";
 }
 
-function parseNumericValue(value: string): number {
-  let normalized = String(value || "")
-    .replace(/[^0-9.,-]/g, "")
-    .trim();
-
-  if (!normalized) return Number.NaN;
-
-  const hasComma = normalized.includes(",");
-  const hasDot = normalized.includes(".");
-
-  if (hasComma && hasDot) {
-    const lastComma = normalized.lastIndexOf(",");
-    const lastDot = normalized.lastIndexOf(".");
-    normalized = lastComma > lastDot
-      ? normalized.replace(/\./g, "").replace(",", ".")
-      : normalized.replace(/,/g, "");
-  } else if (hasComma) {
-    const commaParts = normalized.split(",");
-    const last = commaParts[commaParts.length - 1] ?? "";
-    normalized = last.length === 3 ? normalized.replace(/,/g, "") : normalized.replace(",", ".");
-  }
-
-  return Number(normalized);
-}
-
 function toNumber(value: string): number | undefined {
-  const parsed = parseNumericValue(value);
+  const parsed = parseIdxPriceValue(value);
   return Number.isFinite(parsed) && parsed > 0 ? parsed : undefined;
 }
 
@@ -254,17 +230,6 @@ function readPrice(record: IdxRawRecord, keyMap: Map<string, string>, operation 
   return { raw: direct, numeric: directNumber };
 }
 
-function formatMoney(value: string): string {
-  const parsed = parseNumericValue(value);
-  if (!Number.isFinite(parsed) || parsed <= 0) return value || "Consultar precio";
-
-  return new Intl.NumberFormat("es-PA", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0
-  }).format(parsed);
-}
-
 function compact(items: Array<string | undefined | null>): string[] {
   return items.map((item) => String(item ?? "").trim()).filter(Boolean);
 }
@@ -294,7 +259,6 @@ export function normalizeIdxRecord(
 
   const propertyType = read(record, keyMap, fieldCandidates.propertyType) || (feedType === "res" ? "Residencial" : "Comercial");
   const operation = read(record, keyMap, fieldCandidates.operation) || "Disponible";
-  const price = readPrice(record, keyMap, operation);
   const mlsCode = read(record, keyMap, fieldCandidates.mlsCode) || uniqueId;
   const listingAgentName = read(record, keyMap, fieldCandidates.listingAgentName);
   const listingAgentCode = read(record, keyMap, fieldCandidates.listingAgentCode);
@@ -316,6 +280,13 @@ export function normalizeIdxRecord(
     read(record, keyMap, fieldCandidates.title) ||
     compact([propertyType, building || city]).join(" en ") ||
     `Propiedad ${uniqueId}`;
+
+  const price = readPrice(record, keyMap, operation);
+  const normalizedPrice = normalizeIdxPrice(price.raw, {
+    title,
+    operation,
+    propertyType
+  }, price.numeric);
 
   const highlights = compact([
     bedrooms ? `${bedrooms} recámara${bedrooms === 1 ? "" : "s"}` : undefined,
@@ -348,8 +319,8 @@ export function normalizeIdxRecord(
     listingPhotoCount,
     title,
     building: building || (feedType === "res" ? "Residencial" : "Comercial"),
-    priceFrom: price.raw ? formatMoney(price.raw) : "Consultar precio",
-    priceValue: price.numeric,
+    priceFrom: normalizedPrice.label,
+    priceValue: normalizedPrice.value,
     location,
     tags,
     image,

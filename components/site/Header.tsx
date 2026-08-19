@@ -15,6 +15,7 @@ const nav = [
   { href: "/bienes-raices", label: "Bienes raíces" },
   { href: "/propiedades", label: "Propiedades" },
   { href: "/sobre-enis", label: "Sobre Enis" },
+  { href: "/blog", label: "Blog" },
   { href: "/contacto", label: "Contacto" }
 ];
 
@@ -61,7 +62,7 @@ export default function Header() {
 
           <nav className="hidden items-center gap-6 lg:flex">
             {nav.map((n) => {
-              const active = pathname === n.href;
+              const active = pathname === n.href || pathname.startsWith(`${n.href}/`);
               return (
                 <Link
                   key={n.href}

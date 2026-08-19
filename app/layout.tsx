@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/site/Header";
-import Footer from "@/components/site/Footer";
-import WhatsAppFloat from "@/components/site/WhatsAppFloat";
+import SiteChrome from "@/components/site/SiteChrome";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://eniscaicedo.com"),
   title: `${site.brand} | ${site.tagline}`,
   description: site.tagline
 };
@@ -22,10 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        <Header />
-        <main>{children}</main>
-        <Footer />
-        <WhatsAppFloat />
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );

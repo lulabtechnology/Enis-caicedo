@@ -39,8 +39,11 @@ function cleanEnvValue(value: string | undefined): string {
 
 export function getSupabaseIdxConfig(): SupabaseIdxConfig | null {
   const url = cleanEnvValue(process.env.NEXT_PUBLIC_SUPABASE_URL) || cleanEnvValue(process.env.SUPABASE_URL);
-  const anonKey = cleanEnvValue(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) || cleanEnvValue(process.env.SUPABASE_ANON_KEY);
-  const serviceRoleKey = cleanEnvValue(process.env.SUPABASE_SERVICE_ROLE_KEY);
+  const anonKey =
+    cleanEnvValue(process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) ||
+    cleanEnvValue(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) ||
+    cleanEnvValue(process.env.SUPABASE_ANON_KEY);
+  const serviceRoleKey = cleanEnvValue(process.env.SUPABASE_SECRET_KEY) || cleanEnvValue(process.env.SUPABASE_SERVICE_ROLE_KEY);
   const bucket = cleanEnvValue(process.env.SUPABASE_STORAGE_BUCKET) || DEFAULT_SUPABASE_BUCKET;
 
   if (!url) return null;
@@ -61,7 +64,7 @@ export function requireSupabaseAdminConfig(): Required<SupabaseIdxConfig> {
   }
 
   if (!config.serviceRoleKey) {
-    throw new Error("Falta SUPABASE_SERVICE_ROLE_KEY. Esta clave solo debe ir en servidor/Vercel, nunca en el navegador.");
+    throw new Error("Falta SUPABASE_SECRET_KEY o SUPABASE_SERVICE_ROLE_KEY. Esta clave solo debe ir en servidor/Vercel, nunca en el navegador.");
   }
 
   return {

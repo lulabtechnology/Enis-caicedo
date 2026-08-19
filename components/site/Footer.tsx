@@ -74,6 +74,7 @@ export default function Footer() {
                 <nav className="flex flex-wrap gap-4 text-sm text-white/75">
                   <Link className="no-underline hover:text-white" href="/privacidad">Privacidad</Link>
                   <Link className="no-underline hover:text-white" href="/terminos">Términos</Link>
+                  <Link className="no-underline hover:text-white" href="/blog">Blog</Link>
                   <Link className="no-underline hover:text-white" href="/contacto">Contacto</Link>
                 </nav>
 

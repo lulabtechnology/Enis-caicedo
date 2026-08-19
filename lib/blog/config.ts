@@ -12,13 +12,18 @@ export type BlogSupabaseConfig = {
   secretKey?: string;
 };
 
+/**
+ * Blog Supabase is intentionally isolated from the IDX Supabase project.
+ * Do not fall back to the generic SUPABASE_* variables used by IDX.
+ */
 export function getBlogSupabaseConfig(): BlogSupabaseConfig | null {
-  const url = clean(process.env.NEXT_PUBLIC_SUPABASE_URL) || clean(process.env.SUPABASE_URL);
+  const url = clean(process.env.NEXT_PUBLIC_BLOG_SUPABASE_URL) || clean(process.env.BLOG_SUPABASE_URL);
   const publicKey =
-    clean(process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) ||
-    clean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) ||
-    clean(process.env.SUPABASE_ANON_KEY);
-  const secretKey = clean(process.env.SUPABASE_SECRET_KEY) || clean(process.env.SUPABASE_SERVICE_ROLE_KEY);
+    clean(process.env.NEXT_PUBLIC_BLOG_SUPABASE_PUBLISHABLE_KEY) ||
+    clean(process.env.NEXT_PUBLIC_BLOG_SUPABASE_ANON_KEY) ||
+    clean(process.env.BLOG_SUPABASE_ANON_KEY);
+  const secretKey =
+    clean(process.env.BLOG_SUPABASE_SECRET_KEY) || clean(process.env.BLOG_SUPABASE_SERVICE_ROLE_KEY);
 
   if (!url || !publicKey) return null;
 
@@ -33,11 +38,11 @@ export function requireBlogSupabaseConfig(): Required<BlogSupabaseConfig> {
   const config = getBlogSupabaseConfig();
   if (!config) {
     throw new Error(
-      "Faltan NEXT_PUBLIC_SUPABASE_URL y una clave publica de Supabase (NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY o NEXT_PUBLIC_SUPABASE_ANON_KEY)."
+      "Faltan NEXT_PUBLIC_BLOG_SUPABASE_URL y una clave publica del Supabase del blog (NEXT_PUBLIC_BLOG_SUPABASE_PUBLISHABLE_KEY o NEXT_PUBLIC_BLOG_SUPABASE_ANON_KEY)."
     );
   }
   if (!config.secretKey) {
-    throw new Error("Falta SUPABASE_SECRET_KEY o SUPABASE_SERVICE_ROLE_KEY en el servidor.");
+    throw new Error("Falta BLOG_SUPABASE_SECRET_KEY o BLOG_SUPABASE_SERVICE_ROLE_KEY en el servidor.");
   }
   return {
     url: config.url,

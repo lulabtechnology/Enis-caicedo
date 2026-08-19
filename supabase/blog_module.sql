@@ -1,4 +1,6 @@
 -- BLOG ENIS CAICEDO - Supabase
+-- IMPORTANTE: este SQL debe ejecutarse en el proyecto NUEVO exclusivo del blog (eniscaicedo123).
+-- NO ejecutarlo en la base de datos antigua del IDX.
 -- Ejecutar DESPUES de crear el usuario administrador en Authentication > Users.
 -- El usuario administrador esperado por este script es: enislawpty@gmail.com
 -- Si se usara otro correo, cambie SOLO esa direccion en el bloque "Registrar administrador".

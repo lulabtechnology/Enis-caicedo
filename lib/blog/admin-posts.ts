@@ -1,5 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { slugifyBlogTitle } from "./slug";
+import { blogContentPlainText, looksLikeBlogHtml, sanitizeBlogHtml } from "./content";
 import type { BlogPost, BlogPostInput, BlogPostStatus } from "./types";
 
 export const BLOG_FIELDS =
@@ -17,7 +18,8 @@ export type NormalizedBlogPostInput = {
 
 export function normalizeBlogPostInput(input: BlogPostInput): NormalizedBlogPostInput {
   const title = String(input.title || "").trim().slice(0, 180);
-  const content = String(input.content || "").trim();
+  const rawContent = String(input.content || "").trim();
+  const content = looksLikeBlogHtml(rawContent) ? sanitizeBlogHtml(rawContent) : rawContent;
   const excerpt = String(input.excerpt || "").trim().slice(0, 360);
   const requestedSlug = slugifyBlogTitle(String(input.slug || title));
   const status: BlogPostStatus = input.status === "published" ? "published" : "draft";
@@ -31,7 +33,7 @@ export function normalizeBlogPostInput(input: BlogPostInput): NormalizedBlogPost
   return {
     title,
     slug: requestedSlug,
-    excerpt: excerpt || content.replace(/[#>*_\-\[\]()]/g, " ").replace(/\s+/g, " ").slice(0, 220).trim(),
+    excerpt: excerpt || blogContentPlainText(content).slice(0, 220).trim(),
     content,
     cover_url: coverUrl,
     cover_path: coverPath,

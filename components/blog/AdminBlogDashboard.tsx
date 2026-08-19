@@ -21,6 +21,7 @@ import {
   X
 } from "lucide-react";
 import { getBlogBrowserClient } from "@/lib/blog/supabase-browser";
+import RichTextEditor from "@/components/blog/RichTextEditor";
 import { slugifyBlogTitle } from "@/lib/blog/slug";
 import type { BlogPost, BlogPostStatus } from "@/lib/blog/types";
 
@@ -528,20 +529,22 @@ export default function AdminBlogDashboard() {
                 <p className="mt-2 text-[11px] font-medium text-slate-400">JPG, PNG, WEBP o AVIF. Máximo 5 MB.</p>
               </div>
 
-              <label className="block">
-                <span className="text-xs font-black text-slate-700">Contenido</span>
-                <textarea
+              <div className="block">
+                <div className="flex flex-wrap items-end justify-between gap-2">
+                  <div>
+                    <span className="text-xs font-black text-slate-700">Contenido</span>
+                    <p className="mt-1 text-[11px] leading-5 text-slate-500">
+                      Escriba y dé formato visualmente: títulos, negritas, listas, numeración, enlaces y alineación.
+                    </p>
+                  </div>
+                  <span className="rounded-full bg-brand-ice px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-brand-teal">Editor tipo Word</span>
+                </div>
+                <RichTextEditor
                   value={form.content}
-                  onChange={(event) => setForm((current) => ({ ...current, content: event.target.value }))}
-                  rows={18}
+                  onChange={(content) => setForm((current) => ({ ...current, content }))}
                   required
-                  placeholder={"Escriba aquí el artículo...\n\n## Subtítulo\nTexto del artículo.\n\n- Punto importante\n- Otro punto\n\n**Texto en negrita**"}
-                  className={`${inputClass} resize-y font-mono leading-7`}
                 />
-                <p className="mt-2 text-[11px] leading-5 text-slate-500">
-                  Formato: <strong>## Subtítulo</strong>, <strong>### Subtítulo pequeño</strong>, <strong>- lista</strong>, <strong>**negrita**</strong>, <strong>&gt; cita</strong> y <strong>[texto](https://...)</strong>.
-                </p>
-              </label>
+              </div>
 
               <div className="flex flex-col gap-3 border-t border-slate-100 pt-5 sm:flex-row sm:items-center sm:justify-between">
                 <p className="text-xs leading-5 text-slate-500">

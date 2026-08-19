@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { requireBlogAdmin } from "@/lib/blog/auth";
 import { BLOG_FIELDS, ensureUniqueBlogSlug, normalizeBlogPostInput } from "@/lib/blog/admin-posts";
@@ -20,10 +21,10 @@ export async function GET(request: Request) {
       .order("updated_at", { ascending: false });
 
     if (error) throw new Error(error.message);
-    return NextResponse.json({ posts: data || [] });
+    return NextResponse.json({ posts: data || [] }, { headers: { "Cache-Control": "no-store" } });
   } catch (error) {
     const message = error instanceof Error ? error.message : "No se pudieron cargar los articulos.";
-    return NextResponse.json({ error: message }, { status: 500 });
+    return NextResponse.json({ error: message }, { status: 500, headers: { "Cache-Control": "no-store" } });
   }
 }
 
@@ -53,9 +54,13 @@ export async function POST(request: Request) {
       .single();
 
     if (error) throw new Error(error.message);
-    return NextResponse.json({ post: data }, { status: 201 });
+
+    revalidatePath("/blog");
+    if (data?.slug) revalidatePath(`/blog/${data.slug}`);
+
+    return NextResponse.json({ post: data }, { status: 201, headers: { "Cache-Control": "no-store" } });
   } catch (error) {
     const message = error instanceof Error ? error.message : "No se pudo crear el articulo.";
-    return NextResponse.json({ error: message }, { status: 400 });
+    return NextResponse.json({ error: message }, { status: 400, headers: { "Cache-Control": "no-store" } });
   }
 }

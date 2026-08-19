@@ -1,3 +1,4 @@
+import { unstable_noStore as noStore } from "next/cache";
 import { createBlogPublicClient } from "./supabase-server";
 import type { BlogPost } from "./types";
 
@@ -5,6 +6,7 @@ const BLOG_FIELDS =
   "id,title,slug,excerpt,content,cover_url,cover_path,status,published_at,created_at,updated_at,author_id";
 
 export async function getPublishedBlogPosts(limit = 24): Promise<BlogPost[]> {
+  noStore();
   const client = createBlogPublicClient();
   if (!client) return [];
 
@@ -25,6 +27,7 @@ export async function getPublishedBlogPosts(limit = 24): Promise<BlogPost[]> {
 }
 
 export async function getPublishedBlogPostBySlug(slug: string): Promise<BlogPost | null> {
+  noStore();
   const client = createBlogPublicClient();
   if (!client) return null;
 

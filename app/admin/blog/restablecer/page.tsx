@@ -63,14 +63,15 @@ export default function ResetBlogPasswordPage() {
   }
 
   return (
-    <main className="grid min-h-screen place-items-center bg-slate-950 px-4 py-10 text-white">
-      <div className="w-full max-w-md rounded-[32px] border border-white/10 bg-white/[0.05] p-6 sm:p-8">
-        <div className="grid h-12 w-12 place-items-center rounded-2xl bg-brand-aqua/10 text-brand-aqua"><KeyRound size={21} /></div>
-        <h1 className="mt-5 text-3xl font-black">Nueva contraseña</h1>
-        <p className="mt-2 text-sm leading-6 text-slate-400">Defina una contraseña nueva para el administrador del blog.</p>
+    <main className="relative grid min-h-screen place-items-center overflow-hidden bg-[#f4f8f8] px-4 py-10">
+      <div className="pointer-events-none absolute right-0 top-0 h-72 w-72 rounded-full bg-brand-mist/45 blur-3xl" />
+      <div className="relative w-full max-w-md rounded-[32px] border border-slate-200 bg-white p-6 shadow-soft sm:p-8">
+        <div className="grid h-12 w-12 place-items-center rounded-2xl bg-brand-ice text-brand-teal"><KeyRound size={21} /></div>
+        <h1 className="mt-5 font-display text-3xl font-semibold text-brand-ink">Nueva contraseña</h1>
+        <p className="mt-2 text-sm leading-6 text-slate-600">Defina una contraseña nueva para el administrador del blog.</p>
 
         {!ready && !message ? (
-          <div className="mt-6 rounded-2xl border border-amber-400/20 bg-amber-400/10 px-4 py-3 text-xs leading-5 text-amber-100">
+          <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs font-semibold leading-5 text-amber-800">
             Abra esta página desde el enlace recibido por correo. Si el enlace ya fue usado o venció, solicite otro desde “Olvidé mi contraseña”.
           </div>
         ) : null}
@@ -85,7 +86,7 @@ export default function ResetBlogPasswordPage() {
               minLength={10}
               autoComplete="new-password"
               placeholder="Nueva contraseña"
-              className="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-sm outline-none placeholder:text-slate-600 focus:border-brand-aqua"
+              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-800 outline-none placeholder:text-slate-400 focus:border-brand-teal focus:bg-white focus:ring-4 focus:ring-brand-aqua/10"
             />
             <input
               type="password"
@@ -95,13 +96,13 @@ export default function ResetBlogPasswordPage() {
               minLength={10}
               autoComplete="new-password"
               placeholder="Confirmar nueva contraseña"
-              className="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-sm outline-none placeholder:text-slate-600 focus:border-brand-aqua"
+              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-800 outline-none placeholder:text-slate-400 focus:border-brand-teal focus:bg-white focus:ring-4 focus:ring-brand-aqua/10"
             />
-            {error && <p className="text-xs leading-5 text-rose-300">{error}</p>}
+            {error && <p className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-xs font-semibold leading-5 text-rose-700">{error}</p>}
             <button
               type="submit"
               disabled={loading}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-brand-aqua to-brand-deep px-5 py-3.5 text-sm font-black disabled:opacity-50"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-brand-deep px-5 py-3.5 text-sm font-black text-white shadow-soft transition hover:bg-brand-ink disabled:opacity-50"
             >
               {loading && <RefreshCw size={15} className="animate-spin" />} Guardar nueva contraseña
             </button>
@@ -109,9 +110,9 @@ export default function ResetBlogPasswordPage() {
         ) : null}
 
         {message && (
-          <div className="mt-6 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 px-4 py-4 text-sm text-emerald-100">
+          <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-4 text-sm font-semibold text-emerald-700">
             {message}
-            <a href="/admin/blog/login" className="mt-4 block font-black text-white no-underline">Ir al login →</a>
+            <a href="/admin/blog/login" className="mt-4 block font-black text-brand-deep no-underline">Ir al login →</a>
           </div>
         )}
       </div>

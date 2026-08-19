@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { requireBlogAdmin } from "@/lib/blog/auth";
 import { BLOG_FIELDS, ensureUniqueBlogSlug, normalizeBlogPostInput } from "@/lib/blog/admin-posts";
@@ -50,10 +51,14 @@ export async function PATCH(request: Request, { params }: { params: { id: string
       if (removeError) console.warn("No se pudo borrar la portada anterior:", removeError.message);
     }
 
-    return NextResponse.json({ post: data });
+    revalidatePath("/blog");
+    revalidatePath(`/blog/${current.slug}`);
+    revalidatePath(`/blog/${slug}`);
+
+    return NextResponse.json({ post: data }, { headers: { "Cache-Control": "no-store" } });
   } catch (error) {
     const message = error instanceof Error ? error.message : "No se pudo actualizar el articulo.";
-    return NextResponse.json({ error: message }, { status: 400 });
+    return NextResponse.json({ error: message }, { status: 400, headers: { "Cache-Control": "no-store" } });
   }
 }
 
@@ -67,24 +72,49 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
     const client = createBlogAdminClient();
     const { data: current, error: currentError } = await client
       .from("blog_posts")
-      .select("id,cover_path")
+      .select("id,slug,cover_path")
       .eq("id", params.id)
       .maybeSingle();
 
     if (currentError) throw new Error(currentError.message);
     if (!current) return NextResponse.json({ error: "Articulo no encontrado." }, { status: 404 });
 
-    const { error } = await client.from("blog_posts").delete().eq("id", params.id);
-    if (error) throw new Error(error.message);
+    const { data: deletedRows, error: deleteError } = await client
+      .from("blog_posts")
+      .delete()
+      .eq("id", params.id)
+      .select("id");
+
+    if (deleteError) throw new Error(deleteError.message);
+    if (!deletedRows?.some((row) => row.id === params.id)) {
+      throw new Error("Supabase no confirmo el borrado del articulo. Verifique la Secret Key del blog y los permisos de la tabla.");
+    }
+
+    const { data: stillExists, error: verifyError } = await client
+      .from("blog_posts")
+      .select("id")
+      .eq("id", params.id)
+      .maybeSingle();
+
+    if (verifyError) throw new Error(verifyError.message);
+    if (stillExists) {
+      throw new Error("El articulo sigue existiendo en la base de datos despues del intento de borrado.");
+    }
 
     if (current.cover_path) {
       const { error: removeError } = await client.storage.from(BLOG_COVERS_BUCKET).remove([current.cover_path]);
       if (removeError) console.warn("No se pudo borrar la portada del articulo:", removeError.message);
     }
 
-    return NextResponse.json({ ok: true });
+    revalidatePath("/blog");
+    revalidatePath(`/blog/${current.slug}`);
+
+    return NextResponse.json(
+      { ok: true, deletedId: params.id },
+      { headers: { "Cache-Control": "no-store" } }
+    );
   } catch (error) {
     const message = error instanceof Error ? error.message : "No se pudo borrar el articulo.";
-    return NextResponse.json({ error: message }, { status: 400 });
+    return NextResponse.json({ error: message }, { status: 400, headers: { "Cache-Control": "no-store" } });
   }
 }

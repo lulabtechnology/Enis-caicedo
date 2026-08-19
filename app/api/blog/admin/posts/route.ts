@@ -6,15 +6,11 @@ import type { BlogPostInput } from "@/lib/blog/types";
 
 export const dynamic = "force-dynamic";
 
-function authError(auth: Awaited<ReturnType<typeof requireBlogAdmin>>) {
-  if (auth.ok) return null;
-  return NextResponse.json({ error: auth.message }, { status: auth.status });
-}
-
 export async function GET(request: Request) {
   const auth = await requireBlogAdmin(request);
-  const denied = authError(auth);
-  if (denied) return denied;
+  if (!auth.ok) {
+    return NextResponse.json({ error: auth.message }, { status: auth.status });
+  }
 
   try {
     const client = createBlogAdminClient();
@@ -33,8 +29,9 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const auth = await requireBlogAdmin(request);
-  const denied = authError(auth);
-  if (denied || !auth.ok) return denied;
+  if (!auth.ok) {
+    return NextResponse.json({ error: auth.message }, { status: auth.status });
+  }
 
   try {
     const body = (await request.json()) as BlogPostInput;

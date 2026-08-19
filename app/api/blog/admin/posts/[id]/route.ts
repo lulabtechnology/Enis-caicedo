@@ -7,17 +7,11 @@ import type { BlogPostInput } from "@/lib/blog/types";
 
 export const dynamic = "force-dynamic";
 
-async function authorized(request: Request) {
+export async function PATCH(request: Request, { params }: { params: { id: string } }) {
   const auth = await requireBlogAdmin(request);
   if (!auth.ok) {
-    return { auth: null, response: NextResponse.json({ error: auth.message }, { status: auth.status }) };
+    return NextResponse.json({ error: auth.message }, { status: auth.status });
   }
-  return { auth, response: null };
-}
-
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
-  const guard = await authorized(request);
-  if (!guard.auth) return guard.response;
 
   try {
     const body = (await request.json()) as BlogPostInput;
@@ -64,8 +58,10 @@ export async function PATCH(request: Request, { params }: { params: { id: string
 }
 
 export async function DELETE(request: Request, { params }: { params: { id: string } }) {
-  const guard = await authorized(request);
-  if (!guard.auth) return guard.response;
+  const auth = await requireBlogAdmin(request);
+  if (!auth.ok) {
+    return NextResponse.json({ error: auth.message }, { status: auth.status });
+  }
 
   try {
     const client = createBlogAdminClient();

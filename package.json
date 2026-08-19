@@ -36,7 +36,7 @@
     "typescript": "^5.5.4"
   },
   "engines": {
-    "node": "20.x",
+    "node": "24.x",
     "npm": ">=10 <11"
   },
   "packageManager": "npm@10.9.2"

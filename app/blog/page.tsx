@@ -21,7 +21,7 @@ export default async function BlogPage() {
       <PageHero
         kicker="BLOG & ACTUALIDAD"
         title="Información para decidir con seguridad"
-        subtitle="Contenido práctico sobre derecho, bienes raíces e inversión en Panamá, explicado con claridad y criterio profesional."
+        subtitle="Contenido práctico sobre derecho e inversiones inmobiliarias bicontinentales, explicado con claridad y criterio profesional."
         image="/images/about-banner.jpg"
       />
 

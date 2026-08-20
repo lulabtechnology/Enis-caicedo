@@ -4,7 +4,7 @@ export const site = {
   locationLine: "Marbella, edificio World Trade Center, piso 19, oficina 1902",
 
   // ✅ Logo (lo usaremos en Header cuando me pegues Header.tsx)
-  logo: "/images/logo.png",
+  logo: "/images/brand/logo-lockup.png",
 
   // WhatsApp oficial (E.164)
   whatsapp: "+50763782755",

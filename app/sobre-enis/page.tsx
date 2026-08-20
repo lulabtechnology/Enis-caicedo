@@ -11,7 +11,7 @@ export default function AboutPage() {
         kicker="Perfil profesional"
         title="Sobre Enis Caicedo"
         subtitle="Abogada y corredora de bienes raíces, con enfoque en seguridad, confianza y ejecución estratégica."
-        image="/images/about-banner.webp"
+        image="/images/phase1/investment-office.webp"
       />
 
       <section className="editorial-section py-20 sm:py-24 lg:py-28">

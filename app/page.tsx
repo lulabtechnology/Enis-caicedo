@@ -46,7 +46,7 @@ export default function HomePage() {
             <article className="service-feature group">
               <div className="service-feature-media">
                 <Image
-                  src="/images/legal-banner.webp"
+                  src="/images/phase1/legal-office.webp"
                   alt="Servicios legales"
                   fill
                   sizes="(min-width: 1024px) 50vw, 100vw"
@@ -68,7 +68,7 @@ export default function HomePage() {
             <article className="service-feature group">
               <div className="service-feature-media">
                 <Image
-                  src="/images/realestate-banner.webp"
+                  src="/images/phase1/realestate-residence.webp"
                   alt="Bienes raíces e inversiones"
                   fill
                   sizes="(min-width: 1024px) 50vw, 100vw"
@@ -189,7 +189,7 @@ export default function HomePage() {
           <div className="final-cta" data-reveal>
             <div className="final-cta-media">
               <Image
-                src="/images/footer-desktop.webp"
+                src="/images/phase1/footer-panama-night.webp"
                 alt="Ciudad de Panamá"
                 fill
                 sizes="100vw"

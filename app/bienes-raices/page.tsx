@@ -13,7 +13,7 @@ export default function RealEstatePage() {
         kicker="Bienes raíces"
         title={copy.realestate.headline}
         subtitle={copy.realestate.lead}
-        image="/images/realestate-banner.webp"
+        image="/images/phase1/realestate-residence.webp"
       />
 
       <section className="editorial-section py-20 sm:py-24 lg:py-28">

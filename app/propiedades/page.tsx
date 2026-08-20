@@ -17,7 +17,7 @@ export default async function PropertiesPage() {
         kicker="Propiedades"
         title={copy.properties.headline}
         subtitle={copy.properties.lead}
-        image="/images/properties-banner.webp"
+        image="/images/phase1/realestate-residence.webp"
       />
 
       <section className="editorial-section py-20 sm:py-24 lg:py-28">

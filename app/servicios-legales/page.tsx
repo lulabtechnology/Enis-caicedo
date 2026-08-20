@@ -13,7 +13,7 @@ export default function LegalPage() {
         kicker="Servicios legales"
         title={copy.legal.headline}
         subtitle={copy.legal.lead}
-        image="/images/legal-banner.webp"
+        image="/images/phase1/legal-office.webp"
       />
 
       <section className="editorial-section py-20 sm:py-24 lg:py-28">

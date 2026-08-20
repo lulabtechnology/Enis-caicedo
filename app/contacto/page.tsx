@@ -12,7 +12,7 @@ export default function ContactPage() {
         kicker="Contacto"
         title={copy.contact.headline}
         subtitle="Agende su asesoría. Respuesta rápida por WhatsApp."
-        image="/images/realestate-banner.webp"
+        image="/images/phase1/contact-office.webp"
       />
 
       <section className="editorial-section py-20 sm:py-24 lg:py-28">

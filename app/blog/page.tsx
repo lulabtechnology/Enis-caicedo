@@ -21,7 +21,7 @@ export default async function BlogPage() {
         kicker="Blog & actualidad"
         title="Información para decidir con seguridad"
         subtitle="Contenido práctico sobre derecho e inversiones inmobiliarias bicontinentales, explicado con claridad y criterio profesional."
-        image="/images/about-banner.webp"
+        image="/images/phase1/editorial-desk.webp"
       />
 
       <section className="editorial-section py-20 sm:py-24 lg:py-28">

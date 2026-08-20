@@ -9,7 +9,7 @@ export default function TermsPage() {
         kicker="Términos"
         title="Términos y condiciones"
         subtitle="Información general sobre el uso de este sitio web."
-        image="/images/legal-banner.webp"
+        image="/images/phase1/legal-office.webp"
       />
 
       <section className="py-14 sm:py-16">

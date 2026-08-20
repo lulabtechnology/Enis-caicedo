@@ -20,8 +20,8 @@ export default function BlogCard({ post }: { post: BlogPost }) {
       <Link href={`/blog/${post.slug}`} className="block no-underline">
         <div className="relative aspect-[16/11] overflow-hidden bg-brand-ice">
           <Image src={image} alt={`Portada de ${post.title}`} fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="object-cover transition duration-700 group-hover:scale-[1.055]" />
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/38 via-transparent to-transparent" />
-          <div className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full border border-white/20 bg-brand-ink/45 text-white backdrop-blur transition duration-300 group-hover:rotate-12 group-hover:bg-brand-teal"><ArrowUpRight size={17} /></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/[.38] via-transparent to-transparent" />
+          <div className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full border border-white/20 bg-brand-ink/[.45] text-white backdrop-blur transition duration-300 group-hover:rotate-12 group-hover:bg-brand-teal"><ArrowUpRight size={17} /></div>
         </div>
 
         <div className="p-6 sm:p-7">

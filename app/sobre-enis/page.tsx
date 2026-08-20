@@ -61,7 +61,7 @@ export default function AboutPage() {
                 {copy.trust.credentials.map((credential, index) => (
                   <article key={credential} className="credential-card min-h-[150px]">
                     <span className="text-brand-aqua">0{index + 1}</span>
-                    <p className="text-sm font-semibold leading-6 text-white/78">{credential}</p>
+                    <p className="text-sm font-semibold leading-6 text-white/[.78]">{credential}</p>
                   </article>
                 ))}
               </div>

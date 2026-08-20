@@ -3,6 +3,7 @@ import Hero from "@/components/site/Hero";
 import Container from "@/components/ui/Container";
 import { copy, site } from "@/content/site";
 import { Button } from "@/components/ui/Button";
+import WhatsAppIcon from "@/components/site/WhatsAppIcon";
 import { waLink } from "@/lib/links";
 import {
   ArrowRight,
@@ -116,7 +117,7 @@ export default function HomePage() {
               <h2 className="display-heading display-heading-light mt-5">
                 Claridad antes de firmar. <span>Confianza después de decidir.</span>
               </h2>
-              <p className="mt-6 max-w-2xl text-base leading-8 text-white/72 sm:text-lg">
+              <p className="mt-6 max-w-2xl text-base leading-8 text-white/[.72] sm:text-lg">
                 Cada caso se aborda con una lectura integral: contexto legal, impacto patrimonial y viabilidad de la
                 operación. Ese cruce de perspectivas permite anticipar riesgos y tomar decisiones con mayor control.
               </p>
@@ -141,7 +142,7 @@ export default function HomePage() {
               </div>
 
               <div className="mt-9 flex flex-wrap gap-3">
-                <Button href="/sobre-enis" variant="secondary" className="border-white/15 bg-white/10 text-white hover:bg-white/15">
+                <Button href="/sobre-enis" variant="secondary" className="border-white/[.15] bg-white/10 text-white hover:bg-white/[.15]">
                   Conocer perfil
                 </Button>
                 <Button href={waHref} variant="primary">
@@ -203,16 +204,16 @@ export default function HomePage() {
                 <h2 className="display-heading display-heading-light mt-5 max-w-4xl">
                   Una conversación puede darle <span>más claridad a su próxima decisión.</span>
                 </h2>
-                <p className="mt-6 max-w-2xl text-base leading-8 text-white/75">
+                <p className="mt-6 max-w-2xl text-base leading-8 text-white/[.75]">
                   Cuéntenos su caso, inversión o necesidad. Coordinamos una asesoría y definimos el mejor punto de partida.
                 </p>
               </div>
               <div className="lg:col-span-4">
                 <div className="grid gap-3">
                   <Button href={waHref} variant="primary" className="w-full">
-                    Escribir por WhatsApp <ArrowRight size={15} />
+                    <WhatsAppIcon size={18} /> Escribir por WhatsApp <ArrowRight size={15} />
                   </Button>
-                  <Button href="/contacto" variant="secondary" className="w-full border-white/15 bg-white/10 text-white hover:bg-white/15">
+                  <Button href="/contacto" variant="secondary" className="w-full border-white/[.15] bg-white/10 text-white hover:bg-white/[.15]">
                     Ir a contacto
                   </Button>
                 </div>

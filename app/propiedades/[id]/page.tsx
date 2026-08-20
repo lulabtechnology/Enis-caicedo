@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import PageHero from "@/components/site/PageHero";
 import Container from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
+import WhatsAppIcon from "@/components/site/WhatsAppIcon";
 import { site } from "@/content/site";
 import { getPropertyById } from "@/lib/properties";
 import { waLink } from "@/lib/links";
@@ -170,7 +171,7 @@ export default async function PropertyDetailPage({ params }: { params: { id: str
 
                 <div className="mt-7">
                   <Button href={wa} variant="primary" className="w-full">
-                    Solicitar por WhatsApp
+                    <WhatsAppIcon size={18} /> Solicitar por WhatsApp
                   </Button>
                 </div>
 

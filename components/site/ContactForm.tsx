@@ -5,6 +5,7 @@ import { site, copy } from "@/content/site";
 import { waLink } from "@/lib/links";
 import { Button } from "@/components/ui/Button";
 import { ArrowUpRight } from "lucide-react";
+import WhatsAppIcon from "@/components/site/WhatsAppIcon";
 
 type Form = {
   nombre: string;
@@ -72,10 +73,10 @@ export default function ContactForm({ subject }: { subject?: string }) {
 
       <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <Button type="submit" variant="primary" className="w-full sm:w-auto">
-          {copy.contact.submit} <ArrowUpRight size={15} />
+          <WhatsAppIcon size={18} /> {copy.contact.submit} <ArrowUpRight size={15} />
         </Button>
         <a href={waHref} className="text-sm font-bold text-brand-teal no-underline hover:text-brand-ink" target="_blank" rel="noreferrer">
-          Abrir WhatsApp directamente
+          <span className="inline-flex items-center gap-2"><WhatsAppIcon size={17} /> Abrir WhatsApp directamente</span>
         </a>
       </div>
     </form>

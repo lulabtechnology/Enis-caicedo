@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
+import WhatsAppIcon from "@/components/site/WhatsAppIcon";
 import { site } from "@/content/site";
 import { waLink } from "@/lib/links";
 
@@ -99,7 +100,7 @@ export default function PropertyCard({ p }: { p: Property }) {
 
   return (
     <>
-      <div className="card group overflow-hidden border-brand-deep/10 bg-white/92">
+      <div className="card group overflow-hidden border-brand-deep/10 bg-white/[.92]">
         <button
           type="button"
           className="relative aspect-[4/3] w-full overflow-hidden text-left"
@@ -107,7 +108,7 @@ export default function PropertyCard({ p }: { p: Property }) {
           aria-label={`Ver fotos de ${p.title}`}
         >
           <Image src={gallery[0]} alt={p.title} fill className="object-cover transition duration-700 group-hover:scale-[1.045]" />
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/78 via-brand-ink/8 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/[.78] via-brand-ink/[.08] to-transparent" />
 
           <div className="absolute top-4 left-4 flex max-w-[85%] flex-col items-start gap-2">
             <span className="inline-flex rounded-full border border-brand-aqua/30 bg-white/95 px-3 py-1 text-xs font-bold text-slate-950 shadow-soft">
@@ -131,7 +132,7 @@ export default function PropertyCard({ p }: { p: Property }) {
         <div className="p-6 sm:p-7">
           <p className="text-sm text-slate-600">{p.location}</p>
 
-          <div className="mt-4 grid gap-2 rounded-2xl border border-brand-aqua/15 bg-brand-ice/55 p-4 text-sm">
+          <div className="mt-4 grid gap-2 rounded-2xl border border-brand-aqua/[.15] bg-brand-ice/[.55] p-4 text-sm">
             <div className="flex items-start justify-between gap-3">
               <span className="font-semibold text-slate-700">Precio</span>
               <span className="text-right font-bold text-brand-teal">{priceLabel}</span>
@@ -184,7 +185,7 @@ export default function PropertyCard({ p }: { p: Property }) {
               Ver fotos
             </Button>
             <Button href={wa} variant="primary" className="w-full">
-              WhatsApp
+              <WhatsAppIcon size={18} /> WhatsApp
             </Button>
           </div>
 
@@ -287,7 +288,7 @@ export default function PropertyCard({ p }: { p: Property }) {
 
                   <div className="mt-5">
                     <Button href={wa} variant="primary" className="w-full">
-                      Solicitar por WhatsApp
+                      <WhatsAppIcon size={18} /> Solicitar por WhatsApp
                     </Button>
                   </div>
 

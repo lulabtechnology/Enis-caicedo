@@ -6,7 +6,8 @@ import { usePathname } from "next/navigation";
 import { useMemo, useState } from "react";
 import Container from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import WhatsAppIcon from "@/components/site/WhatsAppIcon";
 import { site } from "@/content/site";
 import { waLink } from "@/lib/links";
 
@@ -22,21 +23,18 @@ const nav = [
 export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const waHref = useMemo(() => waLink(site.whatsapp, "Hola, me gustaría solicitar una asesoría personalizada con Enis Caicedo. ¿Podemos coordinar una cita?"), []);
+  const waHref = useMemo(
+    () => waLink(site.whatsapp, "Hola, me gustaría solicitar una asesoría personalizada con Enis Caicedo. ¿Podemos coordinar una cita?"),
+    []
+  );
 
   return (
     <header className="site-header" data-site-header>
       <div className="site-header-shell">
         <Container>
-          <div className="flex min-h-[78px] items-center justify-between gap-4 lg:min-h-[88px]">
-            <Link href="/" className="group flex min-w-0 items-center gap-3 no-underline" onClick={() => setOpen(false)} aria-label="Enis Caicedo - Inicio">
-              <div className="brand-mark relative h-14 w-[76px] shrink-0 overflow-hidden rounded-2xl sm:h-16 sm:w-[88px]">
-                <Image src="/images/brand/logo-symbol.png" alt="Símbolo de Enis Caicedo" fill sizes="88px" className="object-contain p-1.5 transition duration-500 group-hover:scale-[1.04]" priority />
-              </div>
-              <div className="min-w-0 leading-tight">
-                <div className="brand-name truncate">{site.brand}</div>
-                <div className="brand-role">Abogada &amp; Real Estate</div>
-              </div>
+          <div className="site-header-inner flex items-center justify-between gap-4">
+            <Link href="/" className="site-brand-link group shrink-0 no-underline" onClick={() => setOpen(false)} aria-label="Enis Caicedo - Inicio">
+              <Image src={site.logo} alt="Enis Caicedo, Abogada y Corredora de Bienes Raíces" width={799} height={518} className="header-brand-logo" priority />
             </Link>
 
             <nav className="hidden items-center gap-1 lg:flex" aria-label="Navegación principal">
@@ -48,7 +46,7 @@ export default function Header() {
 
             <div className="hidden items-center gap-2 xl:flex">
               <a href={`tel:${site.phone.replace(/[^+\d]/g, "")}`} className="header-phone no-underline"><span className="header-phone-dot" />{site.phone}</a>
-              <Button href={waHref} variant="primary" className="px-5">WhatsApp <ArrowUpRight size={15} /></Button>
+              <Button href={waHref} variant="primary" className="header-whatsapp-button px-5"><WhatsAppIcon size={18} /><span>WhatsApp</span></Button>
             </div>
 
             <button type="button" className="mobile-menu-button lg:hidden" onClick={() => setOpen((value) => !value)} aria-label={open ? "Cerrar menú" : "Abrir menú"} aria-expanded={open}>
@@ -67,7 +65,7 @@ export default function Header() {
               </Link>
             ))}
             <div className="mt-3 grid gap-3 sm:grid-cols-2">
-              <Button href={waHref} variant="primary" className="w-full" onClick={() => setOpen(false)}>Escribir por WhatsApp</Button>
+              <Button href={waHref} variant="primary" className="w-full" onClick={() => setOpen(false)}><WhatsAppIcon size={18} />Escribir por WhatsApp</Button>
               <Button href="/contacto" variant="secondary" className="w-full" onClick={() => setOpen(false)}>Agendar asesoría</Button>
             </div>
           </div>

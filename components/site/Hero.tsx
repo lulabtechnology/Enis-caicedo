@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { site, copy } from "@/content/site";
 import { waLink } from "@/lib/links";
 import { ArrowDown, ArrowRight, BadgeCheck, Building2, ShieldCheck } from "lucide-react";
+import WhatsAppIcon from "@/components/site/WhatsAppIcon";
 
 export default function Hero() {
   const waHref = waLink(
@@ -64,7 +65,7 @@ export default function Hero() {
 
               <div className="mt-8 flex flex-wrap gap-3" data-hero-line>
                 <Button href={waHref} variant="primary" className="hero-primary-cta">
-                  {copy.hero.primaryCta} <ArrowRight size={16} />
+                  <WhatsAppIcon size={18} /> {copy.hero.primaryCta} <ArrowRight size={16} />
                 </Button>
                 <Button href="/propiedades" variant="secondary" className="hero-secondary-cta">
                   Explorar propiedades

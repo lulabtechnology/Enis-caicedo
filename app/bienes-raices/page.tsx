@@ -47,7 +47,7 @@ export default function RealEstatePage() {
               <h3 className="mt-4 font-display text-4xl font-semibold leading-none sm:text-5xl">Explore inventario y oportunidades disponibles.</h3>
             </div>
             <div className="lg:col-span-4 lg:text-right">
-              <a href="/propiedades" className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-6 py-3 text-sm font-bold text-white no-underline transition hover:bg-white/15">Ver propiedades <ArrowRight size={16} /></a>
+              <a href="/propiedades" className="inline-flex items-center gap-2 rounded-full border border-white/[.15] bg-white/10 px-6 py-3 text-sm font-bold text-white no-underline transition hover:bg-white/[.15]">Ver propiedades <ArrowRight size={16} /></a>
             </div>
           </div>
         </Container>

@@ -55,13 +55,13 @@ export default async function BlogArticlePage({ params }: { params: { slug: stri
         <Container>
           <div className="relative flex min-h-[62svh] items-end py-12 sm:py-16 lg:py-20">
             <div className="max-w-5xl">
-              <Link href="/blog" className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[.12em] text-white/65 no-underline hover:text-brand-aqua" data-hero-line>
+              <Link href="/blog" className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[.12em] text-white/[.65] no-underline hover:text-brand-aqua" data-hero-line>
                 <ArrowLeft size={15} /> Volver al blog
               </Link>
               <p className="mt-8 text-xs font-extrabold uppercase tracking-[.2em] text-brand-aqua" data-hero-line>Blog Enis Caicedo</p>
               <h1 className="mt-4 max-w-5xl font-display text-[clamp(3.7rem,8vw,7.8rem)] font-semibold leading-[.84] tracking-[-.045em] text-white" data-hero-line>{post.title}</h1>
-              <p className="mt-6 max-w-3xl text-base leading-8 text-white/72 sm:text-lg" data-hero-line>{post.excerpt}</p>
-              <div className="mt-6 flex items-center gap-2 text-xs font-bold uppercase tracking-[.1em] text-white/48" data-hero-line><CalendarDays size={15} className="text-brand-aqua" /> {formatDate(post.published_at)}</div>
+              <p className="mt-6 max-w-3xl text-base leading-8 text-white/[.72] sm:text-lg" data-hero-line>{post.excerpt}</p>
+              <div className="mt-6 flex items-center gap-2 text-xs font-bold uppercase tracking-[.1em] text-white/[.48]" data-hero-line><CalendarDays size={15} className="text-brand-aqua" /> {formatDate(post.published_at)}</div>
             </div>
           </div>
         </Container>

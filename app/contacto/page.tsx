@@ -35,12 +35,12 @@ export default function ContactPage() {
 
               <div className="relative mt-6 aspect-[16/11] overflow-hidden rounded-[30px] shadow-soft">
                 <Image src="/images/contact-photo.webp" alt="Enis Caicedo" fill sizes="(min-width: 1024px) 38vw, 100vw" className="object-cover object-top" />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/45 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/[.45] via-transparent to-transparent" />
               </div>
             </div>
 
             <div className="lg:col-span-7" data-reveal>
-              <div className="rounded-[32px] border border-brand-deep/10 bg-white/86 p-4 shadow-soft sm:p-7">
+              <div className="rounded-[32px] border border-brand-deep/10 bg-white/[.86] p-4 shadow-soft sm:p-7">
                 <ContactForm subject="Contacto / Agendar cita" />
               </div>
             </div>

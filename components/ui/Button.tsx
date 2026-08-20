@@ -19,16 +19,15 @@ export function Button({
   type = "button"
 }: Props) {
   const base =
-    "inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-brand-aqua/40";
+    "premium-button inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-bold no-underline transition duration-300 focus:outline-none focus:ring-2 focus:ring-brand-aqua/35";
 
   const styles: Record<string, string> = {
     primary:
-      "text-white border border-white/10 shadow-glow hover:opacity-95 " +
-      "bg-[linear-gradient(135deg,rgba(18,182,182,1),rgba(14,143,147,1),rgba(6,55,59,1))]",
+      "premium-button-primary border border-brand-aqua/25 bg-brand-deep text-white shadow-glow hover:-translate-y-0.5",
     secondary:
-      "bg-white text-slate-900 border border-slate-200 hover:border-slate-300 shadow-soft",
+      "premium-button-secondary border border-slate-200/90 bg-white/92 text-brand-ink shadow-soft hover:-translate-y-0.5 hover:border-brand-aqua/40",
     ghost:
-      "bg-transparent text-slate-900 hover:bg-white/60 border border-transparent"
+      "border border-transparent bg-transparent text-brand-ink hover:border-brand-aqua/20 hover:bg-white/70"
   };
 
   const cls = cn(base, styles[variant], className);

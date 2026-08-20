@@ -82,7 +82,7 @@ export default async function PropertyDetailPage({ params }: { params: { id: str
         kicker={property.source ? property.source : "Propiedad"}
         title={property.title}
         subtitle={`${priceLabel} · ${property.location}${mlsCode ? ` · Código MLS/ACOBIR ${mlsCode}` : ""}`}
-        image={gallery[0] || "/images/properties-banner.jpg"}
+        image={gallery[0] || "/images/properties-banner.webp"}
       />
 
       <section className="py-14 sm:py-16">
@@ -92,7 +92,7 @@ export default async function PropertyDetailPage({ params }: { params: { id: str
               <div className="card overflow-hidden">
                 <div className="relative aspect-[16/10] w-full">
                   <Image
-                    src={gallery[0] || "/images/properties-banner.jpg"}
+                    src={gallery[0] || "/images/properties-banner.webp"}
                     alt={property.title}
                     fill
                     className="object-cover"

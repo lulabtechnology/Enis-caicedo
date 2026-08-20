@@ -55,7 +55,7 @@ export default function PropertyCard({ p }: { p: Property }) {
   const [active, setActive] = useState(0);
 
   const gallery = useMemo(() => {
-    const cover = p.image || "/images/properties-banner.jpg";
+    const cover = p.image || "/images/properties-banner.webp";
     const base = Array.isArray(p.images) && p.images.length ? p.images : [cover];
     const normalized = [cover, ...base.filter((x) => x && x !== cover)];
     return normalized.slice(0, 12);
@@ -99,15 +99,15 @@ export default function PropertyCard({ p }: { p: Property }) {
 
   return (
     <>
-      <div className="card overflow-hidden border-slate-200">
+      <div className="card group overflow-hidden border-brand-deep/10 bg-white/92">
         <button
           type="button"
-          className="relative h-52 w-full text-left"
+          className="relative aspect-[4/3] w-full overflow-hidden text-left"
           onClick={() => setOpen(true)}
           aria-label={`Ver fotos de ${p.title}`}
         >
-          <Image src={gallery[0]} alt={p.title} fill className="object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/65 via-brand-ink/10 to-transparent" />
+          <Image src={gallery[0]} alt={p.title} fill className="object-cover transition duration-700 group-hover:scale-[1.045]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/78 via-brand-ink/8 to-transparent" />
 
           <div className="absolute top-4 left-4 flex max-w-[85%] flex-col items-start gap-2">
             <span className="inline-flex rounded-full border border-brand-aqua/30 bg-white/95 px-3 py-1 text-xs font-bold text-slate-950 shadow-soft">
@@ -124,14 +124,14 @@ export default function PropertyCard({ p }: { p: Property }) {
             <p className="text-xs font-semibold tracking-widest text-white/80">
               {p.building}
             </p>
-            <p className="mt-1 text-sm font-semibold text-white">{p.title}</p>
+            <p className="mt-2 font-display text-2xl font-semibold leading-none text-white">{p.title}</p>
           </div>
         </button>
 
-        <div className="p-6">
+        <div className="p-6 sm:p-7">
           <p className="text-sm text-slate-600">{p.location}</p>
 
-          <div className="mt-3 grid gap-2 rounded-2xl border border-slate-200 bg-brand-ice/70 p-4 text-sm">
+          <div className="mt-4 grid gap-2 rounded-2xl border border-brand-aqua/15 bg-brand-ice/55 p-4 text-sm">
             <div className="flex items-start justify-between gap-3">
               <span className="font-semibold text-slate-700">Precio</span>
               <span className="text-right font-bold text-brand-teal">{priceLabel}</span>

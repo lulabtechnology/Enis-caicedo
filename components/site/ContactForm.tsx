@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { site, copy } from "@/content/site";
 import { waLink } from "@/lib/links";
 import { Button } from "@/components/ui/Button";
+import { ArrowUpRight } from "lucide-react";
 
 type Form = {
   nombre: string;
@@ -14,14 +15,7 @@ type Form = {
 };
 
 export default function ContactForm({ subject }: { subject?: string }) {
-  const [f, setF] = useState<Form>({
-    nombre: "",
-    apellido: "",
-    email: "",
-    telefono: "",
-    mensaje: ""
-  });
-
+  const [f, setF] = useState<Form>({ nombre: "", apellido: "", email: "", telefono: "", mensaje: "" });
   const [err, setErr] = useState<string | null>(null);
 
   const waHref = useMemo(() => {
@@ -32,8 +26,7 @@ export default function ContactForm({ subject }: { subject?: string }) {
       `Email: ${f.email}\n` +
       `Teléfono: ${f.telefono}\n` +
       `Mensaje: ${f.mensaje}\n\n` +
-      `Hola, me gustaría agendar una asesoría personalizada.`;
-
+      "Hola, me gustaría agendar una asesoría personalizada.";
     return waLink(site.whatsapp, msg);
   }, [f, subject]);
 
@@ -48,46 +41,41 @@ export default function ContactForm({ subject }: { subject?: string }) {
   }
 
   return (
-    <form onSubmit={onSubmit} className="surface-tint p-6 sm:p-7">
-      <p className="text-sm font-semibold text-slate-900">
-        {copy.contact.lead}
-      </p>
+    <form onSubmit={onSubmit} className="contact-form-premium">
+      <div className="flex flex-col gap-2 border-b border-brand-deep/10 pb-6 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="kicker">SOLICITUD DE ASESORÍA</p>
+          <p className="mt-3 max-w-xl text-sm leading-7 text-slate-600">{copy.contact.lead}</p>
+        </div>
+        <span className="text-[10px] font-extrabold uppercase tracking-[.16em] text-slate-400">Respuesta por WhatsApp</span>
+      </div>
 
-      <div className="mt-5 grid gap-4 sm:grid-cols-2">
+      <div className="mt-6 grid gap-5 sm:grid-cols-2">
         <Field label="Nombre" value={f.nombre} onChange={(v) => setF((p) => ({ ...p, nombre: v }))} required />
         <Field label="Apellido" value={f.apellido} onChange={(v) => setF((p) => ({ ...p, apellido: v }))} required />
         <Field label="Email" type="email" value={f.email} onChange={(v) => setF((p) => ({ ...p, email: v }))} required />
         <Field label="Teléfono" value={f.telefono} onChange={(v) => setF((p) => ({ ...p, telefono: v }))} required />
       </div>
 
-      <div className="mt-4">
-        <label className="text-sm font-semibold text-slate-900">
-          Mensaje <span className="text-brand-gold">*</span>
-        </label>
+      <div className="mt-5">
+        <label className="form-label">Mensaje <span>*</span></label>
         <textarea
-          className="mt-2 h-28 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-brand-aqua/35"
+          className="form-control min-h-36 resize-y"
           value={f.mensaje}
           onChange={(e) => setF((p) => ({ ...p, mensaje: e.target.value }))}
-          placeholder="Describa brevemente su caso o necesidad."
+          placeholder="Describa brevemente su caso, inversión o necesidad."
         />
       </div>
 
-      <p className="mt-4 text-xs leading-5 text-slate-500">{copy.contact.consent}</p>
+      <p className="mt-4 text-xs leading-6 text-slate-500">{copy.contact.consent}</p>
+      {err ? <p className="mt-3 rounded-2xl bg-red-50 px-4 py-3 text-sm font-bold text-red-700">{err}</p> : null}
 
-      {err ? <p className="mt-3 text-sm font-semibold text-red-600">{err}</p> : null}
-
-      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <Button type="submit" variant="primary" className="w-full sm:w-auto">
-          {copy.contact.submit}
+          {copy.contact.submit} <ArrowUpRight size={15} />
         </Button>
-
-        <a
-          href={waHref}
-          className="text-sm font-semibold text-brand-teal hover:text-brand-ink no-underline"
-          target="_blank"
-          rel="noreferrer"
-        >
-          O abrir WhatsApp directamente
+        <a href={waHref} className="text-sm font-bold text-brand-teal no-underline hover:text-brand-ink" target="_blank" rel="noreferrer">
+          Abrir WhatsApp directamente
         </a>
       </div>
     </form>
@@ -109,16 +97,8 @@ function Field({
 }) {
   return (
     <div>
-      <label className="text-sm font-semibold text-slate-900">
-        {label} {required ? <span className="text-brand-gold">*</span> : null}
-      </label>
-      <input
-        type={type}
-        className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-brand-aqua/35"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={label}
-      />
+      <label className="form-label">{label} {required ? <span>*</span> : null}</label>
+      <input type={type} className="form-control" value={value} onChange={(e) => onChange(e.target.value)} placeholder={label} />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Container from "@/components/ui/Container";
+import { ArrowDownRight } from "lucide-react";
 
 export default function PageHero({
   kicker,
@@ -13,25 +14,37 @@ export default function PageHero({
   image: string;
 }) {
   return (
-    <section className="relative overflow-hidden">
+    <section className="page-hero relative isolate overflow-hidden">
       <div className="absolute inset-0">
-        <Image src={image} alt={title} fill priority className="object-cover" />
+        <Image
+          src={image}
+          alt={title}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+          data-parallax
+        />
       </div>
-
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(7,22,28,0.92),rgba(6,55,59,0.70),rgba(7,22,28,0.20))]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_22%,rgba(18,182,182,0.26),transparent_60%)]" />
+      <div className="page-hero-overlay absolute inset-0" />
+      <div className="hero-grid absolute inset-0 opacity-50" aria-hidden="true" />
 
       <Container>
-        <div className="relative py-16 sm:py-20">
-          <div className="surface-deep p-7 sm:p-9">
-            <p className="text-xs font-semibold tracking-[0.22em] text-white/70">{kicker}</p>
-            <h1 className="mt-3 font-display text-4xl font-semibold tracking-tight text-[#12B6B6] sm:text-5xl">
-              {title}
-            </h1>
+        <div className="relative flex min-h-[52svh] items-end py-12 sm:min-h-[56svh] sm:py-16 lg:min-h-[60svh] lg:py-20">
+          <div className="grid w-full gap-8 lg:grid-cols-12 lg:items-end">
+            <div className="lg:col-span-8">
+              <div className="page-hero-kicker" data-hero-line>
+                <span /> {kicker}
+              </div>
+              <h1 className="page-hero-title mt-5" data-hero-line>{title}</h1>
+            </div>
             {subtitle ? (
-              <p className="mt-5 max-w-2xl text-base leading-7 text-white/80">
-                {subtitle}
-              </p>
+              <div className="lg:col-span-4" data-hero-line>
+                <div className="page-hero-note">
+                  <ArrowDownRight size={18} className="shrink-0 text-brand-aqua" />
+                  <p>{subtitle}</p>
+                </div>
+              </div>
             ) : null}
           </div>
         </div>

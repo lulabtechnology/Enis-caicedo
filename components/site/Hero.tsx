@@ -3,7 +3,7 @@ import Container from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { site, copy } from "@/content/site";
 import { waLink } from "@/lib/links";
-import { ArrowRight, ShieldCheck, Scale, Home } from "lucide-react";
+import { ArrowDown, ArrowRight, BadgeCheck, Building2, Scale, ShieldCheck } from "lucide-react";
 
 export default function Hero() {
   const waHref = waLink(
@@ -12,142 +12,149 @@ export default function Hero() {
   );
 
   return (
-    <section className="relative overflow-hidden">
-      {/* Background */}
+    <section className="home-hero relative isolate overflow-hidden">
       <div className="absolute inset-0 hidden md:block">
         <Image
-          src="/images/hero-desktop.jpg"
-          alt="Hero Enis Caicedo"
+          src="/images/hero-desktop.webp"
+          alt="Ciudad de Panamá frente al mar"
           fill
           priority
+          sizes="100vw"
           className="object-cover"
+          data-parallax
         />
       </div>
       <div className="absolute inset-0 md:hidden">
         <Image
-          src="/images/hero-mobile.jpg"
-          alt="Hero Enis Caicedo móvil"
+          src="/images/hero-mobile.webp"
+          alt="Ciudad de Panamá frente al mar"
           fill
           priority
+          sizes="100vw"
           className="object-cover"
         />
       </div>
 
-      {/* Overlay: SOLO VERDES (sin dorado) */}
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(7,22,28,0.92),rgba(6,55,59,0.72),rgba(7,22,28,0.18))]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(18,182,182,0.30),transparent_60%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_40%,rgba(18,182,182,0.18),transparent_60%)]" />
+      <div className="hero-cinematic-overlay absolute inset-0" />
+      <div className="hero-grid absolute inset-0" aria-hidden="true" />
+      <div className="hero-glow hero-glow-a" aria-hidden="true" />
+      <div className="hero-glow hero-glow-b" aria-hidden="true" />
 
       <Container>
-        <div className="relative grid min-h-[78vh] items-center py-14 sm:py-20">
-          <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
-            {/* LEFT */}
-            <div className="lg:col-span-7">
-              <div className="surface-deep p-6 sm:p-8">
-                <p className="text-xs font-semibold tracking-[0.22em] text-white/70">
-                  {site.tagline}
-                </p>
+        <div className="relative flex min-h-[calc(100svh-76px)] items-center py-12 sm:py-16 lg:min-h-[calc(100svh-82px)] lg:py-20">
+          <div className="grid w-full gap-12 lg:grid-cols-12 lg:items-center">
+            <div className="relative z-10 lg:col-span-7 xl:col-span-7">
+              <div className="hero-eyebrow" data-hero-line>
+                <span className="hero-eyebrow-dot" />
+                {site.tagline}
+              </div>
 
-                <h1 className="mt-4 font-display text-4xl font-semibold tracking-tight text-[#12B6B6] sm:text-5xl lg:text-6xl">
-                  {copy.hero.name}
-                </h1>
+              <h1 className="hero-title mt-6 max-w-5xl" data-hero-line>
+                Estrategia legal.
+                <span>Visión inmobiliaria.</span>
+              </h1>
 
-                <p className="mt-3 text-lg font-semibold text-[#12B6B6] opacity-90 sm:text-xl">
-                  {copy.hero.role}
-                </p>
+              <p className="hero-statement mt-6 max-w-2xl" data-hero-line>
+                {copy.hero.headline}
+              </p>
 
-                <div className="mt-6 h-px w-full bg-white/10" />
+              <p className="hero-copy mt-5 max-w-2xl" data-hero-line>
+                {copy.hero.sub}
+              </p>
 
-                <p className="mt-6 text-base leading-7 text-white/80 sm:text-lg">
-                  {copy.hero.headline}
-                </p>
+              <div className="mt-8 flex flex-wrap gap-3" data-hero-line>
+                <Button href={waHref} variant="primary" className="hero-primary-cta">
+                  {copy.hero.primaryCta} <ArrowRight size={16} />
+                </Button>
+                <Button href="/propiedades" variant="secondary" className="hero-secondary-cta">
+                  Explorar propiedades
+                </Button>
+              </div>
 
-                <p className="mt-4 text-sm leading-6 text-white/75">
-                  {copy.hero.sub}
-                </p>
-
-                <div className="mt-7 flex flex-wrap gap-2">
-                  <span className="badge-dark"><ShieldCheck size={14} /> Seguridad</span>
-                  <span className="badge-dark"><Scale size={14} /> Legal</span>
-                  <span className="badge-dark"><Home size={14} /> Inmobiliario</span>
+              <div className="hero-proof-grid mt-10" data-stagger>
+                <div className="hero-proof-item">
+                  <ShieldCheck size={17} />
+                  <div>
+                    <strong>9 años</strong>
+                    <span>de experiencia en derecho</span>
+                  </div>
                 </div>
-
-                <div className="mt-8 flex flex-wrap items-center gap-3">
-                  <Button
-                    href={waHref}
-                    variant="primary"
-                    className="after:border-[#12B6B6]/35"
-                  >
-                    {copy.hero.primaryCta} <ArrowRight size={16} />
-                  </Button>
-
-                  <Button
-                    href="/servicios-legales"
-                    variant="secondary"
-                    className="bg-white/10 text-white border-white/20 hover:border-white/30"
-                  >
-                    {copy.hero.secondaryCta}
-                  </Button>
+                <div className="hero-proof-item">
+                  <BadgeCheck size={17} />
+                  <div>
+                    <strong>ACOBIR &amp; ANDAP</strong>
+                    <span>respaldo profesional</span>
+                  </div>
                 </div>
-
-                <div className="mt-8 grid gap-2 sm:grid-cols-2">
-                  {copy.hero.bullets.map((b) => (
-                    <div
-                      key={b}
-                      className="flex items-start gap-3 rounded-3xl border border-white/10 bg-white/10 p-4"
-                    >
-                      <span className="mt-1 h-2 w-2 rounded-full bg-[#12B6B6]" />
-                      <p className="text-sm leading-6 text-white/80">{b}</p>
-                    </div>
-                  ))}
+                <div className="hero-proof-item">
+                  <Building2 size={17} />
+                  <div>
+                    <strong>Legal + Real Estate</strong>
+                    <span>una visión integral</span>
+                  </div>
                 </div>
-
-                <p className="mt-8 text-sm text-white/70">{site.locationLine}</p>
               </div>
             </div>
 
-            {/* RIGHT: foto */}
-            <div className="lg:col-span-5">
-              <div className="mx-auto w-full max-w-sm">
-                <div className="surface-deep overflow-hidden">
-                  <div className="relative aspect-[4/5] w-full">
-                    <div className="absolute inset-0 hidden md:block">
-                      <Image
-                        src="/images/enis-profile.jpg"
-                        alt="Foto profesional de Enis Caicedo"
-                        fill
-                        className="object-cover"
-                        priority
-                      />
-                    </div>
-                    <div className="absolute inset-0 md:hidden">
-                      <Image
-                        src="/images/enis-profile-mobile.jpg"
-                        alt="Foto profesional de Enis Caicedo (móvil)"
-                        fill
-                        className="object-cover"
-                        priority
-                      />
-                    </div>
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(7,22,28,0.62))]" />
-                  </div>
-
-                  <div className="p-5">
-                    <p className="text-sm font-semibold text-[#12B6B6]">
-                      Abogada &amp; Real Estate
-                    </p>
-                    <p className="mt-2 text-sm leading-6 text-white/75">
-                      Respuesta rápida por WhatsApp. Agenda y plan según su necesidad.
-                    </p>
+            <div className="relative lg:col-span-5 xl:col-span-5">
+              <div className="hero-portrait-stage" data-hero-line>
+                <div className="hero-portrait-ring" aria-hidden="true" />
+                <div className="hero-portrait-card">
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem]">
+                    <Image
+                      src="/images/enis-profile1.webp"
+                      alt="Enis Caicedo, abogada y corredora de bienes raíces"
+                      fill
+                      priority
+                      sizes="(min-width: 1024px) 38vw, 78vw"
+                      className="object-cover object-top"
+                    />
+                    <div className="hero-portrait-shade absolute inset-0" />
                   </div>
                 </div>
 
-                {/* ✅ Eliminado el texto de rutas que estaba circundado */}
+                <div className="hero-floating-card hero-floating-card-a" data-float>
+                  <Scale size={18} />
+                  <div>
+                    <span>Protección legal</span>
+                    <strong>Decidir con respaldo</strong>
+                  </div>
+                </div>
+
+                <div className="hero-floating-card hero-floating-card-b" data-float>
+                  <Building2 size={18} />
+                  <div>
+                    <span>Inversión inmobiliaria</span>
+                    <strong>Evaluar antes de firmar</strong>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </Container>
+
+      <div className="hero-bottom-bar">
+        <Container>
+          <div className="hero-bottom-inner">
+            <div className="hero-marquee" aria-label="Servicios principales">
+              <div className="hero-marquee-track">
+                <span>Derecho</span><i />
+                <span>Bienes raíces</span><i />
+                <span>Inversionistas</span><i />
+                <span>Panamá</span><i />
+                <span>Derecho</span><i />
+                <span>Bienes raíces</span><i />
+                <span>Inversionistas</span><i />
+                <span>Panamá</span><i />
+              </div>
+            </div>
+            <a href="#inicio-contenido" className="hero-scroll-cue no-underline">
+              Descubrir <ArrowDown size={14} />
+            </a>
+          </div>
+        </Container>
+      </div>
     </section>
   );
 }

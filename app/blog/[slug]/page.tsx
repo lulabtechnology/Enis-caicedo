@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, CalendarDays } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarDays } from "lucide-react";
 import BlogContent from "@/components/blog/BlogContent";
 import Container from "@/components/ui/Container";
 import { getPublishedBlogPostBySlug } from "@/lib/blog/posts";
@@ -12,11 +12,7 @@ export const dynamic = "force-dynamic";
 
 function formatDate(value: string | null): string {
   if (!value) return "";
-  return new Intl.DateTimeFormat("es-PA", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric"
-  }).format(new Date(value));
+  return new Intl.DateTimeFormat("es-PA", { day: "2-digit", month: "long", year: "numeric" }).format(new Date(value));
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
@@ -24,7 +20,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   if (!post) return { title: "Artículo no encontrado | Enis Caicedo" };
 
   const url = `${publicSiteUrl()}/blog/${post.slug}`;
-  const image = post.cover_url || `${publicSiteUrl()}/images/about-banner.jpg`;
+  const image = post.cover_url || `${publicSiteUrl()}/images/about-banner.webp`;
 
   return {
     title: `${post.title} | Enis Caicedo`,
@@ -45,44 +41,47 @@ export default async function BlogArticlePage({ params }: { params: { slug: stri
   const post = await getPublishedBlogPostBySlug(params.slug);
   if (!post) notFound();
 
-  const cover = post.cover_url || "/images/about-banner.jpg";
+  const cover = post.cover_url || "/images/about-banner.webp";
 
   return (
-    <article className="pb-8">
-      <section className="border-b border-slate-200 bg-white/75 py-10 sm:py-14">
+    <article>
+      <section className="relative isolate -mt-[88px] overflow-hidden bg-brand-ink pt-[88px] sm:min-h-[70svh]">
+        <div className="absolute inset-0">
+          <Image src={cover} alt={`Portada de ${post.title}`} fill priority sizes="100vw" className="object-cover" data-parallax />
+        </div>
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,28,32,.97),rgba(5,46,50,.82)_54%,rgba(5,28,32,.52)),linear-gradient(180deg,rgba(7,22,28,.16),rgba(7,22,28,.82))]" />
+        <div className="hero-grid absolute inset-0 opacity-25" />
+
         <Container>
-          <Link href="/blog" className="inline-flex items-center gap-2 text-sm font-semibold text-brand-teal no-underline hover:text-brand-deep">
-            <ArrowLeft size={16} /> Volver al blog
-          </Link>
-          <div className="mt-6 max-w-4xl">
-            <p className="kicker">BLOG ENIS CAICEDO</p>
-            <h1 className="mt-3 font-display text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
-              {post.title}
-            </h1>
-            <p className="mt-5 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg">{post.excerpt}</p>
-            <div className="mt-5 flex items-center gap-2 text-sm font-semibold text-slate-500">
-              <CalendarDays size={16} className="text-brand-teal" /> {formatDate(post.published_at)}
+          <div className="relative flex min-h-[62svh] items-end py-12 sm:py-16 lg:py-20">
+            <div className="max-w-5xl">
+              <Link href="/blog" className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[.12em] text-white/65 no-underline hover:text-brand-aqua" data-hero-line>
+                <ArrowLeft size={15} /> Volver al blog
+              </Link>
+              <p className="mt-8 text-xs font-extrabold uppercase tracking-[.2em] text-brand-aqua" data-hero-line>Blog Enis Caicedo</p>
+              <h1 className="mt-4 max-w-5xl font-display text-[clamp(3.7rem,8vw,7.8rem)] font-semibold leading-[.84] tracking-[-.045em] text-white" data-hero-line>{post.title}</h1>
+              <p className="mt-6 max-w-3xl text-base leading-8 text-white/72 sm:text-lg" data-hero-line>{post.excerpt}</p>
+              <div className="mt-6 flex items-center gap-2 text-xs font-bold uppercase tracking-[.1em] text-white/48" data-hero-line><CalendarDays size={15} className="text-brand-aqua" /> {formatDate(post.published_at)}</div>
             </div>
           </div>
         </Container>
       </section>
 
-      <Container>
-        <div className="relative -mt-1 aspect-[16/8] overflow-hidden rounded-b-[28px] border-x border-b border-slate-200 bg-brand-ice shadow-soft sm:aspect-[16/7]">
-          <Image src={cover} alt={`Portada de ${post.title}`} fill priority sizes="100vw" className="object-cover" />
-        </div>
+      <section className="py-14 sm:py-20 lg:py-24">
+        <Container>
+          <div className="mx-auto max-w-3xl" data-reveal>
+            <BlogContent content={post.content} />
 
-        <div className="mx-auto max-w-3xl py-10 sm:py-14">
-          <BlogContent content={post.content} />
-          <div className="mt-12 rounded-[var(--radius)] border border-brand-aqua/20 bg-brand-ice p-6 sm:p-8">
-            <p className="text-sm font-bold text-brand-teal">¿Necesita orientación profesional?</p>
-            <h2 className="mt-2 font-display text-2xl font-semibold text-slate-900">Converse con Enis Caicedo sobre su caso o inversión.</h2>
-            <Link href="/contacto" className="mt-5 inline-flex rounded-full bg-brand-deep px-5 py-3 text-sm font-semibold text-white no-underline transition hover:opacity-90">
-              Ir a contacto
-            </Link>
+            <div className="mt-14 rounded-[30px] border border-brand-aqua/20 bg-[linear-gradient(135deg,rgba(18,182,182,.10),rgba(255,255,255,.94))] p-7 shadow-soft sm:p-9">
+              <p className="kicker">ORIENTACIÓN PROFESIONAL</p>
+              <h2 className="mt-4 font-display text-4xl font-semibold leading-none text-brand-ink">Converse con Enis Caicedo sobre su caso o inversión.</h2>
+              <Link href="/contacto" className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand-deep px-6 py-3 text-sm font-bold text-white no-underline transition hover:-translate-y-0.5 hover:bg-brand-teal">
+                Ir a contacto <ArrowRight size={15} />
+              </Link>
+            </div>
           </div>
-        </div>
-      </Container>
+        </Container>
+      </section>
     </article>
   );
 }

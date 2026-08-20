@@ -2,106 +2,86 @@ import Image from "next/image";
 import Link from "next/link";
 import Container from "@/components/ui/Container";
 import { site, copy } from "@/content/site";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { ArrowUpRight, Instagram, Mail, MapPin, Phone, Youtube } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="relative mt-16 overflow-hidden">
+    <footer className="site-footer relative overflow-hidden">
       <div className="absolute inset-0 hidden md:block">
-        <Image src="/images/footer-desktop.jpg" alt="Footer background" fill className="object-cover" />
+        <Image src="/images/footer-desktop.webp" alt="Ciudad de Panamá" fill sizes="100vw" className="object-cover" />
       </div>
-
       <div className="absolute inset-0 md:hidden">
-        <Image src="/images/footer-mobile.jpg" alt="Footer background móvil" fill className="object-cover" />
+        <Image src="/images/footer-mobile.webp" alt="Ciudad de Panamá" fill sizes="100vw" className="object-cover" />
       </div>
+      <div className="site-footer-overlay absolute inset-0" />
+      <div className="hero-grid absolute inset-0 opacity-30" aria-hidden="true" />
 
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,55,59,0.55),rgba(7,22,28,0.93))]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_25%,rgba(18,182,182,0.22),transparent_60%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_82%_35%,rgba(18,182,182,0.18),transparent_60%)]" />
-
-      <div className="relative">
-        <div className="h-px w-full gradient-line" />
-
-        <Container>
-          <div className="grid gap-10 py-14 lg:grid-cols-12">
-            <div className="lg:col-span-5">
-              <div className="inline-flex items-center gap-3">
-                <div className="relative grid h-10 w-10 place-items-center rounded-2xl border border-white/10 bg-white/10 overflow-hidden">
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(18,182,182,0.35),transparent_60%)]" />
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(18,182,182,0.22),transparent_55%)]" />
-                  <span className="relative text-sm font-extrabold tracking-tight text-white">EC</span>
-                </div>
-                <div>
-                  <div className="text-sm font-semibold text-white">{site.brand}</div>
-                  <div className="text-xs text-white/70">{site.tagline}</div>
-                </div>
-              </div>
-
-              <p className="mt-5 text-sm leading-6 text-white/75">
+      <Container>
+        <div className="relative py-16 sm:py-20 lg:py-24">
+          <div className="grid gap-12 border-b border-white/12 pb-12 lg:grid-cols-12 lg:items-end">
+            <div className="lg:col-span-7" data-reveal>
+              <p className="kicker kicker-light">ENIS CAICEDO</p>
+              <h2 className="footer-heading mt-5">
+                Derecho, inversión y patrimonio <span>con una mirada integral.</span>
+              </h2>
+              <p className="mt-6 max-w-2xl text-sm leading-7 text-white/68 sm:text-base">
                 {copy.footer.close}
               </p>
-
-              <div className="mt-6 flex flex-wrap gap-2">
-                <span className="badge-dark">Asesoría legal</span>
-                <span className="badge-dark">Bienes raíces</span>
-                <span className="badge-dark">Inversionistas</span>
-              </div>
             </div>
-
-            <div className="lg:col-span-7">
-              <div className="grid gap-6 sm:grid-cols-2">
-                <div className="rounded-[var(--radius)] border border-white/10 bg-white/10 p-6 backdrop-blur">
-                  <div className="flex items-center gap-2 text-sm font-semibold text-white">
-                    <MapPin size={16} className="text-brand-aqua" /> Dirección
-                  </div>
-                  <p className="mt-3 text-sm leading-6 text-white/75">{site.locationLine}</p>
-                </div>
-
-                <div className="rounded-[var(--radius)] border border-white/10 bg-white/10 p-6 backdrop-blur">
-                  <div className="flex items-center gap-2 text-sm font-semibold text-white">
-                    <Phone size={16} className="text-brand-gold" /> Teléfono / WhatsApp
-                  </div>
-                  <p className="mt-3 text-sm text-white/75">{site.phone}</p>
-
-                  <div className="mt-5 flex items-center gap-2 text-sm font-semibold text-white">
-                    <Mail size={16} className="text-brand-aqua" /> Email
-                  </div>
-                  <p className="mt-3 text-sm text-white/75">{site.email}</p>
-                </div>
-              </div>
-
-              <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6">
-                <nav className="flex flex-wrap gap-4 text-sm text-white/75">
-                  <Link className="no-underline hover:text-white" href="/privacidad">Privacidad</Link>
-                  <Link className="no-underline hover:text-white" href="/terminos">Términos</Link>
-                  <Link className="no-underline hover:text-white" href="/blog">Blog</Link>
-                  <Link className="no-underline hover:text-white" href="/contacto">Contacto</Link>
-                </nav>
-
-                <div className="flex flex-wrap gap-4 text-sm">
-                  <Link className="text-white/75 no-underline hover:text-white" href={site.socials.instagram} target="_blank" rel="noreferrer">
-                    Instagram
-                  </Link>
-                  <Link className="text-white/75 no-underline hover:text-white" href={site.socials.youtube} target="_blank" rel="noreferrer">
-                    YouTube
-                  </Link>
-                  <Link className="text-white/75 no-underline hover:text-white" href={site.socials.facebook} target="_blank" rel="noreferrer">
-                    Facebook
-                  </Link>
-                </div>
-              </div>
-
-              <p className="mt-4 text-xs text-white/55">
-                © {new Date().getFullYear()} {site.brand}. Todos los derechos reservados. Desarrollado por{" "}
-                <Link className="text-white/75 no-underline hover:text-white" href="https://lulabtech.com" target="_blank" rel="noopener">
-                  LulabTech.com
-                </Link>
-                .
-              </p>
+            <div className="lg:col-span-5" data-reveal>
+              <Link href="/contacto" className="footer-contact-link no-underline">
+                <span>Coordinar una asesoría</span>
+                <ArrowUpRight size={22} />
+              </Link>
             </div>
           </div>
-        </Container>
-      </div>
+
+          <div className="grid gap-10 py-12 md:grid-cols-2 lg:grid-cols-12">
+            <div className="lg:col-span-4">
+              <div className="flex items-center gap-3">
+                <div className="relative h-14 w-14 overflow-hidden rounded-2xl border border-white/15 bg-white">
+                  <Image src={site.logo || "/images/logo.png"} alt={`${site.brand} logo`} fill sizes="56px" className="object-contain scale-[1.12]" />
+                </div>
+                <div>
+                  <p className="font-bold text-white">{site.brand}</p>
+                  <p className="mt-1 text-xs font-bold uppercase tracking-[0.18em] text-brand-aqua">Abogada &amp; Real Estate</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="lg:col-span-3">
+              <p className="footer-label">Navegación</p>
+              <nav className="mt-4 grid gap-3 text-sm text-white/70">
+                <Link className="footer-link" href="/servicios-legales">Servicios legales</Link>
+                <Link className="footer-link" href="/bienes-raices">Bienes raíces</Link>
+                <Link className="footer-link" href="/propiedades">Propiedades</Link>
+                <Link className="footer-link" href="/blog">Blog</Link>
+              </nav>
+            </div>
+
+            <div className="lg:col-span-5">
+              <p className="footer-label">Contacto</p>
+              <div className="mt-4 grid gap-4 text-sm text-white/70">
+                <div className="flex items-start gap-3"><MapPin size={16} className="mt-0.5 shrink-0 text-brand-aqua" /><span>{site.locationLine}</span></div>
+                <a className="footer-link flex items-center gap-3" href={`tel:${site.phone.replace(/[^+\d]/g, "")}`}><Phone size={16} className="text-brand-aqua" />{site.phone}</a>
+                <a className="footer-link flex items-center gap-3" href={`mailto:${site.email}`}><Mail size={16} className="text-brand-aqua" />{site.email}</a>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-5 border-t border-white/12 pt-7 text-xs text-white/48 sm:flex-row sm:items-center sm:justify-between">
+            <p>© {new Date().getFullYear()} {site.brand}. Todos los derechos reservados.</p>
+            <div className="flex flex-wrap items-center gap-4">
+              <Link className="footer-link" href="/privacidad">Privacidad</Link>
+              <Link className="footer-link" href="/terminos">Términos</Link>
+              <Link className="footer-social" href={site.socials.instagram} target="_blank" rel="noreferrer" aria-label="Instagram"><Instagram size={15} /></Link>
+              <Link className="footer-social" href={site.socials.youtube} target="_blank" rel="noreferrer" aria-label="YouTube"><Youtube size={15} /></Link>
+              <Link className="footer-social" href={site.socials.facebook} target="_blank" rel="noreferrer" aria-label="Facebook">f</Link>
+              <span>Desarrollado por <Link className="footer-link" href="https://lulabtech.com" target="_blank" rel="noopener">LulabTech.com</Link></span>
+            </div>
+          </div>
+        </div>
+      </Container>
     </footer>
   );
 }

@@ -14,9 +14,10 @@ export default function WhatsAppFloat() {
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="fixed bottom-5 right-5 z-50 grid h-14 w-14 place-items-center rounded-full bg-brand-aqua text-white shadow-soft no-underline hover:opacity-95"
+      className="whatsapp-float no-underline"
       aria-label="WhatsApp"
     >
+      <span className="whatsapp-float-ring" aria-hidden="true" />
       <MessageCircle size={22} />
     </Link>
   );
